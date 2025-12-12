@@ -1,0 +1,154 @@
+<div class="container">
+  <header class="header" [class.compact]="isScrolled">
+    <div class="brand-section">
+      <a class="brand" [routerLink]="['/dashboard']" aria-label="Belly Bee home">
+        <img src="assets/logo1.png" alt="Belly Bee Logo" class="brand-logo" />
+        <span class="brand-text">Belly Bee</span>
+      </a>
+
+      <!-- Search + Filter bar -->
+      <div class="search-filter-group">
+        <input
+          type="text"
+          placeholder="Search dishes"
+          class="search-input"
+          [value]="searchTerm"
+          (input)="onSearchInput($event)"
+          aria-label="Search dishes"
+        />
+
+        <div class="filter-bar" role="toolbar" aria-label="Filters">
+          <!-- Veg/Non-veg toggle -->
+          <button
+            type="button"
+            class="chip"
+            [class.active]="filters.veg === true"
+            (click)="toggleFilter('veg', true)"
+          >
+            <span class="dot veg"></span> Veg
+          </button>
+
+          <button
+            type="button"
+            class="chip"
+            [class.active]="filters.veg === false"
+            (click)="toggleFilter('veg', false)"
+          >
+            <span class="dot non-veg"></span> Non-veg
+          </button>
+
+          <!-- Discount -->
+          <button
+            type="button"
+            class="chip"
+            [class.active]="filters.discounted"
+            (click)="toggleFilter('discounted')"
+          >
+            <i class="icon">%</i> Discount
+          </button>
+
+          <!-- Spicy -->
+          <button
+            type="button"
+            class="chip"
+            [class.active]="filters.spicy"
+            (click)="toggleFilter('spicy')"
+          >
+            <i class="icon">🌶️</i> Spicy
+          </button>
+
+          <!-- Top rated -->
+          <button
+            type="button"
+            class="chip"
+            [class.active]="filters.topRated"
+            (click)="toggleFilter('topRated')"
+          >
+            <i class="icon">★</i> Top rated
+          </button>
+
+          <button type="button" class="chip clear" (click)="clearFilters()">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="user-profile-btn" aria-label="User Profile">👤 Profile</button>
+      <!--      <button class="cart-btn" (click)="goToCart()">-->
+      <!--        🛒 Cart <span *ngIf="cart.length > 0" class="cart-count">{{ getTotalCartItems() }}</span>-->
+      <!--      </button>-->
+      <button class="cart-btn" type="button" (click)="goToCheckout()">
+        🛒 Cart <span *ngIf="cart.length > 0" class="cart-count">{{ getTotalCartItems() }}</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Shrunk hero removed to save space; keep optional brand badge -->
+
+  <main class="menu" [class.with-cart]="cart.length > 0">
+    <div class="food-item" *ngFor="let item of filteredMenuItems; trackBy: trackById">
+      <div class="image-wrapper">
+        <img [src]="item.image" [alt]="item.name" class="food-image" loading="lazy" />
+        <span class="veg-icon" [ngClass]="{ veg: item.veg, 'non-veg': !item.veg }"></span>
+        <span *ngIf="item.discount" class="discount-badge">-{{ item.discount }}%</span>
+        <span *ngIf="!item.available" class="unavailable-overlay">Sold Out</span>
+      </div>
+
+      <h3 class="food-title">
+        {{ item.name }}
+        <span class="rating" *ngIf="item.rating">★ {{ item.rating | number: '1.1-1' }}</span>
+      </h3>
+
+      <div class="food-desc-container">
+        <p class="food-desc">{{ item.description }}</p>
+      </div>
+
+      <div class="price-container">
+        <span *ngIf="item.discount" class="original-price">₹{{ item.price }}</span>
+        <span class="price">₹{{ getDiscountedPrice(item.price, item.discount) }}</span>
+      </div>
+
+      <ng-container *ngIf="item.available">
+        <div class="btn-group">
+          <button type="button" class="add-btn" (click)="addToCart(item)">➕ Add</button>
+          <button type="button" class="buy-btn" (click)="buyNow(item)">⚡ Buy now</button>
+        </div>
+      </ng-container>
+
+      <div *ngIf="!item.available" class="sold-out-actions">
+        <p>Currently sold out. Check back soon.</p>
+      </div>
+    </div>
+
+    <div *ngIf="filteredMenuItems.length === 0" class="no-results">
+      <p>No dishes found. Try adjusting your search or filters.</p>
+    </div>
+  </main>
+
+  <!-- Floating cart with quantity controls only here -->
+  <aside class="mini-cart-summary" *ngIf="cart.length > 0">
+    <h3>Your order</h3>
+    <ul>
+      <li *ngFor="let cartItem of cart; trackBy: trackById">
+        <div class="cart-line">
+          <div class="meta">
+            <span class="name">{{ cartItem.name }}</span>
+            <span class="line-price">₹{{ getDiscountedPrice(cartItem.price, cartItem.discount) * cartItem.quantity }}</span>
+          </div>
+          <div class="qty-ctrl">
+            <button (click)="decrementCart(cartItem.id)" aria-label="Decrease quantity">-</button>
+            <span>{{ cartItem.quantity }}</span>
+            <button (click)="incrementCart(cartItem.id)" aria-label="Increase quantity">+</button>
+            <button class="remove-item-btn" (click)="removeFromCart(cartItem.id)" aria-label="Remove">×</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="cart-total">
+      <strong>Total</strong>
+      <span>₹{{ calculateCartTotal() }}</span>
+    </div>
+    <!--    <button class="checkout-btn" (click)="goToCart()">Proceed to checkout</button>-->
+    <button class="checkout-btn" type="button" (click)="goToCheckout()">Proceed to checkout</button>
+  </aside>
+</div>

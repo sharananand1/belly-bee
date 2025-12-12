@@ -1,0 +1,16 @@
+/* src/app/login/login.component.css */
+.login-shell { min-height: 100vh; display: grid; place-items: center; background: var(--bg); padding: 24px; }
+.card { width: 100%; max-width: 420px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: 0 6px 24px rgba(0,0,0,.04); }
+h1 { margin: 0 0 8px; font-size: 24px; }
+.sub { color: var(--muted); margin: 0 0 16px; }
+label { display: block; margin: 12px 0 6px; color: var(--muted); }
+.row { display: flex; align-items: center; gap: 8px; }
+.prefix { background: #f9fafb; border: 1px solid var(--border); padding: 10px 12px; border-radius: 8px; }
+input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; outline: none; }
+input:focus { border-color: #d1d5db; }
+.btn { margin-top: 16px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; }
+.btn.primary { background: var(--primary-color); color: white; border: none; }
+.btn.ghost { width: 100%; margin-top: 16px; background: transparent; }
+.btn.link { margin-left: 12px; background: transparent; color: var(--ink); }
+.error { color: #b91c1c; margin-top: 12px; }
+.foot { margin-top: 16px; }

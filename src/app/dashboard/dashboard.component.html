@@ -1,0 +1,164 @@
+<div class="shell">
+  <!-- Header -->
+  <header class="site-header">
+    <a class="brand" [routerLink]="['/dashboard']" aria-label="Belly Bee">
+      <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" class="logo" />
+<!--      <span class="title">Belly Bee</span>-->
+    </a>
+
+    <nav class="nav">
+      <a [routerLink]="['/main']" class="nav-link">Menu</a>
+      <a [routerLink]="['/main']" class="nav-link">Order Now</a>
+      <a [routerLink]="['/main']" class="nav-link">Offers</a>
+    </nav>
+
+    <div class="cta-group">
+      <a [routerLink]="['/main']" class="btn primary">Explore Menu</a>
+    </div>
+  </header>
+
+  <!-- Hero / Banners -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Fresh. Homely. Hygienic.</h1>
+      <p>Made in a clean kitchen with a mother’s-hand touch.
+        No hidden additives. Just honest food.</p>
+      <div class="badges">
+        <span>✅ Clean Kitchen</span>
+        <span>🧪 No Hidden Additives</span>
+        <span>🥘 Daily Fresh Prep</span>
+      </div>
+      <div class="hero-cta">
+        <a [routerLink]="['/main']" class="btn primary">Order now</a>
+        <a [routerLink]="['/main']" class="btn ghost">View all dishes</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true"></div>
+  </section>
+
+  <!-- Why choose us -->
+  <section class="why">
+    <h2>Why choose Belly Bee</h2>
+    <div class="grid-4">
+      <article class="card">
+        <div class="icon">🧼</div>
+        <h3>Hygienic kitchen</h3>
+        <p>Regular sanitisation and food-safe prep zones.</p>
+      </article>
+      <article class="card">
+        <div class="icon">👩‍🍳</div>
+        <h3>Mother’s hand taste</h3>
+        <p>Balanced spices, light on oil, homestyle portions.</p>
+      </article>
+      <article class="card">
+        <div class="icon">🔍</div>
+        <h3>Zero hidden items</h3>
+        <p>No artificial colours or hidden ingredients. What you see is what you get.</p>
+      </article>
+      <article class="card">
+        <div class="icon">⚡</div>
+        <h3>Quick delivery</h3>
+        <p>Hot food, right when you want it.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Most sold items -->
+  <section class="carousel">
+    <div class="sec-head">
+      <h2>Most sold this week</h2>
+      <a [routerLink]="['/main']" class="link">See all →</a>
+    </div>
+    <div class="row">
+      <article class="item" *ngFor="let m of mostSold; trackBy: trackById">
+        <img [src]="m.img" [alt]="m.name" />
+        <div class="meta">
+          <h3>{{ m.name }}</h3>
+          <span class="tag">{{ m.tag }}</span>
+        </div>
+        <a [routerLink]="['/main']" class="btn small">Order</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- Today’s discount -->
+  <section class="carousel">
+    <div class="sec-head">
+      <h2>Today’s discounts</h2>
+      <a [routerLink]="['/main']" class="link">Grab now →</a>
+    </div>
+    <div class="row">
+      <article class="item deal" *ngFor="let d of discounts; trackBy: trackById">
+        <img [src]="d.img" [alt]="d.name" />
+        <div class="badge">-{{ d.off }}%</div>
+        <div class="meta">
+          <h3>{{ d.name }}</h3>
+          <span class="tag">Limited time</span>
+        </div>
+        <a [routerLink]="['/main']" class="btn small">Order</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- Top chefs -->
+  <section class="chefs">
+    <h2>Top chefs</h2>
+    <div class="grid-3">
+      <article class="chef" *ngFor="let c of chefs; trackBy: trackById">
+        <img [src]="c.img" [alt]="c.name" />
+        <h3>{{ c.name }}</h3>
+        <p>{{ c.spec }}</p>
+        <a [routerLink]="['/main']" class="btn tiny">See signature dishes</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- Customer ratings -->
+  <section class="ratings">
+    <h2>Loved by customers</h2>
+    <div class="grid-3">
+      <blockquote class="review" *ngFor="let r of ratings; trackBy: trackById">
+        <div class="stars" [attr.aria-label]="r.stars + ' stars'">★★★★★</div>
+        <p>“{{ r.text }}”</p>
+        <footer>— {{ r.user }}</footer>
+      </blockquote>
+    </div>
+    <div class="center"><a [routerLink]="['/main']" class="btn ghost">Order with confidence</a></div>
+  </section>
+
+  <!-- Clean kitchen & mother’s taste banner -->
+  <section class="trust">
+    <div class="panel">
+      <div class="copy">
+        <h2>Clean kitchen. Mother’s hand taste.</h2>
+        <p>We prepare fresh, homely food daily. No hidden items inserted, ever.</p>
+        <a [routerLink]="['/main']" class="btn primary">Browse full menu</a>
+      </div>
+      <div class="art" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="cols">
+      <div>
+        <h4>Belly Bee</h4>
+        <p>Homely, hygienic meals made fresh daily.</p>
+      </div>
+      <div>
+        <h4>Quick links</h4>
+        <ul>
+          <li><a [routerLink]="['/main']">Menu</a></li>
+          <li><a [routerLink]="['/main']">Offers</a></li>
+          <li><a [routerLink]="['/main']">Order now</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>support&#64;bellybee.in</p>
+        <a [routerLink]="['/main']" class="btn tiny">Start your order</a>
+      </div>
+    </div>
+    <div class="bottom">© {{ today | date:'yyyy' }} Belly Bee. All rights reserved.</div>
+  </footer>
+</div>

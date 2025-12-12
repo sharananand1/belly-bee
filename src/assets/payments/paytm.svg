@@ -1,0 +1,10 @@
+<svg width="96" height="32" viewBox="0 0 96 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Paytm">
+  <rect rx="6" ry="6" width="96" height="32" fill="white"></rect>
+  <rect x="10" y="7" width="20" height="18" rx="4" fill="#00BAF2"></rect>
+  <g fill="#003A6F" font-family="system-ui,-apple-system,Segoe UI,Roboto,Arial" font-size="12" font-weight="800" text-anchor="middle">
+    <text x="20" y="20">P</text>
+  </g>
+  <g fill="#003A6F" font-family="system-ui,-apple-system,Segoe UI,Roboto,Arial" font-size="12" font-weight="700">
+    <text x="42" y="20">Paytm</text>
+  </g>
+</svg>

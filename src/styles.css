@@ -1,1 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  /* brand tokens */
+  --veg-color:#2e7d32;
+  --non-veg-color:#c62828;
+  --primary-color:#e53935;   /* CTA / Add */
+  --accent-color:#10b981;    /* Success / Buy */
+  --ink:#111827;             /* main text */
+  --muted:#6b7280;           /* secondary text */
+  --bg:#f3f4f6;              /* page background (slightly darker to cut the “white”) */
+  --card:#ffffff;            /* cards */
+  --border:#e5e7eb;
+
+  /* backwards-compat aliases (so old code still works) */
+  --font-color:var(--ink);
+  --subtle-text:var(--muted);
+  --bg-light:var(--bg);
+  --card-bg:var(--card);
+  --secondary-color:#1f2937;
+  --primary:var(--primary-color);
+}
+
+html, body { height:100%; }
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  font-family:'Roboto','Helvetica Neue',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+  overflow-y:scroll; /* prevent layout jump */
+}
+
+/* layout container used by dashboard */
+.shell { max-width:1280px; margin:0 auto; padding:12px; }

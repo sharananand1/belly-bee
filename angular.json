@@ -16,38 +16,44 @@
             "outputPath": "dist/belly-bites",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/assets",
+              { "glob": "favicon.ico", "input": "src/", "output": "/" },
+              { "glob": "**/*", "input": "public", "output": "/" },
+              { "glob": "**/*", "input": "node_modules/leaflet/dist/images", "output": "assets/leaflet/" }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/cyan-orange.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/leaflet/dist/leaflet.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
+            "allowedCommonJsDependencies": ["leaflet"]
           },
           "configurations": {
             "production": {
-              "budgets": [
+              "fileReplacements": [
                 {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
                 }
+              ],
+              "budgets": [
+                { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" },
+                { "type": "anyComponentStyle", "maximumWarning": "6kB", "maximumError": "12kB" }
               ],
               "outputHashing": "all"
             },
             "development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ts"
+                }
+              ],
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
@@ -58,12 +64,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "buildTarget": "belly-bites:build:production"
-            },
-            "development": {
-              "buildTarget": "belly-bites:build:development"
-            }
+            "production": { "buildTarget": "belly-bites:build:production" },
+            "development": { "buildTarget": "belly-bites:build:development" }
           },
           "defaultConfiguration": "development"
         },
@@ -73,18 +75,16 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/assets",
+              { "glob": "favicon.ico", "input": "src/", "output": "/" },
+              { "glob": "**/*", "input": "public", "output": "/" }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/cyan-orange.css",
+              "node_modules/leaflet/dist/leaflet.css",
               "src/styles.css"
             ],
             "scripts": []

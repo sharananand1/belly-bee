@@ -1,0 +1,187 @@
+<div class="checkout-shell container">
+  <header class="checkout-header">
+    <a routerLink="/dashboard" class="brand">
+      <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" class="logo" />
+<!--      <span class="title">Belly Bee</span>-->
+    </a>
+    <a routerLink="/main" class="link">Back to menu</a>
+  </header>
+
+  <div class="grid">
+    <!-- left: form -->
+    <section class="card form">
+      <h2>Delivery details</h2>
+
+      <div class="geo-row">
+        <button type="button" class="btn locate" (click)="useCurrentLocation()" [disabled]="locating">
+          <span *ngIf="!locating">📍 Use current location</span>
+          <span *ngIf="locating" class="spinner"></span>
+          <span *ngIf="locating">Locating...</span>
+        </button>
+        <div class="geo-msg" *ngIf="locationError">{{ locationError }}</div>
+      </div>
+
+      <form class="form-grid" (submit)="$event.preventDefault()">
+        <div class="field col-12">
+          <label>Full name</label>
+          <input [(ngModel)]="name" name="name" required />
+        </div>
+
+        <div class="field col-12">
+          <label>Phone</label>
+          <input [(ngModel)]="phone" name="phone" inputmode="tel" required />
+        </div>
+
+        <div class="field col-12 address-grid">
+          <div class="addr-fields">
+            <label>Address</label>
+            <textarea [(ngModel)]="address" name="address" rows="3" required></textarea>
+
+            <div class="row2">
+              <div class="subfield">
+                <label>Pincode</label>
+                <input [(ngModel)]="pincode" name="pincode" inputmode="numeric" required />
+              </div>
+              <div class="subfield">
+                <label>Landmark optional</label>
+                <input [(ngModel)]="landmark" name="landmark" />
+              </div>
+            </div>
+          </div>
+
+          <div class="map-pane" *ngIf="hasLocation">
+            <div #mapEl class="map sm"></div>
+            <div class="map-hint">Drag the pin to your exact gate. We’ll auto fill the address.</div>
+          </div>
+        </div>
+
+        <div class="field col-12">
+          <label>Delivery slot</label>
+          <select [(ngModel)]="deliverySlot" name="slot">
+            <option value="ASAP">ASAP 30-45 min</option>
+            <option>12:00 - 1:00 PM</option>
+            <option>1:00 - 2:00 PM</option>
+            <option>7:00 - 8:00 PM</option>
+            <option>8:00 - 9:00 PM</option>
+          </select>
+        </div>
+
+        <!-- Payment tiles -->
+        <div class="field col-12">
+          <label>Payment</label>
+
+          <div class="pay-grid" role="radiogroup" aria-label="Payment method">
+            <button
+              type="button"
+              class="pay-tile"
+              [class.active]="payment === 'RAZORPAY'"
+              (click)="selectPayment('RAZORPAY')"
+              role="radio"
+              [attr.aria-checked]="payment === 'RAZORPAY' ? 'true' : 'false'">
+              <img src="assets/payments/razor.svg" alt="" onerror="this.style.display='none'"/>
+              <span>Razorpay</span>
+              <small>UPI, cards, wallets</small>
+            </button>
+
+            <button
+              type="button"
+              class="pay-tile"
+              [class.active]="payment === 'PHONEPE'"
+              (click)="selectPayment('PHONEPE')"
+              role="radio"
+              [attr.aria-checked]="payment === 'PHONEPE' ? 'true' : 'false'">
+              <img src="assets/payments/phonepe.svg" alt="" onerror="this.style.display='none'"/>
+              <span>PhonePe</span>
+              <small>UPI app</small>
+            </button>
+
+            <button
+              type="button"
+              class="pay-tile"
+              [class.active]="payment === 'PAYTM'"
+              (click)="selectPayment('PAYTM')"
+              role="radio"
+              [attr.aria-checked]="payment === 'PAYTM' ? 'true' : 'false'">
+              <img src="assets/payments/paytm.svg" alt="" onerror="this.style.display='none'"/>
+              <span>Paytm</span>
+              <small>UPI app</small>
+            </button>
+
+            <button
+              type="button"
+              class="pay-tile"
+              [class.active]="payment === 'CARD'"
+              (click)="selectPayment('CARD')"
+              role="radio"
+              [attr.aria-checked]="payment === 'CARD' ? 'true' : 'false'">
+              <img src="assets/payments/card.svg" alt="" onerror="this.style.display='none'"/>
+              <span>Card</span>
+              <small>Processed by Razorpay</small>
+            </button>
+
+            <button
+              type="button"
+              class="pay-tile"
+              [class.active]="payment === 'COD'"
+              (click)="selectPayment('COD')"
+              role="radio"
+              [attr.aria-checked]="payment === 'COD' ? 'true' : 'false'">
+              <img src="assets/payments/cash.svg" alt="" onerror="this.style.display='none'"/>
+              <span>Cash</span>
+              <small>Pay on delivery</small>
+            </button>
+          </div>
+        </div>
+
+        <div class="field col-12 promo">
+          <input [(ngModel)]="promo" name="promo" placeholder="Promo code FLAT50" />
+          <button type="button" (click)="applyPromo()" [disabled]="applyingPromo">Apply</button>
+        </div>
+
+        <div class="field col-12">
+          <button class="place" type="button" (click)="payOrPlace()" [disabled]="!cart.length || paying">
+            <ng-container *ngIf="payment === 'COD'">Place order</ng-container>
+            <ng-container *ngIf="payment !== 'COD'">Pay securely</ng-container>
+          </button>
+          <p class="small" *ngIf="!cart.length">Your cart is empty. <a routerLink="/main">Add items</a></p>
+        </div>
+      </form>
+    </section>
+
+    <!-- right: summary -->
+    <aside class="card summary">
+      <h2>Order summary</h2>
+
+      <ng-container *ngIf="cart.length; else emptySummary">
+        <ul class="lines">
+          <li *ngFor="let i of cart">
+            <div class="meta">
+              <div>
+                <div class="name">{{ i.name }}</div>
+                <div class="muted">x{{ i.quantity }}</div>
+              </div>
+              <div class="price">₹{{ (getDiscountedPrice(i.price, i.discount) * i.quantity) | number:'1.0-0' }}</div>
+            </div>
+          </li>
+        </ul>
+
+        <div class="totals">
+          <div><span>Items</span><strong>₹{{ subtotal | number:'1.0-0' }}</strong></div>
+          <div><span>Tax 5%</span><strong>₹{{ tax | number:'1.0-0' }}</strong></div>
+          <div>
+            <span>Delivery</span>
+            <strong *ngIf="deliveryFee; else free">₹{{ deliveryFee | number:'1.0-0' }}</strong>
+            <ng-template #free><strong>Free</strong></ng-template>
+          </div>
+          <div class="grand"><span>Total</span><strong>₹{{ total | number:'1.0-0' }}</strong></div>
+        </div>
+      </ng-container>
+
+      <ng-template #emptySummary>
+        <p class="small">Your cart is empty. <a routerLink="/main">Add items</a></p>
+      </ng-template>
+
+      <a routerLink="/main" class="btn ghost full">Continue shopping</a>
+    </aside>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<!-- src/app/login/login.component.html -->
+<div class="login-shell">
+  <div class="card">
+    <h1>Sign in</h1>
+    <p class="sub">We’ll send a one-time code to your phone</p>
+
+    <form (submit)="$event.preventDefault()">
+      <ng-container *ngIf="stage==='enter-phone'; else codeStage">
+        <label>Phone number</label>
+        <div class="row">
+          <span class="prefix">+91</span>
+          <input inputmode="tel" maxlength="10" [(ngModel)]="phone" name="phone" placeholder="9876543210" />
+        </div>
+        <button type="button" class="btn primary" (click)="sendOtp()" [disabled]="sending">
+          {{ sending ? 'Sending...' : 'Send OTP' }}
+        </button>
+      </ng-container>
+
+      <ng-template #codeStage>
+        <label>Enter OTP sent to +91 {{ phone }}</label>
+        <input inputmode="numeric" maxlength="6" [(ngModel)]="code" name="code" placeholder="123456" />
+        <button type="button" class="btn primary" (click)="verifyOtp()" [disabled]="verifying">
+          {{ verifying ? 'Verifying...' : 'Verify & Continue' }}
+        </button>
+        <button type="button" class="btn link" (click)="stage='enter-phone'">Change number</button>
+      </ng-template>
+
+      <div class="error" *ngIf="error">{{ error }}</div>
+    </form>
+
+    <div class="foot">
+      <a routerLink="/main" class="btn ghost">Browse menu</a>
+    </div>
+  </div>
+</div>
