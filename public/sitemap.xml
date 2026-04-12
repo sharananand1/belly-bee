@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://belly-bee.web.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://belly-bee.web.app/menu</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://belly-bee.web.app/menu/morning-buzz</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://belly-bee.web.app/menu/indian-south-buzz</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://belly-bee.web.app/menu/day-long-buzz</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://belly-bee.web.app/menu/breads-rice</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://belly-bee.web.app/menu/sandwich-stings</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://belly-bee.web.app/menu/burger-buzz</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://belly-bee.web.app/menu/pizza-hive</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://belly-bee.web.app/menu/rolls-roars</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://belly-bee.web.app/menu/noody-noodles</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://belly-bee.web.app/menu/takka-tak-tikkas</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://belly-bee.web.app/menu/buzzed-without-booze</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+</urlset>

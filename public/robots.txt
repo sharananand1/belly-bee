@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /checkout
+Disallow: /cart
+Disallow: /profile
+Disallow: /auth
+
+Sitemap: https://belly-bee.web.app/sitemap.xml
