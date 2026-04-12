@@ -1,122 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-// ---------- minimal API shapes ----------
-export interface CartItemDTO {
-  id: string;
-  itemId: string;
-  variantId?: string | null;
-  quantity: number;
-  priceAtAdd: number;         // paise or rupees per your backend
-  item?: { id: string; name: string; imageUrl?: string };
-}
-
-export interface CartDTO {
-  id: string;
-  userId: string;
-  items: CartItemDTO[];
-  total: number;
-  discount: number;
-}
-
-export interface TotalsDTO {
-  subtotal: number;
-  discount: number;
-  total: number;
-  currency: string;
-  tax?: number;
-  deliveryFee?: number;
-}
-
 @Injectable({ providedIn: 'root' })
-export class Api {
-  private base = environment.apiBase;
+export class ApiService {
+  private base = environment.apiUrl;
+
   constructor(private http: HttpClient) {}
 
-  // ---------- Auth ----------
-  requestOtp(phone: string) {
-    return this.http.post<{ ok: boolean; devCode?: string }>(
-      `${this.base}/auth/otp/request`,
-      { phone }
-    );
+  get<T>(path: string, params?: Record<string, string>): Observable<T> {
+    let httpParams = new HttpParams();
+    if (params) {
+      Object.entries(params).forEach(([k, v]) => { httpParams = httpParams.set(k, v); });
+    }
+    return this.http.get<T>(`${this.base}${path}`, { params: httpParams });
   }
 
-  verifyOtp(phone: string, code: string) {
-    return this.http.post<{ access: string; refresh: string; user: any }>(
-      `${this.base}/auth/otp/verify`,
-      { phone, code }
-    );
+  post<T>(path: string, body: any = {}): Observable<T> {
+    return this.http.post<T>(`${this.base}${path}`, body);
   }
 
-  // ---------- Catalog ----------
-  listCategories() {
-    return this.http.get<any[]>(`${this.base}/catalog/categories`);
+  put<T>(path: string, body: any = {}): Observable<T> {
+    return this.http.put<T>(`${this.base}${path}`, body);
   }
 
-  listItemsByCategory(slug: string) {
-    return this.http.get<any[]>(`${this.base}/catalog/categories/${slug}/items`);
-  }
-
-  listAllItems() {
-    return this.http.get<any[]>(`${this.base}/catalog/items`);
-  }
-
-  // ---------- Addresses ----------
-  getAddresses() {
-    return this.http.get<any[]>(`${this.base}/addresses`);
-  }
-
-  // create or update address
-  saveAddress(addr: {
-    id?: string;
-    label: string;
-    line1: string;
-    line2?: string;
-    city: string;
-    state: string;
-    pincode: string;
-    landmark?: string;
-    lat?: number;
-    lng?: number;
-    isDefault?: boolean;
-  }) {
-    return addr.id
-      ? this.http.put(`${this.base}/addresses/${addr.id}`, addr)
-      : this.http.post(`${this.base}/addresses`, addr);
-  }
-
-  // ---------- Cart (server-authoritative) ----------
-  getCart() {
-    return this.http.get<CartDTO>(`${this.base}/cart`);
-  }
-
-  addToCart(itemId: string, variantId?: string, qty = 1) {
-    return this.http.post<CartDTO>(`${this.base}/cart/add`, { itemId, variantId, qty });
-  }
-
-  // set exact quantity for a cart line
-  setCartQty(cartItemId: string, qty: number) {
-    return this.http.post<CartDTO>(`${this.base}/cart/set`, { cartItemId, qty });
-  }
-
-  // remove a cart line
-  removeCartItem(cartItemId: string) {
-    return this.http.post<CartDTO>(`${this.base}/cart/remove`, { cartItemId });
-  }
-
-  totals() {
-    return this.http.get<TotalsDTO>(`${this.base}/cart/totals`);
-  }
-
-  // ---------- Payments ----------
-  createRzpOrder() {
-    return this.http.post<{
-      rzpOrderId: string;
-      amount: number;
-      currency: string;
-      orderId: string;
-      keyId: string;
-    }>(`${this.base}/payments/create-order`, {});
+  delete<T>(path: string): Observable<T> {
+    return this.http.delete<T>(`${this.base}${path}`);
   }
 }
