@@ -428,7 +428,9 @@ select.form-control { cursor: pointer; }
 .price-final { font-weight: 700; color: var(--ink); }
 .price-discount { color: var(--success); font-size: 0.8rem; font-weight: 600; }
 
-/* ---------- Veg / Non-Veg dot (FSSAI) ---------- */
+/* ---------- Veg / Non-Veg dot (FSSAI global utility) ---------- */
+/* NOTE: bb-veg-badge component uses its OWN scoped class (bb-veg-box).
+   These global utilities are kept for any direct HTML usage elsewhere. */
 .veg-dot, .nonveg-dot {
   display: inline-block;
   width: 16px;
@@ -438,8 +440,8 @@ select.form-control { cursor: pointer; }
   position: relative;
   flex-shrink: 0;
 }
-.veg-dot    { border-color: #2E7D32; }
-.nonveg-dot { border-color: #C62828; }
+.veg-dot    { border-color: #27AE60; }
+.nonveg-dot { border-color: #E84444; }
 .veg-dot::after, .nonveg-dot::after {
   content: '';
   position: absolute;
@@ -448,8 +450,8 @@ select.form-control { cursor: pointer; }
   width: 8px; height: 8px;
   border-radius: 50%;
 }
-.veg-dot::after    { background: #2E7D32; }
-.nonveg-dot::after { background: #C62828; }
+.veg-dot::after    { background: #27AE60; }
+.nonveg-dot::after { background: #E84444; }
 
 /* ---------- Scrollbar ---------- */
 ::-webkit-scrollbar { width: 6px; height: 6px; }

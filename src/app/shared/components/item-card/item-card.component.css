@@ -125,14 +125,25 @@
 }
 
 .item-card__add {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   padding: 0;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  /* Explicit white icon so it's visible on amber in every browser */
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(245,166,35,.45);
+  transition: transform .15s, box-shadow .15s, background .15s;
 }
 
-.item-card__add .material-icons-round { font-size: 1rem; }
+.item-card__add:hover:not(:disabled) {
+  transform: scale(1.1);
+  box-shadow: 0 4px 14px rgba(245,166,35,.55);
+}
+
+.item-card__add:active:not(:disabled) { transform: scale(.95); }
+
+.item-card__add .material-icons-round { font-size: 1.1rem; line-height: 1; }

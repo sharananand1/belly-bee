@@ -17,7 +17,8 @@ import { CommonModule } from '@angular/common';
   `,
   styles: [`
     .stars { display: inline-flex; align-items: center; gap: 1px; }
-    .stars__icon { font-size: .95rem; color: #d0d0d0; }
+    /* var(--border-dark) = #D9D0C0 light / #3A3A3A dark — visible in both themes */
+    .stars__icon { font-size: .95rem; color: var(--border-dark); }
     .stars__icon--filled { color: #F5A623; }
     .stars__value { font-size: .8rem; font-weight: 600; color: var(--text-secondary); margin-left: 3px; }
   `],

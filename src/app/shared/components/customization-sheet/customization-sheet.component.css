@@ -151,36 +151,47 @@
 }
 
 .sheet__qty {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: .5rem;
-  border: 1.5px solid var(--border);
-  border-radius: 24px;
-  padding: .2rem .4rem;
+  gap: .25rem;
+  background: var(--surface-alt);
+  border: 1.5px solid var(--border-dark);
+  border-radius: 28px;
+  padding: .2rem .3rem;
 }
 
 .qty-btn {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: none;
-  background: var(--surface-alt);
+  /* Explicit border so button is visually distinct in both themes */
+  border: 1.5px solid var(--border-dark);
+  background: var(--surface);
+  /* MUST be explicit — browsers do not reliably inherit color on <button> */
+  color: var(--text-primary);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background .15s;
+  transition: background .15s, border-color .15s, color .15s;
+  flex-shrink: 0;
 }
 
-.qty-btn:hover:not(:disabled) { background: var(--primary-light); }
-.qty-btn:disabled { opacity: .4; cursor: not-allowed; }
-.qty-btn .material-icons-round { font-size: .95rem; }
+.qty-btn:hover:not(:disabled) {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.qty-btn:disabled { opacity: .35; cursor: not-allowed; }
+.qty-btn .material-icons-round { font-size: 1.05rem; line-height: 1; }
 
 .qty-value {
-  min-width: 24px;
+  min-width: 26px;
   text-align: center;
   font-weight: 700;
   font-size: .95rem;
+  color: var(--text-primary);
 }
 
 .sheet__cta { flex: 1; }

@@ -170,30 +170,47 @@
 }
 
 .qty-ctrl {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: .5rem;
-  border: 1.5px solid var(--border);
-  border-radius: 24px;
-  padding: .25rem .5rem;
+  gap: .25rem;
+  background: var(--surface-alt);
+  border: 1.5px solid var(--border-dark);
+  border-radius: 28px;
+  padding: .2rem .4rem;
 }
 
 .qty-btn {
-  width: 30px; height: 30px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  border: none;
-  background: var(--surface-alt);
+  border: 1.5px solid var(--border-dark);
+  background: var(--surface);
+  /* Explicit — browsers do not reliably inherit color on <button> */
+  color: var(--text-primary);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background .15s;
+  transition: background .15s, border-color .15s, color .15s;
+  flex-shrink: 0;
 }
-.qty-btn:hover:not(:disabled) { background: var(--primary-light); }
-.qty-btn:disabled { opacity: .4; cursor: not-allowed; }
-.qty-btn .material-icons-round { font-size: 1rem; }
 
-.qty-val { min-width: 26px; text-align: center; font-weight: 700; }
+.qty-btn:hover:not(:disabled) {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.qty-btn:disabled { opacity: .35; cursor: not-allowed; }
+.qty-btn .material-icons-round { font-size: 1.1rem; line-height: 1; }
+
+.qty-val {
+  min-width: 28px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
 
 .detail-cta { flex: 1; }
 
