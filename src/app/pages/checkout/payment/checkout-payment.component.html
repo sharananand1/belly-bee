@@ -1,0 +1,137 @@
+<div class="co-page">
+  <div class="co-inner">
+
+    <!-- ── Step indicator ──────────────────────────────────────── -->
+    <div class="co-steps">
+      <div class="co-step co-step--done">
+        <span class="co-step__num"><span class="material-icons-round">check</span></span>
+        <span class="co-step__label">Address</span>
+      </div>
+      <div class="co-step__line co-step__line--done"></div>
+      <div class="co-step co-step--active">
+        <span class="co-step__num">2</span>
+        <span class="co-step__label">Payment</span>
+      </div>
+    </div>
+
+    <div class="pay-layout">
+
+      <!-- ── Left: payment options + order summary ───────────── -->
+      <div class="pay-main">
+
+        <h1 class="co-title">Payment Method</h1>
+
+        <!-- Razorpay -->
+        <button
+          type="button"
+          class="pay-method"
+          [class.pay-method--active]="paymentMethod() === 'razorpay'"
+          (click)="selectMethod('razorpay')">
+          <span class="pay-method__radio material-icons-round">
+            {{ paymentMethod() === 'razorpay' ? 'radio_button_checked' : 'radio_button_unchecked' }}
+          </span>
+          <div class="pay-method__body">
+            <span class="pay-method__name">Online Payment</span>
+            <span class="pay-method__sub">Credit / Debit Card · UPI · Net Banking · Wallets</span>
+          </div>
+          <span class="pay-method__icon">💳</span>
+        </button>
+
+        <!-- COD -->
+        <button
+          type="button"
+          class="pay-method"
+          [class.pay-method--active]="paymentMethod() === 'cod'"
+          (click)="selectMethod('cod')">
+          <span class="pay-method__radio material-icons-round">
+            {{ paymentMethod() === 'cod' ? 'radio_button_checked' : 'radio_button_unchecked' }}
+          </span>
+          <div class="pay-method__body">
+            <span class="pay-method__name">Cash on Delivery</span>
+            <span class="pay-method__sub">Pay with cash when your order arrives</span>
+          </div>
+          <span class="pay-method__icon">💵</span>
+        </button>
+
+        <!-- Delivering to -->
+        @if (address) {
+          <div class="pay-address-preview">
+            <span class="material-icons-round">location_on</span>
+            <div>
+              <span class="pay-address-preview__label">Delivering to</span>
+              <p class="pay-address-preview__text">{{ address.full_address }}</p>
+            </div>
+            <button type="button" class="pay-address-preview__change" (click)="goBack()">Change</button>
+          </div>
+        }
+
+      </div>
+
+      <!-- ── Right: bill summary ─────────────────────────────── -->
+      <aside class="pay-summary">
+        <h2 class="pay-summary__title">Order Summary</h2>
+
+        <!-- Items -->
+        <div class="pay-items">
+          @for (item of cartItems; track $index) {
+            <div class="pay-item-row">
+              <span class="pay-item-qty">{{ item.quantity }}×</span>
+              <span class="pay-item-name">{{ item.menu_item.name }}</span>
+              <span class="pay-item-price">₹{{ item.item_total }}</span>
+            </div>
+          }
+        </div>
+
+        <!-- Bill rows -->
+        <div class="bill-rows">
+          <div class="bill-row">
+            <span>Subtotal</span>
+            <span>₹{{ subtotal }}</span>
+          </div>
+          @if (couponDiscount > 0) {
+            <div class="bill-row bill-row--discount">
+              <span>Coupon</span>
+              <span>− ₹{{ couponDiscount }}</span>
+            </div>
+          }
+          <div class="bill-row">
+            <span>Delivery</span>
+            <span>{{ deliveryFee === 0 ? 'FREE' : '₹' + deliveryFee }}</span>
+          </div>
+          <div class="bill-row">
+            <span>GST (5%)</span>
+            <span>₹{{ gst }}</span>
+          </div>
+          <div class="bill-row bill-row--total">
+            <span>Total</span>
+            <span>₹{{ total }}</span>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <button
+          type="button"
+          class="btn btn-primary btn-full btn-lg pay-cta"
+          (click)="placeOrder()"
+          [disabled]="placing()">
+          @if (placing()) {
+            <span class="material-icons-round pay-cta__spin">sync</span>
+            Processing…
+          } @else if (paymentMethod() === 'cod') {
+            <span class="material-icons-round">check_circle</span>
+            Place Order
+          } @else {
+            <span class="material-icons-round">lock</span>
+            Pay ₹{{ total }}
+          }
+        </button>
+
+        <p class="pay-secure">
+          <span class="material-icons-round">verified_user</span>
+          100% secure payments
+        </p>
+      </aside>
+
+    </div>
+  </div>
+</div>

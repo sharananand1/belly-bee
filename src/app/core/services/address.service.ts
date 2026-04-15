@@ -28,7 +28,7 @@ export class AddressService {
 
   updateAddress(id: string, address: Partial<Address>): Observable<Address> {
     if (environment.useMock) {
-      const updated: Address = { id, label: 'home', line1: '', city: '', state: '', pincode: '', ...address };
+      const updated: Address = { id, label: 'Other', full_address: '', lat: 0, lng: 0, pincode: '', ...address };
       return of(updated).pipe(delay(400));
     }
     return this.api.put<Address>(`/addresses/${id}`, address);

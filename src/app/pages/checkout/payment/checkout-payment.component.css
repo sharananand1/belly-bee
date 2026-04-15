@@ -1,0 +1,302 @@
+.co-page {
+  padding: 1.5rem 1rem 3rem;
+  min-height: 70vh;
+}
+
+.co-inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* ── Step indicator (shared style) ──────────────────────────── */
+.co-steps {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.75rem;
+}
+
+.co-step {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+
+.co-step__num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface-alt);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.co-step--active .co-step__num {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.co-step--done .co-step__num {
+  background: #27AE60;
+  border-color: #27AE60;
+  color: #fff;
+}
+
+.co-step--done .co-step__num .material-icons-round { font-size: .9rem; }
+
+.co-step__label {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.co-step--active .co-step__label { color: var(--primary); }
+.co-step--done .co-step__label   { color: #27AE60; }
+
+.co-step__line {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  margin: 0 .75rem;
+  min-width: 40px;
+}
+
+.co-step__line--done { background: #27AE60; }
+
+/* ── Title ───────────────────────────────────────────────────── */
+.co-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 1.25rem;
+  color: var(--text-primary);
+}
+
+/* ── Layout ──────────────────────────────────────────────────── */
+.pay-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* ── Payment method cards ────────────────────────────────────── */
+.pay-method {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s, box-shadow .15s;
+  margin-bottom: .75rem;
+}
+
+.pay-method:hover { border-color: var(--primary); }
+
+.pay-method--active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(245,166,35,.15);
+}
+
+.pay-method__radio {
+  font-size: 1.3rem;
+  color: var(--border);
+  flex-shrink: 0;
+  transition: color .15s;
+}
+
+.pay-method--active .pay-method__radio { color: var(--primary); }
+
+.pay-method__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pay-method__name {
+  font-weight: 700;
+  font-size: .95rem;
+  color: var(--text-primary);
+}
+
+.pay-method__sub {
+  font-size: .78rem;
+  color: var(--text-secondary);
+}
+
+.pay-method__icon { font-size: 1.4rem; }
+
+/* ── Delivery address preview ────────────────────────────────── */
+.pay-address-preview {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: .85rem 1rem;
+  margin-top: 1.25rem;
+}
+
+.pay-address-preview .material-icons-round {
+  color: var(--primary);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pay-address-preview__label {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.pay-address-preview__text {
+  font-size: .88rem;
+  color: var(--text-primary);
+  margin: 0;
+  flex: 1;
+}
+
+.pay-address-preview__change {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--primary);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.pay-address-preview__change:hover { text-decoration: underline; }
+
+/* ── Summary panel ───────────────────────────────────────────── */
+.pay-summary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  position: sticky;
+  top: 76px;
+}
+
+.pay-summary__title {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 .85rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+/* Items list */
+.pay-items {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  margin-bottom: .85rem;
+  padding-bottom: .85rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.pay-item-row {
+  display: flex;
+  align-items: baseline;
+  gap: .4rem;
+  font-size: .85rem;
+}
+
+.pay-item-qty {
+  font-weight: 700;
+  color: var(--primary);
+  flex-shrink: 0;
+  min-width: 22px;
+}
+
+.pay-item-name {
+  flex: 1;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pay-item-price {
+  font-weight: 600;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+/* Bill rows */
+.bill-rows {
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  margin-bottom: 1rem;
+}
+
+.bill-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: .88rem;
+  color: var(--text-secondary);
+}
+
+.bill-row--discount { color: #27AE60; font-weight: 600; }
+
+.bill-row--total {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  padding-top: .55rem;
+  border-top: 1px solid var(--border);
+}
+
+/* CTA */
+.pay-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+}
+
+.pay-cta .material-icons-round { font-size: 1.1rem; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.pay-cta__spin { animation: spin .8s linear infinite; }
+
+.pay-secure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  font-size: .75rem;
+  color: var(--text-secondary);
+  margin: .65rem 0 0;
+}
+
+.pay-secure .material-icons-round { font-size: .9rem; color: #27AE60; }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .pay-layout { grid-template-columns: 1fr; }
+  .pay-summary { position: static; order: -1; }
+}

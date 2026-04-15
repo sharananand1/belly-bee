@@ -1,0 +1,164 @@
+<div class="co-page">
+  <div class="co-inner">
+
+    <!-- ── Step indicator ──────────────────────────────────────── -->
+    <div class="co-steps">
+      <div class="co-step co-step--active">
+        <span class="co-step__num">1</span>
+        <span class="co-step__label">Address</span>
+      </div>
+      <div class="co-step__line"></div>
+      <div class="co-step">
+        <span class="co-step__num">2</span>
+        <span class="co-step__label">Payment</span>
+      </div>
+    </div>
+
+    <h1 class="co-title">Delivery Address</h1>
+
+    <!-- ── Saved addresses ─────────────────────────────────────── -->
+    @if (savedAddresses().length > 0) {
+      <section class="addr-section">
+        <h2 class="addr-section__title">Saved Addresses</h2>
+        <div class="addr-list">
+          @for (addr of savedAddresses(); track addr.id) {
+            <button
+              type="button"
+              class="addr-card"
+              [class.addr-card--selected]="selectedAddress()?.id === addr.id"
+              (click)="selectAddress(addr)">
+
+              <div class="addr-card__radio">
+                <span class="material-icons-round">
+                  {{ selectedAddress()?.id === addr.id ? 'radio_button_checked' : 'radio_button_unchecked' }}
+                </span>
+              </div>
+
+              <div class="addr-card__body">
+                <div class="addr-card__label">
+                  <span class="addr-card__icon">{{ labelIcons[addr.label] }}</span>
+                  <span class="addr-card__tag">{{ addr.label }}</span>
+                  @if (addr.is_default) { <span class="addr-card__default">Default</span> }
+                </div>
+                <p class="addr-card__text">{{ addr.full_address }}</p>
+                @if (addr.landmark) {
+                  <p class="addr-card__landmark">📍 Near {{ addr.landmark }}</p>
+                }
+                <p class="addr-card__pin">Pincode: {{ addr.pincode }}</p>
+              </div>
+
+            </button>
+          }
+        </div>
+      </section>
+    }
+
+    <!-- ── Add new / Current location actions ──────────────────── -->
+    @if (!showForm()) {
+      <div class="addr-actions">
+        <button type="button" class="addr-action-btn addr-action-btn--locate" (click)="useCurrentLocation()" [disabled]="locating()">
+          <span class="material-icons-round">my_location</span>
+          {{ locating() ? 'Detecting…' : 'Use current location' }}
+        </button>
+        <button type="button" class="addr-action-btn" (click)="showForm.set(true)">
+          <span class="material-icons-round">add</span>
+          Add new address
+        </button>
+      </div>
+    }
+
+    <!-- ── Add address form ─────────────────────────────────────── -->
+    @if (showForm()) {
+      <section class="addr-form-wrap">
+        <h2 class="addr-section__title">New Address</h2>
+
+        <!-- Label chips -->
+        <div class="form-group">
+          <label class="form-label">Save as</label>
+          <div class="label-chips">
+            @for (lbl of labels; track lbl) {
+              <button
+                type="button"
+                class="label-chip"
+                [class.label-chip--active]="form.label === lbl"
+                (click)="form.label = lbl">
+                {{ labelIcons[lbl] }} {{ lbl }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Full address -->
+        <div class="form-group">
+          <label class="form-label" for="fullAddr">Full Address *</label>
+          <textarea
+            id="fullAddr"
+            class="form-control"
+            rows="3"
+            placeholder="House / Flat no., Street, Area…"
+            [(ngModel)]="form.full_address"
+            name="fullAddr"></textarea>
+        </div>
+
+        <!-- Landmark + Pincode row -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="landmark">Landmark</label>
+            <input
+              id="landmark"
+              type="text"
+              class="form-control"
+              placeholder="Nearby landmark (optional)"
+              [(ngModel)]="form.landmark"
+              name="landmark" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pincode">Pincode *</label>
+            <input
+              id="pincode"
+              type="text"
+              class="form-control"
+              placeholder="560001"
+              [(ngModel)]="form.pincode"
+              name="pincode"
+              maxlength="6"
+              inputmode="numeric" />
+          </div>
+        </div>
+
+        <!-- Default checkbox -->
+        <label class="form-check">
+          <input type="checkbox" [(ngModel)]="form.is_default" name="isDefault" />
+          <span>Set as default address</span>
+        </label>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" (click)="cancelForm()">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="saveAddress()" [disabled]="saving()">
+            {{ saving() ? 'Saving…' : 'Save Address' }}
+          </button>
+        </div>
+      </section>
+    }
+
+    <!-- ── Proceed CTA ──────────────────────────────────────────── -->
+    <div class="co-footer">
+      <button
+        type="button"
+        class="btn btn-primary btn-full btn-lg co-cta"
+        (click)="proceed()"
+        [disabled]="!selectedAddress()">
+        <span>Proceed to Payment</span>
+        <span class="material-icons-round">arrow_forward</span>
+      </button>
+      @if (selectedAddress()) {
+        <p class="co-delivering-to">
+          Delivering to:
+          <strong>{{ selectedAddress()!.label }}</strong> —
+          {{ selectedAddress()!.full_address | slice:0:50 }}{{ selectedAddress()!.full_address.length > 50 ? '…' : '' }}
+        </p>
+      }
+    </div>
+
+  </div>
+</div>
