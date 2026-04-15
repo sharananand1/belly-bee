@@ -1,0 +1,132 @@
+<!-- ── Hero ──────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero__inner">
+    <p class="hero__eyebrow">Cloud Kitchen · Bengaluru</p>
+    <h1 class="hero__heading">Freshly made, <span class="hero__accent">delivered fast</span></h1>
+    <p class="hero__sub">Authentic Indian flavours, paranthas, biryanis, wraps & more — straight from our kitchen.</p>
+    <div class="hero__actions">
+      <a routerLink="/menu" class="btn btn-primary btn-lg">Explore Menu</a>
+      <a routerLink="/menu/day-long-buzz" class="btn btn-outline btn-lg">Today's Specials</a>
+    </div>
+  </div>
+  <div class="hero__badge">
+    <span class="material-icons-round">delivery_dining</span>
+    <span>30–45 min delivery</span>
+  </div>
+</section>
+
+<!-- ── Category Chips ─────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="section__inner">
+    <h2 class="section__title">Browse by Category</h2>
+    <div class="cat-chips">
+      @for (cat of categories(); track cat.id) {
+        <button type="button" class="cat-chip" (click)="navigateToCategory(cat.id)">
+          <span class="cat-chip__icon">{{ cat.icon }}</span>
+          <span class="cat-chip__name">{{ cat.name }}</span>
+        </button>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ── Bestsellers ────────────────────────────────────────────────────── -->
+<section class="section section--alt">
+  <div class="section__inner">
+    <div class="section__head">
+      <h2 class="section__title">Bestsellers 🔥</h2>
+      <a routerLink="/menu" class="section__see-all">See all</a>
+    </div>
+
+    @if (loading()) {
+      <div class="item-grid">
+        @for (_ of [1,2,3,4,5,6]; track $index) {
+          <div class="skeleton-card">
+            <bb-skeleton height="160px" />
+            <div style="padding:.75rem;display:flex;flex-direction:column;gap:.5rem">
+              <bb-skeleton height="14px" width="60%" />
+              <bb-skeleton height="12px" />
+              <bb-skeleton height="12px" width="80%" />
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="item-grid">
+        @for (item of bestsellers(); track item.id) {
+          <bb-item-card [item]="item" (cardClick)="onCardClick($event)" />
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ── New Arrivals ───────────────────────────────────────────────────── -->
+@if (newItems().length > 0) {
+  <section class="section">
+    <div class="section__inner">
+      <div class="section__head">
+        <h2 class="section__title">New Arrivals ✨</h2>
+        <a routerLink="/menu" class="section__see-all">See all</a>
+      </div>
+      <div class="item-grid item-grid--4">
+        @for (item of newItems(); track item.id) {
+          <bb-item-card [item]="item" (cardClick)="onCardClick($event)" />
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ── Offers ─────────────────────────────────────────────────────────── -->
+@if (offerItems().length > 0) {
+  <section class="section section--alt">
+    <div class="section__inner">
+      <div class="section__head">
+        <h2 class="section__title">Deals & Offers 🏷️</h2>
+        <a routerLink="/menu" class="section__see-all">See all</a>
+      </div>
+      <div class="item-grid item-grid--4">
+        @for (item of offerItems(); track item.id) {
+          <bb-item-card [item]="item" (cardClick)="onCardClick($event)" />
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ── Why Belly Bee ──────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="section__inner">
+    <h2 class="section__title" style="text-align:center">Why Belly Bee?</h2>
+    <div class="perks">
+      <div class="perk">
+        <span class="perk__icon">🍳</span>
+        <h3 class="perk__title">Fresh Every Order</h3>
+        <p class="perk__text">Cooked to order, never batch-prepared. Every dish leaves the kitchen hot.</p>
+      </div>
+      <div class="perk">
+        <span class="perk__icon">🚴</span>
+        <h3 class="perk__title">30–45 Min Delivery</h3>
+        <p class="perk__text">Fast and reliable delivery across Bengaluru. Track your order live.</p>
+      </div>
+      <div class="perk">
+        <span class="perk__icon">💯</span>
+        <h3 class="perk__title">Pure Ingredients</h3>
+        <p class="perk__text">No artificial colours. No shortcuts. Just real food made with care.</p>
+      </div>
+      <div class="perk">
+        <span class="perk__icon">🌱</span>
+        <h3 class="perk__title">Veg & Non-Veg</h3>
+        <p class="perk__text">Wide selection for every preference — clearly labelled on every item.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Customization Sheet -->
+<bb-customization-sheet
+  [item]="sheetItem()"
+  [open]="sheetOpen()"
+  (openChange)="sheetOpen.set($event)"
+/>

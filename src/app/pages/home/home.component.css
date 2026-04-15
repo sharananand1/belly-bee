@@ -1,0 +1,191 @@
+/* ── Hero ─────────────────────────────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, var(--primary) 0%, #e8941a 100%);
+  color: #fff;
+  padding: 3.5rem 1rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: '🐝';
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 8rem;
+  opacity: .12;
+  pointer-events: none;
+}
+
+.hero__inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.hero__eyebrow {
+  font-size: .85rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .85;
+  margin: 0 0 .75rem;
+}
+
+.hero__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  margin: 0 0 1rem;
+  line-height: 1.15;
+}
+
+.hero__accent { color: #fff; text-decoration: underline; text-decoration-color: rgba(255,255,255,.5); }
+
+.hero__sub {
+  font-size: 1.05rem;
+  opacity: .9;
+  margin: 0 0 2rem;
+  max-width: 540px;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero__actions .btn-primary  { background: #fff; color: var(--primary); }
+.hero__actions .btn-primary:hover { background: #fff3e0; }
+.hero__actions .btn-outline  { border-color: rgba(255,255,255,.7); color: #fff; }
+.hero__actions .btn-outline:hover { background: rgba(255,255,255,.12); }
+
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  background: rgba(255,255,255,.2);
+  border-radius: 20px;
+  padding: .35rem .9rem;
+  font-size: .82rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+}
+
+.hero__badge .material-icons-round { font-size: 1rem; }
+
+/* ── Sections ─────────────────────────────────────────────────── */
+.section { padding: 2.5rem 1rem; }
+.section--alt { background: var(--surface-alt); }
+
+.section__inner { max-width: 1200px; margin: 0 auto; }
+
+.section__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.section__title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 1.25rem;
+}
+
+.section__head .section__title { margin-bottom: 0; }
+
+.section__see-all {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.section__see-all:hover { text-decoration: underline; }
+
+/* ── Category Chips ───────────────────────────────────────────── */
+.cat-chips {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+.cat-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .3rem;
+  padding: .75rem 1rem;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color .15s, box-shadow .15s;
+  min-width: 80px;
+}
+
+.cat-chip:hover {
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(245,166,35,.2);
+}
+
+.cat-chip__icon { font-size: 1.6rem; }
+.cat-chip__name { font-size: .72rem; font-weight: 600; color: var(--text-secondary); text-align: center; }
+
+/* ── Item Grid ────────────────────────────────────────────────── */
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.item-grid--4 {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.skeleton-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* ── Why Belly Bee ────────────────────────────────────────────── */
+.perks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: .5rem;
+}
+
+.perk {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.perk__icon { font-size: 2.5rem; }
+
+.perk__title {
+  font-weight: 700;
+  margin: .6rem 0 .4rem;
+  font-size: .95rem;
+  color: var(--text-primary);
+}
+
+.perk__text {
+  font-size: .82rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .cat-chips { gap: .5rem; }
+  .cat-chip { min-width: 70px; padding: .6rem .75rem; }
+  .item-grid { grid-template-columns: repeat(2, 1fr); gap: .75rem; }
+}
