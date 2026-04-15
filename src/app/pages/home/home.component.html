@@ -1,3 +1,34 @@
+<!-- ── Promo Ticker ───────────────────────────────────────────────────── -->
+<div class="promo-strip" aria-label="Current offers and information">
+  <div class="promo-strip__track">
+    <span class="promo-strip__item">🐝 Free delivery on orders above ₹299</span>
+    <span class="promo-strip__sep">·</span>
+    <span class="promo-strip__item">📞 Call &amp; Order: +91 88998 88683</span>
+    <span class="promo-strip__sep">·</span>
+    <span class="promo-strip__item">🕗 Open Daily 8 AM – 11 PM</span>
+    <span class="promo-strip__sep">·</span>
+    <span class="promo-strip__item">🎉 Bulk &amp; Party Orders Accepted</span>
+    <span class="promo-strip__sep">·</span>
+    <span class="promo-strip__item">🥗 Tiffin Service Available — Monthly Plans</span>
+    <span class="promo-strip__sep">·</span>
+    <span class="promo-strip__item">💪 Healthy, Low-Oil Options for Gym Freaks</span>
+    <span class="promo-strip__sep">·</span>
+    <!-- duplicate for seamless loop -->
+    <span class="promo-strip__item">🐝 Free delivery on orders above ₹299</span>
+    <span class="promo-strip__sep">·</span>
+    <span class="promo-strip__item">📞 Call &amp; Order: +91 88998 88683</span>
+    <span class="promo-strip__sep">·</span>
+    <span class="promo-strip__item">🕗 Open Daily 8 AM – 11 PM</span>
+    <span class="promo-strip__sep">·</span>
+    <span class="promo-strip__item">🎉 Bulk &amp; Party Orders Accepted</span>
+    <span class="promo-strip__sep">·</span>
+    <span class="promo-strip__item">🥗 Tiffin Service Available — Monthly Plans</span>
+    <span class="promo-strip__sep">·</span>
+    <span class="promo-strip__item">💪 Healthy, Low-Oil Options for Gym Freaks</span>
+    <span class="promo-strip__sep">·</span>
+  </div>
+</div>
+
 <!-- ── Hero ──────────────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="hero__inner">
@@ -6,7 +37,7 @@
     <div class="hero__content">
       <span class="hero__eyebrow">
         <span class="material-icons-round">location_on</span>
-        Cloud Kitchen &middot; Chhatarpur, New Delhi
+        Cloud Kitchen &middot; Chhatarpur, New Delhi 110074
       </span>
 
       <h1 class="hero__heading">
@@ -15,7 +46,7 @@
       </h1>
 
       <p class="hero__sub">
-        North Indian flavours — paranthas, biryanis, wraps &amp; more — delivered fresh across South Delhi in 30–45 minutes.
+        North Indian flavours — paranthas, biryanis, wraps, tikkas &amp; more — delivered fresh across South Delhi in 30–45 minutes.
       </p>
 
       <div class="hero__actions">
@@ -23,10 +54,10 @@
           <span class="material-icons-round">restaurant_menu</span>
           Explore Menu
         </a>
-        <a routerLink="/menu/day-long-buzz" class="hero__btn hero__btn--outline">
+        <button type="button" class="hero__btn hero__btn--outline" (click)="scrollToSpecials()">
+          <span class="material-icons-round">local_fire_department</span>
           Today's Specials
-        </a>
-
+        </button>
       </div>
 
       <div class="hero__stats">
@@ -44,6 +75,11 @@
           <strong class="hero__stat-val">30–45</strong>
           <span class="hero__stat-lbl">Min Delivery</span>
         </div>
+        <div class="hero__stat-div"></div>
+        <div class="hero__stat">
+          <strong class="hero__stat-val">₹₹</strong>
+          <span class="hero__stat-lbl">Affordable</span>
+        </div>
       </div>
     </div>
 
@@ -54,10 +90,38 @@
       <span class="hero__float hero__float--2">🥙</span>
       <span class="hero__float hero__float--3">🍱</span>
       <span class="hero__float hero__float--4">🫓</span>
+      <span class="hero__float hero__float--5">🥗</span>
+      <span class="hero__float hero__float--6">🍕</span>
     </div>
 
   </div>
 </section>
+
+<!-- ── Delivery Area Strip ─────────────────────────────────────────────── -->
+<div class="delivery-strip">
+  <div class="delivery-strip__inner">
+    <span class="material-icons-round delivery-strip__icon">delivery_dining</span>
+    <span class="delivery-strip__label">Delivering to:</span>
+    <div class="delivery-strip__areas">
+      <span>Chhatarpur</span>
+      <span>JVTS Garden</span>
+      <span>Mehrauli</span>
+      <span>Saket</span>
+      <span>Malviya Nagar</span>
+      <span>Vasant Kunj</span>
+      <span>Sultanpur</span>
+      <span>Khanpur</span>
+      <span>Satbari</span>
+      <span>Greater Kailash</span>
+      <span>Hauz Khas</span>
+      <span>Green Park</span>
+      <span>Sheikh Sarai</span>
+      <span>Pushp Vihar</span>
+      <span>Lajpat Nagar</span>
+      <span>South Extension</span>
+    </div>
+  </div>
+</div>
 
 <!-- ── Categories ─────────────────────────────────────────────────────── -->
 <section class="section">
@@ -74,8 +138,37 @@
   </div>
 </section>
 
+<!-- ── Today's Specials ───────────────────────────────────────────────── -->
+<section class="section section--alt" id="specials">
+  <div class="section__inner">
+    <div class="section__head">
+      <h2 class="section__title">⚡ Today's Specials</h2>
+      <a routerLink="/menu/day-long-buzz" class="section__see-all">View all</a>
+    </div>
+    @if (specials().length > 0) {
+      <div class="item-grid">
+        @for (item of specials(); track item.id) {
+          <bb-item-card [item]="item" (cardClick)="onCardClick($event)" />
+        }
+      </div>
+    } @else {
+      <div class="item-grid">
+        @for (_ of [1,2,3,4,5,6]; track $index) {
+          <div class="skeleton-card">
+            <bb-skeleton height="160px" />
+            <div style="padding:.75rem;display:flex;flex-direction:column;gap:.5rem">
+              <bb-skeleton height="14px" width="60%" />
+              <bb-skeleton height="12px" />
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>
+
 <!-- ── Bestsellers ────────────────────────────────────────────────────── -->
-<section class="section section--alt">
+<section class="section">
   <div class="section__inner">
     <div class="section__head">
       <h2 class="section__title">🔥 Bestsellers</h2>
@@ -107,7 +200,7 @@
 
 <!-- ── New Arrivals ───────────────────────────────────────────────────── -->
 @if (newItems().length > 0) {
-  <section class="section">
+  <section class="section section--alt">
     <div class="section__inner">
       <div class="section__head">
         <h2 class="section__title">✨ New Arrivals</h2>
@@ -124,7 +217,7 @@
 
 <!-- ── Deals & Offers ─────────────────────────────────────────────────── -->
 @if (offerItems().length > 0) {
-  <section class="section section--alt">
+  <section class="section">
     <div class="section__inner">
       <div class="section__head">
         <h2 class="section__title">🏷️ Deals &amp; Offers</h2>
@@ -138,6 +231,44 @@
     </div>
   </section>
 }
+
+<!-- ── Services ───────────────────────────────────────────────────────── -->
+<section class="section section--alt">
+  <div class="section__inner">
+    <h2 class="section__title section__title--center">Our Services</h2>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <span class="service-card__icon">📦</span>
+        <h3 class="service-card__title">Tiffin Service</h3>
+        <p class="service-card__text">Daily home-cooked tiffins delivered to your doorstep. Monthly &amp; weekly plans available.</p>
+        <a href="tel:+918899888683" class="service-card__cta">Enquire Now</a>
+      </div>
+
+      <div class="service-card">
+        <span class="service-card__icon">🎉</span>
+        <h3 class="service-card__title">Party &amp; Bulk Orders</h3>
+        <p class="service-card__text">Catering for office lunches, birthdays, events &amp; gatherings. Min. 10 people — call us.</p>
+        <a href="tel:+918899888683" class="service-card__cta">Book Now</a>
+      </div>
+
+      <div class="service-card">
+        <span class="service-card__icon">💪</span>
+        <h3 class="service-card__title">Gym &amp; Health Meals</h3>
+        <p class="service-card__text">Protein-rich, low-fat, less-oil meals for fitness enthusiasts. Fresh ingredients every order.</p>
+        <a routerLink="/menu" class="service-card__cta">View Menu</a>
+      </div>
+
+      <div class="service-card">
+        <span class="service-card__icon">🌙</span>
+        <h3 class="service-card__title">Late Night Delivery</h3>
+        <p class="service-card__text">Craving something after hours? We're open till 11 PM, 7 days a week.</p>
+        <a routerLink="/menu" class="service-card__cta">Order Now</a>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <!-- ── Why Belly Bee ──────────────────────────────────────────────────── -->
 <section class="section">
@@ -157,7 +288,7 @@
         <span class="perk__icon">🚴</span>
         <div class="perk__body">
           <h3 class="perk__title">30–45 Min Delivery</h3>
-          <p class="perk__text">Fast, reliable delivery across Bengaluru. Track your order in real time.</p>
+          <p class="perk__text">Fast, reliable delivery across South Delhi. Track your order in real time.</p>
         </div>
       </div>
 
@@ -192,6 +323,64 @@
       <span class="material-icons-round">restaurant_menu</span>
       Order Now
     </a>
+  </div>
+</section>
+
+<!-- ── About / Address Strip ─────────────────────────────────────────── -->
+<section class="about-strip" itemscope itemtype="https://schema.org/Restaurant">
+  <div class="about-strip__inner">
+
+    <div class="about-strip__col">
+      <h2 class="about-strip__heading" itemprop="name">Belly Bee Cloud Kitchen</h2>
+      <p class="about-strip__tagline">"Taste's Like Home, Feel's Like Heaven"</p>
+      <p class="about-strip__desc" itemprop="description">
+        We are a cloud kitchen based in Chhatarpur, New Delhi, dedicated to delivering fresh, home-style North Indian food to your doorstep. From crispy paranthas to aromatic biryanis, from juicy rolls to grilled tikkas — every dish is made fresh on order with quality ingredients.
+      </p>
+    </div>
+
+    <div class="about-strip__col">
+      <h3 class="about-strip__subhead">Find Us</h3>
+      <address class="about-strip__address" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <span class="material-icons-round">place</span>
+        <div>
+          <span itemprop="streetAddress">JVTS Garden, C Block</span>,<br>
+          <span itemprop="addressLocality">Chhatarpur</span>,
+          <span itemprop="addressRegion">New Delhi</span>
+          <span itemprop="postalCode">110074</span>
+        </div>
+      </address>
+      <a href="tel:+918899888683" class="about-strip__phone" itemprop="telephone">
+        <span class="material-icons-round">call</span>
+        +91 88998 88683
+      </a>
+      <p class="about-strip__hours">
+        <span class="material-icons-round">schedule</span>
+        <span itemprop="openingHours" content="Mo-Su 08:00-23:00">Mon – Sun &nbsp;·&nbsp; 8:00 AM – 11:00 PM</span>
+      </p>
+    </div>
+
+    <div class="about-strip__col">
+      <h3 class="about-strip__subhead">Order Online</h3>
+      <div class="about-strip__platforms">
+        <a href="https://www.swiggy.com/city/delhi/belly-bee-chattarpur-rest1183838"
+           target="_blank" rel="noopener" class="platform-link platform-link--swiggy">
+          <span>Swiggy</span>
+        </a>
+        <a href="https://www.zomato.com/ncr/belly-bee-chhatarpur-new-delhi"
+           target="_blank" rel="noopener" class="platform-link platform-link--zomato">
+          <span>Zomato</span>
+        </a>
+      </div>
+      <div class="about-strip__social">
+        <a href="https://www.instagram.com/bellybeerestaurants/" target="_blank" rel="noopener" aria-label="Instagram">
+          <span class="material-icons-round">photo_camera</span>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61581906791431" target="_blank" rel="noopener" aria-label="Facebook">
+          <span class="material-icons-round">people</span>
+        </a>
+      </div>
+    </div>
+
   </div>
 </section>
 

@@ -9,7 +9,7 @@ export const routes: Routes = [
   {
     path: 'main',
     loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent),
-    title: 'Belly Bee — Cloud Kitchen, Bengaluru',
+    title: 'Belly Bee — Cloud Kitchen, Chhatarpur, New Delhi',
   },
 
   // ── Menu ────────────────────────────────────────────────────────────

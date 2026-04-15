@@ -21,20 +21,36 @@ export interface GeocodedAddress {
 
 const MOCK_ADDRESSES: GeocodedAddress[] = [
   {
-    display: '12 MG Road, Bengaluru, Karnataka 560001',
-    line1: '12 MG Road',
-    city: 'Bengaluru',
-    state: 'Karnataka',
-    pincode: '560001',
-    latlng: { lat: 12.9716, lng: 77.5946 },
+    display: 'JVTS Garden, C Block, Chhatarpur, New Delhi 110074',
+    line1: 'JVTS Garden, C Block',
+    city: 'Chhatarpur',
+    state: 'Delhi',
+    pincode: '110074',
+    latlng: { lat: 28.4992, lng: 77.1855 },
   },
   {
-    display: '5 Brigade Road, Bengaluru, Karnataka 560025',
-    line1: '5 Brigade Road',
-    city: 'Bengaluru',
-    state: 'Karnataka',
-    pincode: '560025',
-    latlng: { lat: 12.9734, lng: 77.6066 },
+    display: 'A-12 Saket, New Delhi 110017',
+    line1: 'A-12 Saket',
+    city: 'Saket',
+    state: 'Delhi',
+    pincode: '110017',
+    latlng: { lat: 28.5244, lng: 77.2167 },
+  },
+  {
+    display: '23 Malviya Nagar, New Delhi 110017',
+    line1: '23 Malviya Nagar',
+    city: 'Malviya Nagar',
+    state: 'Delhi',
+    pincode: '110017',
+    latlng: { lat: 28.5317, lng: 77.2055 },
+  },
+  {
+    display: '7 Mehrauli, New Delhi 110030',
+    line1: '7 Mehrauli',
+    city: 'Mehrauli',
+    state: 'Delhi',
+    pincode: '110030',
+    latlng: { lat: 28.5177, lng: 77.1762 },
   },
 ];
 

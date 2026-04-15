@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   bestsellers   = signal<MenuItem[]>([]);
   newItems      = signal<MenuItem[]>([]);
   offerItems    = signal<MenuItem[]>([]);
+  specials      = signal<MenuItem[]>([]);
   loading       = signal(true);
 
   sheetOpen     = signal(false);
@@ -43,6 +44,14 @@ export class HomeComponent implements OnInit {
       this.offerItems.set(items.slice(0, 4));
       this.loading.set(false);
     });
+
+    this.menu.getMenuItems('day-long-buzz').subscribe(items => {
+      this.specials.set(items.filter(i => i.is_available).slice(0, 6));
+    });
+  }
+
+  scrollToSpecials(): void {
+    document.getElementById('specials')?.scrollIntoView({ behavior: 'smooth' });
   }
 
   onCardClick(item: MenuItem): void {
