@@ -1,1 +1,85 @@
-<router-outlet></router-outlet>
+<!-- ── Top Nav ──────────────────────────────────────────────────────── -->
+<header class="bb-nav">
+  <div class="bb-nav__inner">
+
+    <!-- Logo -->
+    <a routerLink="/main" class="bb-nav__logo">
+      <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" width="36" height="36" />
+      <span class="bb-nav__brand">Belly<span class="bb-nav__bee"> Bee</span></span>
+    </a>
+
+    <!-- Primary links -->
+    <nav class="bb-nav__links" aria-label="Main navigation">
+      <a routerLink="/main"  routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+      <a routerLink="/menu"  routerLinkActive="active">Menu</a>
+    </nav>
+
+    <!-- Right actions -->
+    <div class="bb-nav__actions">
+
+      <!-- Theme toggle -->
+      <button class="bb-nav__icon-btn" (click)="toggleTheme()" [title]="isDark ? 'Switch to light' : 'Switch to dark'" aria-label="Toggle theme">
+        <span class="material-icons-round">{{ isDark ? 'light_mode' : 'dark_mode' }}</span>
+      </button>
+
+      <!-- Cart -->
+      <a routerLink="/cart" class="bb-nav__icon-btn bb-nav__cart" aria-label="Cart">
+        <span class="material-icons-round">shopping_bag</span>
+        @if (cartCount > 0) {
+          <span class="bb-nav__cart-badge">{{ cartCount }}</span>
+        }
+      </a>
+
+      <!-- Auth -->
+      @if (isLoggedIn) {
+        <a routerLink="/profile" class="bb-nav__icon-btn" aria-label="Profile">
+          <span class="material-icons-round">account_circle</span>
+        </a>
+      } @else {
+        <a routerLink="/auth/login" class="btn btn-primary btn-sm">Login</a>
+      }
+
+    </div>
+  </div>
+</header>
+
+<!-- ── Page Content ──────────────────────────────────────────────────── -->
+<main class="bb-main">
+  <router-outlet />
+</main>
+
+<!-- ── Footer ───────────────────────────────────────────────────────── -->
+<footer class="bb-footer">
+  <div class="bb-footer__inner">
+
+    <div class="bb-footer__brand">
+      <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" width="40" height="40" />
+      <div>
+        <p class="bb-footer__name">Belly Bee</p>
+        <p class="bb-footer__tagline">Your cloud kitchen, Bengaluru</p>
+      </div>
+    </div>
+
+    <nav class="bb-footer__links" aria-label="Footer navigation">
+      <a routerLink="/main">Home</a>
+      <a routerLink="/menu">Menu</a>
+      <a routerLink="/cart">Cart</a>
+      <a routerLink="/profile/orders">Orders</a>
+    </nav>
+
+    <p class="bb-footer__copy">© {{ year }} Belly Bee. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ── Toast Outlet ──────────────────────────────────────────────────── -->
+<div class="bb-toast-container" aria-live="polite">
+  @for (toast of toastList; track toast.id) {
+    <div class="bb-toast bb-toast--{{ toast.type }}" role="alert">
+      <span class="material-icons-round bb-toast__icon">{{ toastIcon(toast.type) }}</span>
+      <span class="bb-toast__msg">{{ toast.message }}</span>
+      <button class="bb-toast__close" (click)="dismissToast(toast.id)" aria-label="Dismiss">
+        <span class="material-icons-round">close</span>
+      </button>
+    </div>
+  }
+</div>

@@ -1,0 +1,234 @@
+/* ── Top Navigation ─────────────────────────────────────────── */
+.bb-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+.bb-nav__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.bb-nav__logo {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.bb-nav__logo img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.bb-nav__brand {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.bb-nav__bee {
+  color: var(--primary);
+}
+
+.bb-nav__links {
+  display: flex;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.bb-nav__links a {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: .95rem;
+  font-weight: 500;
+  transition: color .15s;
+}
+
+.bb-nav__links a:hover,
+.bb-nav__links a.active {
+  color: var(--primary);
+}
+
+.bb-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-left: auto;
+}
+
+.bb-nav__icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  transition: background .15s, color .15s;
+}
+
+.bb-nav__icon-btn:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.bb-nav__cart-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: var(--accent);
+  color: #fff;
+  font-size: .65rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+@media (max-width: 600px) {
+  .bb-nav__links { display: none; }
+}
+
+/* ── Main content ────────────────────────────────────────────── */
+.bb-main {
+  min-height: calc(100vh - 60px - 140px);
+}
+
+/* ── Footer ──────────────────────────────────────────────────── */
+.bb-footer {
+  background: var(--surface-alt);
+  border-top: 1px solid var(--border);
+  padding: 2rem 1rem;
+}
+
+.bb-footer__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.bb-footer__brand {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.bb-footer__brand img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.bb-footer__name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.bb-footer__tagline {
+  font-size: .8rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.bb-footer__links {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.bb-footer__links a {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: .9rem;
+  transition: color .15s;
+}
+
+.bb-footer__links a:hover { color: var(--primary); }
+
+.bb-footer__copy {
+  width: 100%;
+  font-size: .78rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ── Toast Container ─────────────────────────────────────────── */
+.bb-toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  width: min(420px, 92vw);
+  pointer-events: none;
+}
+
+.bb-toast {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .75rem 1rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgba(0,0,0,.18);
+  font-size: .9rem;
+  font-weight: 500;
+  pointer-events: all;
+  animation: toastIn .2s ease;
+  color: #fff;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.bb-toast--success { background: #27AE60; }
+.bb-toast--error   { background: var(--accent); }
+.bb-toast--warning { background: #F39C12; }
+.bb-toast--info    { background: #2980B9; }
+
+.bb-toast__icon { font-size: 1.1rem; flex-shrink: 0; }
+.bb-toast__msg  { flex: 1; }
+
+.bb-toast__close {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,.8);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.bb-toast__close:hover { color: #fff; }
+.bb-toast__close .material-icons-round { font-size: 1.1rem; }

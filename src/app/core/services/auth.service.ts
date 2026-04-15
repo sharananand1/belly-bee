@@ -38,7 +38,7 @@ export class AuthService {
       if (otp === '123456' || otp.length === 6) {
         const user = this.mock.getMockUser();
         const result: LoginResult = { token: 'mock_bb_token_dev_' + Date.now(), user };
-        this.tokens.setToken(result.token);
+        this.tokens.token = result.token;
         localStorage.setItem('bb_user', JSON.stringify(user));
         return of(result).pipe(delay(1000));
       }
