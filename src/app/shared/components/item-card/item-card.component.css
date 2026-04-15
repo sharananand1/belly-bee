@@ -1,0 +1,138 @@
+.item-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow .2s, transform .15s;
+  outline: none;
+}
+
+.item-card:hover,
+.item-card:focus-visible {
+  box-shadow: 0 6px 20px rgba(0,0,0,.1);
+  transform: translateY(-2px);
+}
+
+.item-card--unavailable {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+/* Image */
+.item-card__img-wrap {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+.item-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .3s;
+}
+
+.item-card:hover .item-card__img { transform: scale(1.04); }
+
+.item-card__tag {
+  position: absolute;
+  top: .5rem;
+  left: .5rem;
+  background: var(--primary);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.item-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: .9rem;
+  letter-spacing: .04em;
+}
+
+/* Body */
+.item-card__body {
+  padding: .75rem;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  flex: 1;
+}
+
+.item-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+
+.item-card__name {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-card__desc {
+  font-size: .78rem;
+  color: var(--text-secondary);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.item-card__meta {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.item-card__prep {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: .75rem;
+  color: var(--text-secondary);
+}
+
+.item-card__prep .material-icons-round { font-size: .85rem; }
+
+.item-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: .35rem;
+}
+
+.item-card__add {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.item-card__add .material-icons-round { font-size: 1rem; }

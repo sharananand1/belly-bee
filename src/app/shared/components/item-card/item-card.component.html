@@ -1,0 +1,48 @@
+<article class="item-card" [class.item-card--unavailable]="!item.is_available" (click)="onCardClick()" [attr.aria-label]="item.name" tabindex="0" (keydown.enter)="onCardClick()">
+
+  <!-- Image -->
+  <div class="item-card__img-wrap">
+    <img class="item-card__img" [src]="item.image_url" [alt]="item.name" loading="lazy" (error)="onImgError($any($event.target))" />
+    @if (tagLabel) {
+      <span class="item-card__tag">{{ tagLabel }}</span>
+    }
+    @if (!item.is_available) {
+      <div class="item-card__overlay">Unavailable</div>
+    }
+  </div>
+
+  <!-- Body -->
+  <div class="item-card__body">
+    <div class="item-card__title-row">
+      <bb-veg-badge [isVeg]="item.is_veg" />
+      <h3 class="item-card__name">{{ item.name }}</h3>
+    </div>
+
+    <p class="item-card__desc">{{ item.description }}</p>
+
+    <div class="item-card__meta">
+      <bb-rating-stars [value]="item.rating" [showValue]="true" />
+      <span class="item-card__prep">
+        <span class="material-icons-round">schedule</span>
+        {{ item.prep_time_minutes }} min
+      </span>
+    </div>
+
+    <div class="item-card__footer">
+      <bb-price [original]="price" [discountPercent]="item.discount_percent" />
+      <button
+        class="btn btn-primary btn-sm item-card__add"
+        (click)="addToCart($event)"
+        [disabled]="!item.is_available"
+        [title]="hasVariants ? 'Choose options' : 'Add to cart'"
+        aria-label="Add to cart">
+        @if (hasVariants) {
+          <span class="material-icons-round">tune</span>
+        } @else {
+          <span class="material-icons-round">add</span>
+        }
+      </button>
+    </div>
+  </div>
+
+</article>

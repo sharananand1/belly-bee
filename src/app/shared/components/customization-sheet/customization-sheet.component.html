@@ -1,0 +1,93 @@
+<!-- Backdrop -->
+@if (open) {
+  <div class="sheet-backdrop" (click)="close()" aria-hidden="true"></div>
+}
+
+<!-- Sheet -->
+<div class="sheet" [class.sheet--open]="open" role="dialog" [attr.aria-label]="'Customise ' + (item?.name ?? '')">
+  @if (item) {
+
+    <!-- Handle -->
+    <div class="sheet__handle"></div>
+
+    <!-- Header -->
+    <div class="sheet__header">
+      <div class="sheet__title-row">
+        <bb-veg-badge [isVeg]="item.is_veg" />
+        <h2 class="sheet__title">{{ item.name }}</h2>
+      </div>
+      <p class="sheet__desc">{{ item.description }}</p>
+    </div>
+
+    <div class="sheet__body">
+
+      <!-- Spicy Level -->
+      @if (item.spicy_levels.length > 0) {
+        <section class="sheet__section">
+          <h3 class="sheet__section-title">Spice Level</h3>
+          <div class="chip-group">
+            @for (level of item.spicy_levels; track level) {
+              <button type="button" class="chip" [class.chip--active]="selectedSpicy === level" (click)="selectedSpicy = level">
+                {{ spicyLabels[level] }}
+              </button>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- Serve Options -->
+      @if (item.serve_options.length > 0) {
+        <section class="sheet__section">
+          <h3 class="sheet__section-title">Serve Size</h3>
+          <div class="chip-group">
+            @for (serve of item.serve_options; track serve) {
+              <button type="button" class="chip chip--price" [class.chip--active]="selectedServe === serve" (click)="selectedServe = serve">
+                <span>{{ serveLabels[serve] }}</span>
+                <span class="chip__price">₹{{ item.variant_prices?.[serve] ?? item.price }}</span>
+              </button>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- Size Options -->
+      @if (item.size_options.length > 0) {
+        <section class="sheet__section">
+          <h3 class="sheet__section-title">Size</h3>
+          <div class="chip-group">
+            @for (size of item.size_options; track size) {
+              <button type="button" class="chip chip--price" [class.chip--active]="selectedSize === size" (click)="selectedSize = size">
+                <span>{{ sizeLabels[size] }}</span>
+                <span class="chip__price">₹{{ item.variant_prices?.[size] ?? item.price }}</span>
+              </button>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- Special Instructions -->
+      <section class="sheet__section">
+        <h3 class="sheet__section-title">Special Instructions <span class="sheet__opt">(optional)</span></h3>
+        <textarea class="form-control sheet__instructions" rows="2" placeholder="E.g. less oil, no onion…"></textarea>
+      </section>
+
+    </div>
+
+    <!-- Footer: quantity + add -->
+    <div class="sheet__footer">
+      <div class="sheet__qty">
+        <button type="button" class="qty-btn" (click)="decrementQty()" [disabled]="quantity <= 1">
+          <span class="material-icons-round">remove</span>
+        </button>
+        <span class="qty-value">{{ quantity }}</span>
+        <button type="button" class="qty-btn" (click)="incrementQty()">
+          <span class="material-icons-round">add</span>
+        </button>
+      </div>
+      <button type="button" class="btn btn-primary btn-lg sheet__cta" (click)="addToCart()">
+        Add to Cart &nbsp;·&nbsp; ₹{{ lineTotal }}
+      </button>
+    </div>
+
+  }
+</div>
