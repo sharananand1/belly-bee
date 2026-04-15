@@ -1,0 +1,62 @@
+<div class="auth-page">
+  <div class="auth-card">
+
+    <div class="auth-logo">
+      <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" width="56" height="56" />
+      <span class="auth-logo__name">Belly<span class="auth-logo__bee"> Bee</span></span>
+    </div>
+
+    <h1 class="auth-title">Sign In</h1>
+    <p class="auth-sub">Enter your mobile number to receive an OTP.</p>
+
+    <div class="auth-form">
+      <div class="phone-input-wrap">
+        <span class="phone-input-wrap__prefix">+91</span>
+        <input
+          type="tel"
+          class="form-control phone-input"
+          placeholder="9876543210"
+          [value]="phone()"
+          (input)="onPhoneInput($any($event.target).value)"
+          (keydown.enter)="sendOtp()"
+          maxlength="10"
+          inputmode="numeric"
+          autocomplete="tel-national"
+          aria-label="Mobile number" />
+      </div>
+
+      @if (error()) {
+        <p class="auth-error">
+          <span class="material-icons-round">error_outline</span>
+          {{ error() }}
+        </p>
+      }
+
+      <button
+        type="button"
+        class="btn btn-primary btn-full btn-lg auth-cta"
+        (click)="sendOtp()"
+        [disabled]="sending() || phone().length !== 10">
+        @if (sending()) {
+          <span class="material-icons-round auth-spin">sync</span>
+          Sending OTP…
+        } @else {
+          Get OTP
+          <span class="material-icons-round">arrow_forward</span>
+        }
+      </button>
+    </div>
+
+    <p class="auth-legal">
+      By continuing, you agree to our
+      <a routerLink="/main">Terms of Service</a> and
+      <a routerLink="/main">Privacy Policy</a>.
+    </p>
+
+    <a routerLink="/main" class="auth-skip">
+      <span class="material-icons-round">arrow_back</span>
+      Continue as Guest
+    </a>
+
+  </div>
+</div>

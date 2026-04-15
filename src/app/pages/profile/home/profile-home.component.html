@@ -1,0 +1,115 @@
+<div class="prof-page">
+  <div class="prof-inner">
+
+    @if (loading()) {
+      <div class="prof-loading">
+        <span class="material-icons-round prof-loading__spin">sync</span>
+      </div>
+    } @else if (user()) {
+
+      <!-- ── Avatar + Name ───────────────────────────────────── -->
+      <div class="prof-header">
+        <div class="prof-avatar">
+          @if (user()!.profile_pic) {
+            <img [src]="user()!.profile_pic" [alt]="user()!.name"
+                 (error)="onImgError($any($event.target))" />
+          } @else {
+            <span class="prof-avatar__initials">{{ initials() }}</span>
+          }
+        </div>
+        <div class="prof-header__info">
+          <h1 class="prof-header__name">{{ user()!.name }}</h1>
+          <p class="prof-header__phone">
+            <span class="material-icons-round">phone</span>
+            +91 {{ user()!.mobile }}
+          </p>
+          @if (user()!.email) {
+            <p class="prof-header__email">
+              <span class="material-icons-round">mail</span>
+              {{ user()!.email }}
+            </p>
+          }
+        </div>
+        <button class="prof-edit-btn" (click)="startEdit()" title="Edit profile">
+          <span class="material-icons-round">edit</span>
+        </button>
+      </div>
+
+      <!-- ── Edit form ───────────────────────────────────────── -->
+      @if (editing()) {
+        <div class="prof-edit-card">
+          <h2 class="prof-edit-card__title">Edit Profile</h2>
+          <label class="prof-field-label">Name</label>
+          <input class="input prof-field-input"
+                 type="text"
+                 placeholder="Your name"
+                 [ngModel]="editName()"
+                 (ngModelChange)="editName.set($event)" />
+          <label class="prof-field-label">Email (optional)</label>
+          <input class="input prof-field-input"
+                 type="email"
+                 placeholder="you@example.com"
+                 [ngModel]="editEmail()"
+                 (ngModelChange)="editEmail.set($event)" />
+          <div class="prof-edit-actions">
+            <button class="btn btn-outline" (click)="cancelEdit()">Cancel</button>
+            <button class="btn btn-primary"
+                    [disabled]="saving()"
+                    (click)="saveEdit()">
+              @if (saving()) {
+                <span class="material-icons-round spin">sync</span>
+              } @else {
+                Save
+              }
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- ── Quick links ─────────────────────────────────────── -->
+      <div class="prof-section">
+        <h2 class="prof-section__title">Account</h2>
+
+        <a class="prof-link-row" routerLink="/profile/orders">
+          <span class="prof-link-row__icon material-icons-round">receipt_long</span>
+          <span class="prof-link-row__label">My Orders</span>
+          <span class="material-icons-round prof-link-row__chevron">chevron_right</span>
+        </a>
+
+        <div class="prof-link-row prof-link-row--disabled">
+          <span class="prof-link-row__icon material-icons-round">location_on</span>
+          <span class="prof-link-row__label">Saved Addresses</span>
+          <span class="material-icons-round prof-link-row__chevron">chevron_right</span>
+        </div>
+      </div>
+
+      <!-- ── Preferences ─────────────────────────────────────── -->
+      <div class="prof-section">
+        <h2 class="prof-section__title">Preferences</h2>
+
+        <div class="prof-link-row">
+          <span class="prof-link-row__icon material-icons-round">
+            {{ isDark() ? 'dark_mode' : 'light_mode' }}
+          </span>
+          <span class="prof-link-row__label">
+            {{ isDark() ? 'Dark Mode' : 'Light Mode' }}
+          </span>
+          <button class="theme-toggle" (click)="toggleTheme()"
+                  [class.theme-toggle--on]="isDark()"
+                  [attr.aria-label]="isDark() ? 'Switch to light mode' : 'Switch to dark mode'">
+            <span class="theme-toggle__knob"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Logout ──────────────────────────────────────────── -->
+      <div class="prof-section">
+        <button class="prof-logout-btn" (click)="logout()">
+          <span class="material-icons-round">logout</span>
+          Log Out
+        </button>
+      </div>
+
+    }
+  </div>
+</div>

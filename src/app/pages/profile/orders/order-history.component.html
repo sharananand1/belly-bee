@@ -1,0 +1,85 @@
+<div class="oh-page">
+  <div class="oh-inner">
+
+    <!-- ── Header ─────────────────────────────────────────────── -->
+    <div class="oh-header">
+      <a class="oh-back" routerLink="/profile">
+        <span class="material-icons-round">arrow_back</span>
+      </a>
+      <h1 class="oh-header__title">My Orders</h1>
+    </div>
+
+    <!-- ── Filter tabs ────────────────────────────────────────── -->
+    <div class="oh-tabs" role="tablist">
+      @for (tab of [['all','All'],['active','Active'],['delivered','Delivered'],['cancelled','Cancelled']]; track tab[0]) {
+        <button class="oh-tab"
+                [class.oh-tab--active]="filter() === tab[0]"
+                (click)="setFilter($any(tab[0]))"
+                role="tab">
+          {{ tab[1] }}
+        </button>
+      }
+    </div>
+
+    <!-- ── Loading ────────────────────────────────────────────── -->
+    @if (loading()) {
+      <div class="oh-loading">
+        <span class="material-icons-round oh-loading__spin">sync</span>
+        <p>Loading orders…</p>
+      </div>
+
+    <!-- ── Empty ──────────────────────────────────────────────── -->
+    } @else if (filtered().length === 0) {
+      <div class="oh-empty">
+        <span style="font-size:3rem">🛵</span>
+        <p class="oh-empty__msg">No orders here yet.</p>
+        <a routerLink="/menu" class="btn btn-primary">Browse Menu</a>
+      </div>
+
+    <!-- ── Order cards ────────────────────────────────────────── -->
+    } @else {
+      <div class="oh-list">
+        @for (order of filtered(); track order.order_id) {
+          <div class="oh-card">
+
+            <!-- Card header: order number + status badge -->
+            <div class="oh-card__head">
+              <div>
+                <p class="oh-card__num">{{ order.order_number }}</p>
+                <p class="oh-card__date">{{ formatDate(order.placed_at) }}</p>
+              </div>
+              <span class="oh-badge"
+                    [style.background]="statusColors[order.status] + '22'"
+                    [style.color]="statusColors[order.status]">
+                {{ statusLabels[order.status] }}
+              </span>
+            </div>
+
+            <!-- Items summary + total -->
+            <div class="oh-card__body">
+              <p class="oh-card__items">
+                <span class="material-icons-round">restaurant</span>
+                {{ itemSummary(order) }}
+              </p>
+              <p class="oh-card__total">₹{{ order.total }}</p>
+            </div>
+
+            <!-- Actions -->
+            <div class="oh-card__actions">
+              <a class="btn btn-outline btn-sm"
+                 [routerLink]="['/profile/orders', order.order_id]">
+                View Details
+              </a>
+              <button class="btn btn-primary btn-sm" (click)="reorder(order)">
+                <span class="material-icons-round">refresh</span>
+                Reorder
+              </button>
+            </div>
+
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</div>

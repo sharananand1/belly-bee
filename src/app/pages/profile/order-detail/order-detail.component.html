@@ -1,0 +1,169 @@
+<div class="od-page">
+  <div class="od-inner">
+
+    <!-- ── Back ───────────────────────────────────────────────── -->
+    <div class="od-nav">
+      <a class="od-back" routerLink="/profile/orders">
+        <span class="material-icons-round">arrow_back</span>
+      </a>
+      <h1 class="od-nav__title">Order Details</h1>
+    </div>
+
+    @if (loading()) {
+      <div class="od-loading">
+        <span class="material-icons-round od-loading__spin">sync</span>
+        <p>Loading order…</p>
+      </div>
+
+    } @else if (notFound()) {
+      <div class="od-nf">
+        <span style="font-size:3rem">📦</span>
+        <p>Order not found.</p>
+        <a routerLink="/profile/orders" class="btn btn-primary">My Orders</a>
+      </div>
+
+    } @else if (order()) {
+
+      <!-- ── Order header ────────────────────────────────────── -->
+      <div class="od-card od-card--header">
+        <div class="od-card__row">
+          <div>
+            <p class="od-order-num">{{ order()!.order_number }}</p>
+            <p class="od-order-date">{{ formatDate(order()!.placed_at) }}</p>
+          </div>
+          <span class="od-badge"
+                [style.background]="statusColors[order()!.status] + '22'"
+                [style.color]="statusColors[order()!.status]">
+            {{ statusLabels[order()!.status] }}
+          </span>
+        </div>
+        @if (tracking() && order()!.status !== 'delivered' && order()!.status !== 'cancelled') {
+          <p class="od-eta">
+            <span class="material-icons-round">schedule</span>
+            Estimated by <strong>{{ formatEta(order()!.estimated_delivery) }}</strong>
+          </p>
+        }
+      </div>
+
+      <!-- ── Tracking timeline ──────────────────────────────── -->
+      @if (tracking()) {
+        <section class="od-section">
+          <h2 class="od-section__title">Order Status</h2>
+          <div class="track-steps">
+            @for (step of tracking()!.steps; track step.status) {
+              <div class="track-step"
+                   [class.track-step--done]="step.completed"
+                   [class.track-step--active]="step.active">
+                <div class="track-step__dot">
+                  @if (step.completed) {
+                    <span class="material-icons-round">check</span>
+                  } @else if (step.active) {
+                    <span class="track-step__pulse"></span>
+                  }
+                </div>
+                <div class="track-step__body">
+                  <span class="track-step__label">{{ step.label }}</span>
+                  @if (step.timestamp && (step.completed || step.active)) {
+                    <span class="track-step__time">{{ formatDate(step.timestamp) }}</span>
+                  }
+                </div>
+                <div class="track-step__line"></div>
+              </div>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- ── Items ─────────────────────────────────────────── -->
+      <section class="od-section">
+        <h2 class="od-section__title">Items Ordered</h2>
+        <div class="od-items">
+          @for (item of order()!.items; track $index) {
+            <div class="od-item-row">
+              <img class="od-item-row__img"
+                   [src]="item.image_url" [alt]="item.name"
+                   onerror="this.src='assets/bellyBeeLogo.webp'" />
+              <div class="od-item-row__body">
+                <span class="od-item-row__name">{{ item.name }}</span>
+                @if (item.selected_serve || item.selected_size) {
+                  <span class="od-item-row__opts">
+                    {{ item.selected_serve ?? item.selected_size }}
+                  </span>
+                }
+                @if (item.selected_spicy_level) {
+                  <span class="od-item-row__opts">{{ item.selected_spicy_level }}</span>
+                }
+              </div>
+              <span class="od-item-row__qty">×{{ item.quantity }}</span>
+              <span class="od-item-row__price">₹{{ item.line_total }}</span>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- ── Bill summary ───────────────────────────────────── -->
+      <section class="od-section">
+        <h2 class="od-section__title">Bill Summary</h2>
+        <div class="bill-rows">
+          <div class="bill-row">
+            <span>Subtotal</span><span>₹{{ order()!.subtotal }}</span>
+          </div>
+          @if (order()!.coupon_discount > 0) {
+            <div class="bill-row bill-row--discount">
+              <span>Coupon ({{ order()!.coupon_code }})</span>
+              <span>− ₹{{ order()!.coupon_discount }}</span>
+            </div>
+          }
+          <div class="bill-row">
+            <span>Delivery</span>
+            <span>{{ order()!.delivery_fee === 0 ? 'FREE' : '₹' + order()!.delivery_fee }}</span>
+          </div>
+          <div class="bill-row">
+            <span>GST (5%)</span><span>₹{{ order()!.gst }}</span>
+          </div>
+          <div class="bill-row bill-row--total">
+            <span>Total Paid</span><span>₹{{ order()!.total }}</span>
+          </div>
+        </div>
+        <div class="bill-payment">
+          <span class="material-icons-round">
+            {{ order()!.payment_method === 'cod' ? 'payments' : 'credit_card' }}
+          </span>
+          <span>
+            {{ order()!.payment_method === 'cod' ? 'Cash on Delivery' :
+               order()!.payment_method === 'upi' ? 'UPI' : 'Razorpay' }}
+          </span>
+          <span class="bill-payment__status"
+                [class.bill-payment__status--paid]="order()!.payment_status === 'paid'">
+            {{ order()!.payment_status | titlecase }}
+          </span>
+        </div>
+      </section>
+
+      <!-- ── Delivery address ───────────────────────────────── -->
+      <section class="od-section">
+        <h2 class="od-section__title">Delivering To</h2>
+        <div class="od-address">
+          <span class="material-icons-round">location_on</span>
+          <div>
+            <p class="od-address__label">{{ order()!.delivery_address.label }}</p>
+            <p class="od-address__text">{{ order()!.delivery_address.full_address }}</p>
+            @if (order()!.delivery_address.landmark) {
+              <p class="od-address__text">Near {{ order()!.delivery_address.landmark }}</p>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Actions ────────────────────────────────────────── -->
+      <div class="od-actions">
+        <a routerLink="/profile/orders" class="btn btn-outline">Back to Orders</a>
+        <button class="btn btn-primary" (click)="reorder()">
+          <span class="material-icons-round">refresh</span>
+          Reorder
+        </button>
+      </div>
+
+    }
+  </div>
+</div>
