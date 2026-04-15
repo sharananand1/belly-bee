@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { OrderService } from '../../../core/services/order.service';
 import { CartService } from '../../../core/services/cart.service';
@@ -13,7 +13,7 @@ import { MenuItem } from '../../../models/menu-item.model';
 @Component({
   selector: 'app-order-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TitleCasePipe],
   templateUrl: './order-detail.component.html',
   styleUrl:    './order-detail.component.css',
 })

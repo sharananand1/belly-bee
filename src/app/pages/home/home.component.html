@@ -1,25 +1,68 @@
 <!-- ── Hero ──────────────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="hero__inner">
-    <p class="hero__eyebrow">Cloud Kitchen · Bengaluru</p>
-    <h1 class="hero__heading">Freshly made, <span class="hero__accent">delivered fast</span></h1>
-    <p class="hero__sub">Authentic Indian flavours, paranthas, biryanis, wraps & more — straight from our kitchen.</p>
-    <div class="hero__actions">
-      <a routerLink="/menu" class="btn btn-primary btn-lg">Explore Menu</a>
-      <a routerLink="/menu/day-long-buzz" class="btn btn-outline btn-lg">Today's Specials</a>
+
+    <!-- Left: text -->
+    <div class="hero__content">
+      <span class="hero__eyebrow">
+        <span class="material-icons-round">location_on</span>
+        Cloud Kitchen &middot; Bengaluru
+      </span>
+
+      <h1 class="hero__heading">
+        Real food,<br>
+        <span class="hero__accent">made fresh</span>
+      </h1>
+
+      <p class="hero__sub">
+        Paranthas, biryanis, wraps &amp; more — cooked to order and delivered in 30–45 minutes.
+      </p>
+
+      <div class="hero__actions">
+        <a routerLink="/menu" class="hero__btn hero__btn--primary">
+          <span class="material-icons-round">restaurant_menu</span>
+          Explore Menu
+        </a>
+        <a routerLink="/menu/day-long-buzz" class="hero__btn hero__btn--outline">
+          Today's Specials
+        </a>
+      </div>
+
+      <div class="hero__stats">
+        <div class="hero__stat">
+          <strong class="hero__stat-val">72+</strong>
+          <span class="hero__stat-lbl">Dishes</span>
+        </div>
+        <div class="hero__stat-div"></div>
+        <div class="hero__stat">
+          <strong class="hero__stat-val">4.8 ★</strong>
+          <span class="hero__stat-lbl">Rating</span>
+        </div>
+        <div class="hero__stat-div"></div>
+        <div class="hero__stat">
+          <strong class="hero__stat-val">30–45</strong>
+          <span class="hero__stat-lbl">Min Delivery</span>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="hero__badge">
-    <span class="material-icons-round">delivery_dining</span>
-    <span>30–45 min delivery</span>
+
+    <!-- Right: visual -->
+    <div class="hero__visual" aria-hidden="true">
+      <div class="hero__bee">🐝</div>
+      <span class="hero__float hero__float--1">🍛</span>
+      <span class="hero__float hero__float--2">🥙</span>
+      <span class="hero__float hero__float--3">🍱</span>
+      <span class="hero__float hero__float--4">🫓</span>
+    </div>
+
   </div>
 </section>
 
-<!-- ── Category Chips ─────────────────────────────────────────────────── -->
+<!-- ── Categories ─────────────────────────────────────────────────────── -->
 <section class="section">
   <div class="section__inner">
     <h2 class="section__title">Browse by Category</h2>
-    <div class="cat-chips">
+    <div class="cat-strip">
       @for (cat of categories(); track cat.id) {
         <button type="button" class="cat-chip" (click)="navigateToCategory(cat.id)">
           <span class="cat-chip__icon">{{ cat.icon }}</span>
@@ -34,7 +77,7 @@
 <section class="section section--alt">
   <div class="section__inner">
     <div class="section__head">
-      <h2 class="section__title">Bestsellers 🔥</h2>
+      <h2 class="section__title">🔥 Bestsellers</h2>
       <a routerLink="/menu" class="section__see-all">See all</a>
     </div>
 
@@ -66,10 +109,10 @@
   <section class="section">
     <div class="section__inner">
       <div class="section__head">
-        <h2 class="section__title">New Arrivals ✨</h2>
+        <h2 class="section__title">✨ New Arrivals</h2>
         <a routerLink="/menu" class="section__see-all">See all</a>
       </div>
-      <div class="item-grid item-grid--4">
+      <div class="item-grid">
         @for (item of newItems(); track item.id) {
           <bb-item-card [item]="item" (cardClick)="onCardClick($event)" />
         }
@@ -78,15 +121,15 @@
   </section>
 }
 
-<!-- ── Offers ─────────────────────────────────────────────────────────── -->
+<!-- ── Deals & Offers ─────────────────────────────────────────────────── -->
 @if (offerItems().length > 0) {
   <section class="section section--alt">
     <div class="section__inner">
       <div class="section__head">
-        <h2 class="section__title">Deals & Offers 🏷️</h2>
+        <h2 class="section__title">🏷️ Deals &amp; Offers</h2>
         <a routerLink="/menu" class="section__see-all">See all</a>
       </div>
-      <div class="item-grid item-grid--4">
+      <div class="item-grid">
         @for (item of offerItems(); track item.id) {
           <bb-item-card [item]="item" (cardClick)="onCardClick($event)" />
         }
@@ -98,29 +141,56 @@
 <!-- ── Why Belly Bee ──────────────────────────────────────────────────── -->
 <section class="section">
   <div class="section__inner">
-    <h2 class="section__title" style="text-align:center">Why Belly Bee?</h2>
+    <h2 class="section__title section__title--center">Why Belly Bee?</h2>
     <div class="perks">
+
       <div class="perk">
         <span class="perk__icon">🍳</span>
-        <h3 class="perk__title">Fresh Every Order</h3>
-        <p class="perk__text">Cooked to order, never batch-prepared. Every dish leaves the kitchen hot.</p>
+        <div class="perk__body">
+          <h3 class="perk__title">Fresh Every Order</h3>
+          <p class="perk__text">Cooked to order, never batch-prepared. Every dish leaves the kitchen hot.</p>
+        </div>
       </div>
+
       <div class="perk">
         <span class="perk__icon">🚴</span>
-        <h3 class="perk__title">30–45 Min Delivery</h3>
-        <p class="perk__text">Fast and reliable delivery across Bengaluru. Track your order live.</p>
+        <div class="perk__body">
+          <h3 class="perk__title">30–45 Min Delivery</h3>
+          <p class="perk__text">Fast, reliable delivery across Bengaluru. Track your order in real time.</p>
+        </div>
       </div>
+
       <div class="perk">
         <span class="perk__icon">💯</span>
-        <h3 class="perk__title">Pure Ingredients</h3>
-        <p class="perk__text">No artificial colours. No shortcuts. Just real food made with care.</p>
+        <div class="perk__body">
+          <h3 class="perk__title">Pure Ingredients</h3>
+          <p class="perk__text">No artificial colours. No shortcuts. Just real food made with care.</p>
+        </div>
       </div>
+
       <div class="perk">
         <span class="perk__icon">🌱</span>
-        <h3 class="perk__title">Veg & Non-Veg</h3>
-        <p class="perk__text">Wide selection for every preference — clearly labelled on every item.</p>
+        <div class="perk__body">
+          <h3 class="perk__title">Veg &amp; Non-Veg</h3>
+          <p class="perk__text">Wide selection for every preference — clearly labelled on every item.</p>
+        </div>
       </div>
+
     </div>
+  </div>
+</section>
+
+<!-- ── CTA Band ───────────────────────────────────────────────────────── -->
+<section class="cta-band">
+  <div class="cta-band__inner">
+    <div class="cta-band__text">
+      <h2 class="cta-band__title">Hungry? Let's fix that.</h2>
+      <p class="cta-band__sub">11 categories · 72+ dishes · delivered fresh to your door</p>
+    </div>
+    <a routerLink="/menu" class="cta-band__btn">
+      <span class="material-icons-round">restaurant_menu</span>
+      Order Now
+    </a>
   </div>
 </section>
 

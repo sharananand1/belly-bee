@@ -54,11 +54,16 @@
   font-size: .95rem;
   font-weight: 500;
   transition: color .15s;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
 }
 
-.bb-nav__links a:hover,
+.bb-nav__links a:hover { color: var(--text-primary); }
+
 .bb-nav__links a.active {
   color: var(--primary);
+  border-bottom-color: var(--primary);
+  font-weight: 600;
 }
 
 .bb-nav__actions {
@@ -118,7 +123,7 @@
 
 /* ── Footer ──────────────────────────────────────────────────── */
 .bb-footer {
-  background: var(--surface-alt);
+  background: var(--surface);
   border-top: 1px solid var(--border);
   padding: 2rem 1rem;
 }

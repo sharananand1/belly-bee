@@ -79,13 +79,16 @@
 
 /* ---------- Dark Mode ---------- */
 [data-theme="dark"] {
-  --bg:             #1A1A1A;
-  --card:           #252525;
-  --ink:            #F0EDE8;
-  --muted:          #9A9A9A;
-  --border:         #333333;
-  --border-dark:    #444444;
+  --bg:             #161616;
+  --card:           #222222;
+  --ink:            #F2EFE8;
+  --muted:          #8F8F8F;
+  --border:         #2E2E2E;
+  --border-dark:    #3A3A3A;
   --primary-light:  #3A2A00;
+  --shadow-sm:      0 1px 4px rgba(0,0,0,.24), 0 1px 2px rgba(0,0,0,.18);
+  --shadow-md:      0 4px 16px rgba(0,0,0,.32), 0 2px 6px rgba(0,0,0,.2);
+  --shadow-lg:      0 12px 40px rgba(0,0,0,.48), 0 4px 12px rgba(0,0,0,.24);
 }
 
 /* ---------- Reset ---------- */
@@ -261,10 +264,10 @@ small { font-size: 0.8125rem; }
   line-height: 1.5;
 }
 .badge-primary  { background: var(--primary-light); color: var(--primary-dark); }
-.badge-accent   { background: #fde8e8; color: var(--accent); }
-.badge-success  { background: #d4edda; color: var(--success); }
-.badge-muted    { background: var(--border); color: var(--muted); }
-.badge-dark     { background: var(--secondary); color: #fff; }
+.badge-accent   { background: rgba(232,68,68,.12); color: var(--accent); }
+.badge-success  { background: rgba(39,174,96,.12); color: var(--success); }
+.badge-muted    { background: var(--border); color: var(--text-secondary); }
+.badge-dark     { background: rgba(44,44,44,.85); color: #fff; }
 
 /* ---------- Form Elements ---------- */
 .form-group { display: flex; flex-direction: column; gap: var(--space-xs); }
@@ -291,6 +294,24 @@ small { font-size: 0.8125rem; }
 .form-control::placeholder { color: var(--muted); }
 textarea.form-control { resize: vertical; min-height: 80px; }
 select.form-control { cursor: pointer; }
+
+/* .input — alias used by inline component forms */
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border-dark);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+}
+.input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(245,166,35,.15);
+}
+.input::placeholder { color: var(--text-secondary); }
 
 /* ---------- Divider ---------- */
 .divider {
