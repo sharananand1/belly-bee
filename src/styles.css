@@ -68,6 +68,13 @@
   /* Container */
   --max-width:      1280px;
   --header-h:       68px;
+
+  /* Component aliases — map component variable names to design tokens */
+  --surface:        var(--card);
+  --surface-alt:    var(--bg);
+  --text-primary:   var(--ink);
+  --text-secondary: var(--muted);
+  --font-heading:   var(--font-display);
 }
 
 /* ---------- Dark Mode ---------- */

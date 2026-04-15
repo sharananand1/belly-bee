@@ -1,0 +1,83 @@
+<div class="auth-page">
+  <div class="auth-card">
+
+    <div class="auth-logo">
+      <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" width="56" height="56" />
+      <span class="auth-logo__name">Belly<span class="auth-logo__bee"> Bee</span></span>
+    </div>
+
+    <h1 class="auth-title">Verify OTP</h1>
+    <p class="auth-sub">
+      Enter the 6-digit code sent to<br />
+      <strong>{{ maskedPhone }}</strong>
+    </p>
+
+    <div class="otp-row" (paste)="onPaste($event)">
+      @for (digit of digits(); track $index) {
+        <input
+          #digitInput
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          class="otp-box"
+          [class.otp-box--filled]="digit"
+          [class.otp-box--error]="error()"
+          [value]="digit"
+          (input)="onDigitInput($index, $event)"
+          (keydown)="onDigitKeydown($index, $event)"
+          autocomplete="one-time-code"
+          [attr.aria-label]="'Digit ' + ($index + 1)" />
+      }
+    </div>
+
+    @if (error()) {
+      <p class="auth-error">
+        <span class="material-icons-round">error_outline</span>
+        {{ error() }}
+      </p>
+    }
+
+    <button
+      type="button"
+      class="btn btn-primary btn-full btn-lg auth-cta"
+      (click)="verify()"
+      [disabled]="!isComplete || verifying()">
+      @if (verifying()) {
+        <span class="material-icons-round auth-spin">sync</span>
+        Verifying…
+      } @else {
+        Verify OTP
+        <span class="material-icons-round">arrow_forward</span>
+      }
+    </button>
+
+    <div class="resend-row">
+      @if (countdown() > 0) {
+        <span class="resend-timer">
+          <span class="material-icons-round">timer</span>
+          Resend in {{ countdown() }}s
+        </span>
+      } @else {
+        <button
+          type="button"
+          class="resend-btn"
+          (click)="resendOtp()"
+          [disabled]="resending()">
+          @if (resending()) {
+            <span class="material-icons-round auth-spin">sync</span>
+            Sending…
+          } @else {
+            <span class="material-icons-round">refresh</span>
+            Resend OTP
+          }
+        </button>
+      }
+    </div>
+
+    <a routerLink="/auth/login" class="auth-skip">
+      <span class="material-icons-round">arrow_back</span>
+      Change number
+    </a>
+
+  </div>
+</div>
