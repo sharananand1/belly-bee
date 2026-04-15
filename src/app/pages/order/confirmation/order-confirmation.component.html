@@ -1,0 +1,139 @@
+<div class="conf-page">
+  <div class="conf-inner">
+
+    @if (loading()) {
+      <div class="conf-loading">
+        <span class="material-icons-round conf-loading__spin">sync</span>
+        <p>Loading your order…</p>
+      </div>
+
+    } @else if (notFound()) {
+      <div class="conf-nf">
+        <span style="font-size:3rem">📦</span>
+        <p>Order not found.</p>
+        <a routerLink="/profile/orders" class="btn btn-primary">My Orders</a>
+      </div>
+
+    } @else if (order()) {
+
+      <!-- ── Success banner ─────────────────────────────────── -->
+      <div class="conf-banner">
+        <div class="conf-banner__check">
+          <span class="material-icons-round">check_circle</span>
+        </div>
+        <h1 class="conf-banner__title">Order Placed!</h1>
+        <p class="conf-banner__sub">
+          Thank you! Your order
+          <strong>{{ order()!.order_number }}</strong>
+          has been confirmed.
+        </p>
+        @if (tracking()) {
+          <p class="conf-banner__eta">
+            <span class="material-icons-round">schedule</span>
+            Estimated delivery by <strong>{{ formatEta(order()!.estimated_delivery) }}</strong>
+          </p>
+        }
+      </div>
+
+      <!-- ── Tracking timeline ──────────────────────────────── -->
+      @if (tracking()) {
+        <section class="track-section">
+          <h2 class="track-section__title">Order Status</h2>
+          <div class="track-steps">
+            @for (step of tracking()!.steps; track step.status) {
+              <div class="track-step"
+                   [class.track-step--done]="step.completed"
+                   [class.track-step--active]="step.active">
+                <div class="track-step__dot">
+                  @if (step.completed) {
+                    <span class="material-icons-round">check</span>
+                  } @else if (step.active) {
+                    <span class="track-step__pulse"></span>
+                  }
+                </div>
+                <div class="track-step__body">
+                  <span class="track-step__label">{{ step.label }}</span>
+                  @if (step.timestamp && (step.completed || step.active)) {
+                    <span class="track-step__time">{{ formatDate(step.timestamp) }}</span>
+                  }
+                </div>
+                <div class="track-step__line"></div>
+              </div>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- ── Order items ────────────────────────────────────── -->
+      <section class="conf-section">
+        <h2 class="conf-section__title">Items Ordered</h2>
+        <div class="conf-items">
+          @for (item of order()!.items; track $index) {
+            <div class="conf-item-row">
+              <img class="conf-item-row__img" [src]="item.image_url" [alt]="item.name"
+                   onerror="this.src='assets/bellyBeeLogo.webp'" />
+              <div class="conf-item-row__body">
+                <span class="conf-item-row__name">{{ item.name }}</span>
+                @if (item.selected_serve || item.selected_size) {
+                  <span class="conf-item-row__opts">
+                    {{ item.selected_serve ?? item.selected_size }}
+                  </span>
+                }
+              </div>
+              <span class="conf-item-row__qty">×{{ item.quantity }}</span>
+              <span class="conf-item-row__price">₹{{ item.line_total }}</span>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- ── Bill summary ───────────────────────────────────── -->
+      <section class="conf-section">
+        <h2 class="conf-section__title">Bill Summary</h2>
+        <div class="bill-rows">
+          <div class="bill-row">
+            <span>Subtotal</span><span>₹{{ order()!.subtotal }}</span>
+          </div>
+          @if (order()!.coupon_discount > 0) {
+            <div class="bill-row bill-row--discount">
+              <span>Coupon ({{ order()!.coupon_code }})</span>
+              <span>− ₹{{ order()!.coupon_discount }}</span>
+            </div>
+          }
+          <div class="bill-row">
+            <span>Delivery</span>
+            <span>{{ order()!.delivery_fee === 0 ? 'FREE' : '₹' + order()!.delivery_fee }}</span>
+          </div>
+          <div class="bill-row">
+            <span>GST (5%)</span><span>₹{{ order()!.gst }}</span>
+          </div>
+          <div class="bill-row bill-row--total">
+            <span>Total Paid</span><span>₹{{ order()!.total }}</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Delivery address ───────────────────────────────── -->
+      <section class="conf-section">
+        <h2 class="conf-section__title">Delivering To</h2>
+        <div class="conf-address">
+          <span class="material-icons-round">location_on</span>
+          <div>
+            <p class="conf-address__label">{{ order()!.delivery_address.label }}</p>
+            <p class="conf-address__text">{{ order()!.delivery_address.full_address }}</p>
+            @if (order()!.delivery_address.landmark) {
+              <p class="conf-address__text">Near {{ order()!.delivery_address.landmark }}</p>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Actions ────────────────────────────────────────── -->
+      <div class="conf-actions">
+        <a routerLink="/menu" class="btn btn-primary btn-lg">Order More</a>
+        <a routerLink="/profile/orders" class="btn btn-outline btn-lg">My Orders</a>
+      </div>
+
+    }
+  </div>
+</div>
