@@ -1,0 +1,183 @@
+<div class="cart-page">
+
+  <div class="cart-inner">
+
+    <!-- ── Page title ──────────────────────────────────────────── -->
+    <div class="cart-header">
+      <h1 class="cart-title">
+        <span class="material-icons-round">shopping_bag</span>
+        Your Cart
+      </h1>
+      @if (!isEmpty) {
+        <span class="cart-count">{{ items().length }} item{{ items().length !== 1 ? 's' : '' }}</span>
+      }
+    </div>
+
+    <!-- ── Empty state ─────────────────────────────────────────── -->
+    @if (isEmpty) {
+      <div class="cart-empty">
+        <span class="cart-empty__icon">🛒</span>
+        <h2 class="cart-empty__title">Your cart is empty</h2>
+        <p class="cart-empty__sub">Add some delicious items from our menu.</p>
+        <a routerLink="/menu" class="btn btn-primary btn-lg">Browse Menu</a>
+      </div>
+
+    } @else {
+      <div class="cart-layout">
+
+        <!-- ── Left: item list ───────────────────────────────── -->
+        <div class="cart-items">
+
+          @for (item of items(); track $index) {
+            <div class="cart-row">
+
+              <img
+                class="cart-row__img"
+                [src]="item.menu_item.image_url"
+                [alt]="item.menu_item.name"
+                loading="lazy"
+                (error)="onImgError($any($event.target))" />
+
+              <div class="cart-row__body">
+                <div class="cart-row__title-line">
+                  <bb-veg-badge [isVeg]="item.menu_item.is_veg" />
+                  <span class="cart-row__name">{{ item.menu_item.name }}</span>
+                </div>
+
+                @if (selectedOptions(item)) {
+                  <span class="cart-row__opts">{{ selectedOptions(item) }}</span>
+                }
+
+                @if (item.special_instructions) {
+                  <span class="cart-row__note">📝 {{ item.special_instructions }}</span>
+                }
+
+                <div class="cart-row__footer">
+                  <!-- Qty stepper -->
+                  <div class="qty-ctrl">
+                    <button type="button" class="qty-btn" (click)="decrement($index)" aria-label="Decrease quantity">
+                      <span class="material-icons-round">{{ item.quantity === 1 ? 'delete_outline' : 'remove' }}</span>
+                    </button>
+                    <span class="qty-val">{{ item.quantity }}</span>
+                    <button type="button" class="qty-btn" (click)="increment($index)" aria-label="Increase quantity">
+                      <span class="material-icons-round">add</span>
+                    </button>
+                  </div>
+
+                  <span class="cart-row__total">₹{{ item.item_total }}</span>
+                </div>
+              </div>
+
+              <button type="button" class="cart-row__remove" (click)="remove($index)" aria-label="Remove item">
+                <span class="material-icons-round">close</span>
+              </button>
+
+            </div>
+          }
+
+          <!-- Coupon -->
+          <div class="coupon-box">
+            <h3 class="coupon-box__title">
+              <span class="material-icons-round">local_offer</span>
+              Apply Coupon
+            </h3>
+
+            @if (appliedCoupon()?.valid) {
+              <!-- Applied state -->
+              <div class="coupon-applied">
+                <span class="coupon-applied__code">{{ appliedCoupon()!.coupon?.code }}</span>
+                <span class="coupon-applied__saving">− ₹{{ appliedCoupon()!.discount_amount }} off</span>
+                <button type="button" class="coupon-applied__remove" (click)="removeCoupon()">
+                  <span class="material-icons-round">close</span>
+                </button>
+              </div>
+            } @else {
+              <!-- Input state -->
+              <div class="coupon-input-row">
+                <input
+                  type="text"
+                  class="form-control coupon-input"
+                  placeholder="Enter coupon code"
+                  [value]="couponInput()"
+                  (input)="couponInput.set($any($event.target).value)"
+                  (keydown.enter)="applyCoupon()"
+                  autocomplete="off"
+                  autocapitalize="characters" />
+                <button
+                  type="button"
+                  class="btn btn-outline coupon-apply-btn"
+                  (click)="applyCoupon()"
+                  [disabled]="!couponInput().trim() || couponLoading()">
+                  {{ couponLoading() ? '…' : 'Apply' }}
+                </button>
+              </div>
+              <p class="coupon-hint">Try: FLAT50 · BB10 · FIRST100 · BUZZFREE</p>
+            }
+          </div>
+
+        </div>
+
+        <!-- ── Right: Bill summary ───────────────────────────── -->
+        <aside class="cart-summary">
+          <h2 class="cart-summary__title">Bill Summary</h2>
+
+          <div class="bill-rows">
+            <div class="bill-row">
+              <span>Subtotal</span>
+              <span>₹{{ subtotal() }}</span>
+            </div>
+
+            @if (couponDiscount() > 0) {
+              <div class="bill-row bill-row--discount">
+                <span>Coupon ({{ appliedCoupon()!.coupon?.code }})</span>
+                <span>− ₹{{ couponDiscount() }}</span>
+              </div>
+            }
+
+            <div class="bill-row">
+              <span>
+                Delivery
+                @if (deliveryFee() === 0) {
+                  <span class="bill-free">FREE</span>
+                }
+              </span>
+              <span>{{ deliveryFee() === 0 ? '₹0' : '₹' + deliveryFee() }}</span>
+            </div>
+
+            <div class="bill-row">
+              <span>GST (5%)</span>
+              <span>₹{{ gst() }}</span>
+            </div>
+
+            <div class="bill-row bill-row--total">
+              <span>Total</span>
+              <span>₹{{ total() }}</span>
+            </div>
+          </div>
+
+          <!-- Free delivery nudge -->
+          @if (freeDeliveryGap > 0) {
+            <p class="free-delivery-nudge">
+              Add <strong>₹{{ freeDeliveryGap }}</strong> more for free delivery!
+            </p>
+          }
+
+          <button
+            type="button"
+            class="btn btn-primary btn-full btn-lg cart-cta"
+            (click)="checkout()">
+            Proceed to Checkout
+            <span class="material-icons-round">arrow_forward</span>
+          </button>
+
+          <a routerLink="/menu" class="cart-continue">
+            <span class="material-icons-round">add</span>
+            Add more items
+          </a>
+        </aside>
+
+      </div>
+    }
+
+  </div>
+</div>
