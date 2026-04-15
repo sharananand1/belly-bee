@@ -1,0 +1,121 @@
+<div class="menu-page">
+
+  <!-- ── Mobile top bar ────────────────────────────────────────── -->
+  <div class="menu-topbar">
+    <button class="menu-topbar__filter-btn" (click)="toggleSidebar()" aria-label="Toggle categories">
+      <span class="material-icons-round">menu</span>
+      <span>{{ activeCategoryName() }}</span>
+      <span class="material-icons-round">expand_more</span>
+    </button>
+  </div>
+
+  <div class="menu-layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    @if (sidebarOpen()) {
+      <div class="sidebar-backdrop" (click)="sidebarOpen.set(false)"></div>
+    }
+
+    <aside class="menu-sidebar" [class.menu-sidebar--open]="sidebarOpen()">
+      <h2 class="menu-sidebar__title">Categories</h2>
+
+      <button
+        class="menu-sidebar__item"
+        [class.menu-sidebar__item--active]="!activeCategory()"
+        (click)="selectCategory('')">
+        <span class="menu-sidebar__icon">🍽️</span>
+        <span>All Items</span>
+      </button>
+
+      @for (cat of categories(); track cat.id) {
+        <button
+          class="menu-sidebar__item"
+          [class.menu-sidebar__item--active]="activeCategory() === cat.id"
+          (click)="selectCategory(cat.id)">
+          <span class="menu-sidebar__icon">{{ cat.icon }}</span>
+          <span>{{ cat.name }}</span>
+        </button>
+      }
+    </aside>
+
+    <!-- ── Main content ───────────────────────────────────────────── -->
+    <main class="menu-content">
+
+      <!-- Search + Filters -->
+      <div class="menu-toolbar">
+        <div class="menu-search">
+          <span class="material-icons-round menu-search__icon">search</span>
+          <input
+            type="search"
+            class="menu-search__input"
+            placeholder="Search dishes, categories…"
+            [value]="searchQuery()"
+            (input)="onSearchInput($any($event.target).value)"
+            aria-label="Search menu" />
+          @if (searchQuery()) {
+            <button class="menu-search__clear" (click)="clearSearch()" aria-label="Clear search">
+              <span class="material-icons-round">close</span>
+            </button>
+          }
+        </div>
+
+        <div class="menu-filters">
+          <button class="filter-btn" [class.filter-btn--active]="vegFilter() === 'all'" (click)="setVegFilter('all')">All</button>
+          <button class="filter-btn filter-btn--veg" [class.filter-btn--active]="vegFilter() === 'veg'" (click)="setVegFilter('veg')">
+            <span class="veg-dot-sm"></span> Veg
+          </button>
+          <button class="filter-btn filter-btn--nonveg" [class.filter-btn--active]="vegFilter() === 'non-veg'" (click)="setVegFilter('non-veg')">
+            <span class="nonveg-dot-sm"></span> Non-Veg
+          </button>
+        </div>
+      </div>
+
+      <!-- Section heading -->
+      <div class="menu-heading">
+        <h1 class="menu-heading__title">{{ activeCategoryName() }}</h1>
+        <span class="menu-heading__count">{{ filteredItems().length }} items</span>
+      </div>
+
+      <!-- Skeletons -->
+      @if (loading()) {
+        <div class="menu-grid">
+          @for (_ of skeletons; track $index) {
+            <div class="skeleton-card">
+              <bb-skeleton height="160px" />
+              <div style="padding:.75rem;display:flex;flex-direction:column;gap:.5rem">
+                <bb-skeleton height="14px" width="60%" />
+                <bb-skeleton height="12px" />
+                <bb-skeleton height="12px" width="80%" />
+              </div>
+            </div>
+          }
+        </div>
+
+      <!-- Empty state -->
+      } @else if (filteredItems().length === 0) {
+        <div class="menu-empty">
+          <span style="font-size:3rem">🔍</span>
+          <p>No items found. Try a different search or filter.</p>
+          <button class="btn btn-outline" (click)="clearSearch(); setVegFilter('all')">Reset filters</button>
+        </div>
+
+      <!-- Item grid -->
+      } @else {
+        <div class="menu-grid">
+          @for (item of filteredItems(); track item.id) {
+            <bb-item-card [item]="item" (cardClick)="onCardClick($event)" />
+          }
+        </div>
+      }
+
+    </main>
+  </div>
+
+</div>
+
+<!-- Customization Sheet -->
+<bb-customization-sheet
+  [item]="sheetItem()"
+  [open]="sheetOpen()"
+  (openChange)="sheetOpen.set($event)"
+/>
