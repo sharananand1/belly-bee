@@ -1,16 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://belly-bee.web.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://belly-bee.web.app/menu</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://belly-bee.web.app/menu/morning-buzz</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://belly-bee.web.app/menu/indian-south-buzz</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://belly-bee.web.app/menu/day-long-buzz</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://belly-bee.web.app/menu/breads-rice</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://belly-bee.web.app/menu/sandwich-stings</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://belly-bee.web.app/menu/burger-buzz</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://belly-bee.web.app/menu/pizza-hive</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://belly-bee.web.app/menu/rolls-roars</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://belly-bee.web.app/menu/noody-noodles</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://belly-bee.web.app/menu/takka-tak-tikkas</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://belly-bee.web.app/menu/buzzed-without-booze</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<!--
+  Belly Bee Sitemap — Chhatarpur, New Delhi 110074
+  TO CHANGE DOMAIN: replace all "belly-bee.web.app" occurrences below.
+  Update <lastmod> dates whenever page content changes significantly.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Home — highest priority, changes weekly -->
+  <url>
+    <loc>https://belly-bee.web.app/</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://belly-bee.web.app/assets/bellyBeeLogo.webp</image:loc>
+      <image:title>Belly Bee Cloud Kitchen — Chhatarpur, New Delhi</image:title>
+    </image:image>
+  </url>
+
+  <!-- Full Menu -->
+  <url>
+    <loc>https://belly-bee.web.app/menu</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- Menu categories — update lastmod when items change -->
+  <url>
+    <loc>https://belly-bee.web.app/menu/morning-buzz</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://belly-bee.web.app/menu/indian-south-buzz</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://belly-bee.web.app/menu/day-long-buzz</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://belly-bee.web.app/menu/breads-rice</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://belly-bee.web.app/menu/sandwich-stings</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://belly-bee.web.app/menu/burger-buzz</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://belly-bee.web.app/menu/pizza-hive</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://belly-bee.web.app/menu/rolls-roars</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://belly-bee.web.app/menu/noody-noodles</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://belly-bee.web.app/menu/takka-tak-tikkas</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://belly-bee.web.app/menu/buzzed-without-booze</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
 </urlset>

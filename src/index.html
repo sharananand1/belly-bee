@@ -1,64 +1,187 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<!--
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  Belly Bee — SEO Master File                                     ║
+  ║  Business: JVTS Garden, C Block, Chhatarpur, New Delhi 110074   ║
+  ║  Phone:    +918899888683                                         ║
+  ║  Domain:   https://belly-bee.web.app                            ║
+  ║                                                                  ║
+  ║  TO CHANGE DOMAIN: search-replace every occurrence of           ║
+  ║  "belly-bee.web.app" in this file, sitemap.xml, and robots.txt. ║
+  ╚══════════════════════════════════════════════════════════════════╝
+-->
+<html lang="en-IN" data-theme="light">
 <head>
   <meta charset="utf-8">
-  <title>Belly Bee | Order Fresh Food Online | Cloud Kitchen</title>
+
+  <!-- ── Page title (local SEO: city + keyword in title) ───── -->
+  <title>Belly Bee | Cloud Kitchen in Chhatarpur, New Delhi | Order Fresh Food Online</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- SEO Meta -->
-  <meta name="description" content="Order delicious fresh food from Belly Bee cloud kitchen. Authentic Indian flavours, quick delivery, made fresh daily. Taste's Like Home, Feel's Like Heaven.">
-  <meta name="keywords" content="belly bee, cloud kitchen, food delivery, indian food, biryani, dosa, burger, fresh food">
+  <!-- ── Primary SEO ──────────────────────────────────────────── -->
+  <meta name="description"
+        content="Order fresh North Indian food from Belly Bee cloud kitchen in Chhatarpur, New Delhi 110074. Paranthas, biryanis, wraps, burgers &amp; more — delivered across Chhatarpur, Mehrauli, Saket, Malviya Nagar &amp; South Delhi in 30–45 min. Call +91 88998 88683.">
+  <meta name="keywords"
+        content="belly bee, cloud kitchen Chhatarpur, food delivery Chhatarpur, online food order New Delhi, biryani delivery Chhatarpur, parantha delivery Delhi, food delivery 110074, cloud kitchen South Delhi, food delivery Mehrauli, food delivery Saket, food delivery Malviya Nagar, north indian food delivery Delhi, JVTS Garden food delivery, belly bee chhatarpur, belly bee new delhi">
   <meta name="author" content="Belly Bee">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://belly-bee.web.app/">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Belly Bee — Order Fresh Food Online">
-  <meta property="og:description" content="Fresh, fast, flavorful cloud kitchen. Taste's Like Home, Feel's Like Heaven.">
-  <meta property="og:image" content="https://belly-bee.web.app/assets/bellyBeeLogo.webp">
-  <meta property="og:url" content="https://belly-bee.web.app">
-  <meta property="og:site_name" content="Belly Bee">
+  <!-- ── Geo tags — local ranking signals for Google Maps & search ── -->
+  <meta name="geo.region"    content="IN-DL">
+  <meta name="geo.placename" content="Chhatarpur, New Delhi, India">
+  <meta name="geo.position"  content="28.4992;77.1855">
+  <meta name="ICBM"          content="28.4992, 77.1855">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Belly Bee — Order Fresh Food Online">
-  <meta name="twitter:description" content="Fresh, fast, flavorful cloud kitchen.">
-  <meta name="twitter:image" content="https://belly-bee.web.app/assets/bellyBeeLogo.webp">
+  <!-- ── Open Graph ───────────────────────────────────────────── -->
+  <meta property="og:type"        content="restaurant">
+  <meta property="og:site_name"   content="Belly Bee">
+  <meta property="og:locale"      content="en_IN">
+  <meta property="og:title"       content="Belly Bee — Cloud Kitchen in Chhatarpur, New Delhi">
+  <meta property="og:description" content="Fresh North Indian food delivered in 30–45 min. Paranthas, biryanis, wraps, burgers &amp; more. Serving Chhatarpur, Mehrauli, Saket, Malviya Nagar &amp; South Delhi.">
+  <meta property="og:image"       content="https://belly-bee.web.app/assets/bellyBeeLogo.webp">
+  <meta property="og:image:width"  content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt"    content="Belly Bee Cloud Kitchen — Chhatarpur, New Delhi">
+  <meta property="og:url"         content="https://belly-bee.web.app">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Restaurant-specific OG -->
+  <meta property="restaurant:contact_info:locality"       content="Chhatarpur">
+  <meta property="restaurant:contact_info:region"         content="New Delhi">
+  <meta property="restaurant:contact_info:country_name"   content="India">
+  <meta property="restaurant:contact_info:phone_number"   content="+918899888683">
 
-  <!-- Google Fonts — preconnect first, then load -->
+  <!-- ── Twitter / X Card ─────────────────────────────────────── -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Belly Bee — Cloud Kitchen in Chhatarpur, New Delhi">
+  <meta name="twitter:description" content="Fresh North Indian food delivered in 30–45 min across Chhatarpur &amp; South Delhi. Order online now!">
+  <meta name="twitter:image"       content="https://belly-bee.web.app/assets/bellyBeeLogo.webp">
+  <meta name="twitter:image:alt"   content="Belly Bee Cloud Kitchen">
+
+  <!-- ── PWA / App meta ───────────────────────────────────────── -->
+  <meta name="theme-color"                     content="#F5A623">
+  <meta name="application-name"               content="Belly Bee">
+  <meta name="mobile-web-app-capable"          content="yes">
+  <meta name="apple-mobile-web-app-capable"   content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title"     content="Belly Bee">
+
+  <!-- ── Icons ────────────────────────────────────────────────── -->
+  <link rel="icon"             type="image/x-icon"  href="favicon.ico">
+  <link rel="apple-touch-icon" href="assets/bellyBeeLogo.webp">
+
+  <!-- ── Google Fonts — preconnect then load ──────────────────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Caveat:wght@500;600&display=swap"
+        rel="stylesheet">
 
-  <!-- Material Icons (for nav icons) -->
+  <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 
-  <!-- JSON-LD Structured Data -->
+  <!-- ═══════════════════════════════════════════════════════════
+       JSON-LD Structured Data  — 3 schemas:
+       1. Restaurant + LocalBusiness (primary — powers Knowledge Panel)
+       2. BreadcrumbList (improves SERP display)
+       3. WebSite (enables sitelinks + brand recognition)
+       ═══════════════════════════════════════════════════════════ -->
+
+  <!-- Schema 1: Restaurant / LocalBusiness -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Restaurant",
+    "@type": ["Restaurant", "LocalBusiness"],
     "name": "Belly Bee",
-    "description": "Fresh, fast, flavorful cloud kitchen. Taste's Like Home, Feel's Like Heaven.",
+    "alternateName": ["Belly Bee Cloud Kitchen", "Belly Bee Chhatarpur"],
+    "description": "Fresh cloud kitchen in Chhatarpur, New Delhi delivering authentic North Indian food — paranthas, biryanis, wraps, burgers and more. Taste's Like Home, Feel's Like Heaven. Serving Chhatarpur, Mehrauli, Saket, Malviya Nagar and South Delhi within 30–45 minutes.",
     "url": "https://belly-bee.web.app",
     "telephone": "+918899888683",
-    "servesCuisine": ["Indian", "North Indian", "South Indian", "Fast Food"],
+    "image": ["https://belly-bee.web.app/assets/bellyBeeLogo.webp"],
+    "logo": "https://belly-bee.web.app/assets/bellyBeeLogo.webp",
+    "servesCuisine": [
+      "North Indian", "Indian", "Biryani", "Paranthas",
+      "Wraps", "Burgers", "Fast Food", "Street Food"
+    ],
     "hasMenu": "https://belly-bee.web.app/menu",
     "acceptsReservations": "No",
     "priceRange": "₹₹",
-    "image": "https://belly-bee.web.app/assets/bellyBeeLogo.webp",
+    "currenciesAccepted": "INR",
+    "paymentAccepted": "Cash, Credit Card, Debit Card, UPI",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "JVTS Garden, C Block",
+      "addressLocality": "Chhatarpur",
+      "addressRegion": "New Delhi",
+      "postalCode": "110074",
       "addressCountry": "IN"
     },
-    "sameAs": []
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 28.4992,
+      "longitude": 77.1855
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday", "Tuesday", "Wednesday", "Thursday",
+          "Friday", "Saturday", "Sunday"
+        ],
+        "opens": "08:00",
+        "closes": "23:00"
+      }
+    ],
+    "areaServed": [
+      "Chhatarpur", "JVTS Garden", "Mehrauli", "Saket",
+      "Malviya Nagar", "Vasant Kunj", "Greater Kailash",
+      "Hauz Khas", "Green Park", "Sheikh Sarai",
+      "Pushp Vihar", "Lajpat Nagar", "South Extension",
+      "Sultanpur", "Khanpur", "Satbari", "Chattarpur Extension",
+      "South Delhi", "New Delhi"
+    ],
+    "sameAs": [
+      "https://www.instagram.com/bellybeerestaurants/",
+      "https://www.facebook.com/profile.php?id=61581906791431",
+      "https://www.swiggy.com/city/delhi/belly-bee-chattarpur-rest1183838",
+      "https://www.zomato.com/ncr/belly-bee-chhatarpur-new-delhi"
+    ]
   }
   </script>
+
+  <!-- Schema 2: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Belly Bee Home",
+        "item": "https://belly-bee.web.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Full Menu",
+        "item": "https://belly-bee.web.app/menu"
+      }
+    ]
+  }
+  </script>
+
+  <!-- Schema 3: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Belly Bee",
+    "alternateName": "Belly Bee Cloud Kitchen",
+    "url": "https://belly-bee.web.app"
+  }
+  </script>
+
 </head>
 <body>
   <app-root></app-root>

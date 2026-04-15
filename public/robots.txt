@@ -1,8 +1,37 @@
+# Belly Bee — Cloud Kitchen, Chhatarpur, New Delhi 110074
+# https://belly-bee.web.app
+#
+# TO CHANGE DOMAIN: update the Sitemap URL below.
+
 User-agent: *
+Allow: /
+Allow: /menu
+Allow: /menu/
+
+# Block private / checkout routes from indexing
+Disallow: /checkout
+Disallow: /checkout/
+Disallow: /cart
+Disallow: /profile
+Disallow: /profile/
+Disallow: /auth
+Disallow: /auth/
+
+# Block Angular dev artifacts
+Disallow: /*.chunk.js$
+Disallow: /*.map$
+
+# Google — allow all crawlable content (no special restrictions)
+User-agent: Googlebot
 Allow: /
 Disallow: /checkout
 Disallow: /cart
 Disallow: /profile
 Disallow: /auth
 
+# Google Images — allow menu + logo images
+User-agent: Googlebot-Image
+Allow: /assets/
+
+# Sitemap location
 Sitemap: https://belly-bee.web.app/sitemap.xml
