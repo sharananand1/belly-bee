@@ -1,0 +1,145 @@
+<!-- Back button -->
+<div class="detail-back">
+  <button class="detail-back__btn" (click)="goBack()" aria-label="Back to menu">
+    <span class="material-icons-round">arrow_back</span>
+    <span>Menu</span>
+  </button>
+</div>
+
+<!-- Loading -->
+@if (loading()) {
+  <div class="detail-wrap">
+    <div class="detail-img-col">
+      <bb-skeleton height="340px" />
+    </div>
+    <div class="detail-info-col">
+      <bb-skeleton height="28px" width="70%" />
+      <bb-skeleton height="16px" style="margin-top:.75rem" />
+      <bb-skeleton height="16px" width="85%" />
+      <bb-skeleton height="16px" width="60%" style="margin-top:.5rem" />
+    </div>
+  </div>
+
+<!-- Not found -->
+} @else if (notFound()) {
+  <div class="detail-nf">
+    <span style="font-size:3rem">🍽️</span>
+    <p>Item not found.</p>
+    <button class="btn btn-primary" (click)="goBack()">Back to Menu</button>
+  </div>
+
+<!-- Item -->
+} @else if (item()) {
+  <div class="detail-wrap">
+
+    <!-- Image -->
+    <div class="detail-img-col">
+      <img
+        class="detail-img"
+        [src]="item()!.image_url"
+        [alt]="item()!.name"
+        (error)="onImgError($any($event.target))" />
+      @if (item()!.tags.includes('bestseller')) {
+        <span class="detail-tag">Bestseller 🔥</span>
+      }
+      @if (item()!.tags.includes('chefs-special')) {
+        <span class="detail-tag">Chef's Special ⭐</span>
+      }
+    </div>
+
+    <!-- Info -->
+    <div class="detail-info-col">
+
+      <div class="detail-title-row">
+        <bb-veg-badge [isVeg]="item()!.is_veg" />
+        <h1 class="detail-name">{{ item()!.name }}</h1>
+      </div>
+
+      <div class="detail-meta">
+        <bb-rating-stars [value]="item()!.rating" [showValue]="true" />
+        <span class="detail-prep">
+          <span class="material-icons-round">schedule</span>
+          {{ item()!.prep_time_minutes }} min
+        </span>
+        <span class="detail-cat">{{ item()!.category_name }}</span>
+      </div>
+
+      <p class="detail-desc">{{ item()!.description }}</p>
+
+      <!-- Spicy Level -->
+      @if (item()!.spicy_levels.length > 0) {
+        <div class="detail-section">
+          <h2 class="detail-section-title">Spice Level</h2>
+          <div class="chip-group">
+            @for (level of item()!.spicy_levels; track level) {
+              <button type="button" class="chip" [class.chip--active]="selectedSpicy() === level" (click)="selectedSpicy.set(level)">
+                {{ spicyLabels[level] }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Serve Options -->
+      @if (item()!.serve_options.length > 0) {
+        <div class="detail-section">
+          <h2 class="detail-section-title">Serve Size</h2>
+          <div class="chip-group">
+            @for (serve of item()!.serve_options; track serve) {
+              <button type="button" class="chip chip--price" [class.chip--active]="selectedServe() === serve" (click)="selectedServe.set(serve)">
+                <span>{{ serveLabels[serve] }}</span>
+                <span class="chip-price">₹{{ item()!.variant_prices?.[serve] ?? item()!.price }}</span>
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Size Options -->
+      @if (item()!.size_options.length > 0) {
+        <div class="detail-section">
+          <h2 class="detail-section-title">Size</h2>
+          <div class="chip-group">
+            @for (size of item()!.size_options; track size) {
+              <button type="button" class="chip chip--price" [class.chip--active]="selectedSize() === size" (click)="selectedSize.set(size)">
+                <span>{{ sizeLabels[size] }}</span>
+                <span class="chip-price">₹{{ item()!.variant_prices?.[size] ?? item()!.price }}</span>
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Quantity + CTA -->
+      <div class="detail-footer">
+        <div class="detail-price-block">
+          @if (item()!.discount_percent > 0) {
+            <span class="detail-original">₹{{ lineTotal }}</span>
+            <span class="detail-badge">{{ item()!.discount_percent }}% off</span>
+          }
+          <span class="detail-total">₹{{ discountedTotal }}</span>
+        </div>
+
+        <div class="detail-actions">
+          <div class="qty-ctrl">
+            <button type="button" class="qty-btn" (click)="decrement()" [disabled]="quantity() <= 1">
+              <span class="material-icons-round">remove</span>
+            </button>
+            <span class="qty-val">{{ quantity() }}</span>
+            <button type="button" class="qty-btn" (click)="increment()">
+              <span class="material-icons-round">add</span>
+            </button>
+          </div>
+          <button
+            type="button"
+            class="btn btn-primary btn-lg detail-cta"
+            (click)="addToCart()"
+            [disabled]="!item()!.is_available">
+            {{ item()!.is_available ? 'Add to Cart' : 'Unavailable' }}
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+}
