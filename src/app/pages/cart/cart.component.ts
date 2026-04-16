@@ -10,6 +10,7 @@ import { AnalyticsService } from '../../core/services/analytics.service';
 import { VegBadgeComponent } from '../../shared/components/veg-badge/veg-badge.component';
 import { CartItem } from '../../models/cart.model';
 import { CouponResult } from '../../models/coupon.model';
+import { AuthService } from '../../core/services/auth.service';
 
 const DELIVERY_FEE       = 40;
 const FREE_DELIVERY_MIN  = 499;
@@ -28,6 +29,7 @@ export class CartComponent {
   private toast     = inject(ToastService);
   private analytics = inject(AnalyticsService);
   private router    = inject(Router);
+  private authSvc   = inject(AuthService);
 
   // ── Reactive cart items via toSignal ──────────────────────────
   items = toSignal(this.cart.items$, { initialValue: [] as typeof this.cart.items });
@@ -106,7 +108,13 @@ export class CartComponent {
   // ── Checkout ──────────────────────────────────────────────────
   checkout(): void {
     this.analytics.track('checkout_start', { subtotal: this.subtotal(), total: this.total() });
-    this.router.navigate(['/checkout/address']);
+    if (this.authSvc.isLoggedIn()) {
+      this.router.navigate(['/checkout/address']);
+    } else {
+      this.router.navigate(['/auth/login'], {
+        queryParams: { returnUrl: '/checkout/address' },
+      });
+    }
   }
 
   // ── Helpers ───────────────────────────────────────────────────

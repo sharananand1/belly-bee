@@ -39,9 +39,9 @@ export const routes: Routes = [
   },
 
   // ── Checkout ─────────────────────────────────────────────────────────
-  // Guest checkout: no auth guard on checkout routes
   {
     path: 'checkout',
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'address', pathMatch: 'full' },
       {
