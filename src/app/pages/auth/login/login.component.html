@@ -1,62 +1,133 @@
-<div class="auth-page">
-  <div class="auth-card">
+<div class="login-page">
 
-    <div class="auth-logo">
-      <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" width="56" height="56" />
-      <span class="auth-logo__name">Belly<span class="auth-logo__bee"> Bee</span></span>
+  <!-- Background layers -->
+  <div class="bg-grad"></div>
+  <div class="bg-hex"></div>
+  <div class="bg-glow bg-glow--a"></div>
+  <div class="bg-glow bg-glow--b"></div>
+
+  <!-- Floating food emojis -->
+  <span class="float-emoji" style="top:7%;left:4%;animation-delay:0s" aria-hidden="true">🍛</span>
+  <span class="float-emoji" style="top:14%;right:6%;animation-delay:1.3s" aria-hidden="true">🍯</span>
+  <span class="float-emoji" style="bottom:22%;left:5%;animation-delay:2.2s" aria-hidden="true">🐝</span>
+  <span class="float-emoji" style="bottom:10%;right:7%;animation-delay:.7s" aria-hidden="true">🌶️</span>
+  <span class="float-emoji float-emoji--sm" style="top:50%;left:2%;animation-delay:1.8s" aria-hidden="true">✦</span>
+  <span class="float-emoji float-emoji--sm" style="top:60%;right:3%;animation-delay:3s" aria-hidden="true">✦</span>
+
+  <!-- Card -->
+  <div class="login-card" role="main" aria-label="Sign in to Belly Bee">
+
+    <!-- Header band with hex logo -->
+    <div class="login-header">
+      <div class="hex-logo">
+        <div class="hex-bg"></div>
+        <img
+          class="hex-img"
+          src="assets/bellyBeeLogo.webp"
+          alt="Belly Bee"
+          width="56"
+          height="64"
+          (error)="onLogoError($any($event.target))"
+        />
+      </div>
+      <div class="brand-text">
+        <div class="brand-name">Belly <span>Bee</span></div>
+        <div class="brand-sub">Cloud Kitchen ✦ Fresh &amp; Fast</div>
+        <div class="brand-loc">
+          <span class="loc-dot"></span>
+          Chhatarpur · New Delhi 110074
+        </div>
+      </div>
     </div>
 
-    <h1 class="auth-title">Sign In</h1>
-    <p class="auth-sub">Enter your mobile number to receive an OTP.</p>
+    <!-- Form body -->
+    <div class="login-body">
 
-    <div class="auth-form">
-      <div class="phone-input-wrap">
-        <span class="phone-input-wrap__prefix">+91</span>
+      <div class="login-heading">
+        <h1>Welcome back! 👋</h1>
+        <p>Enter your mobile — we'll send a quick OTP.</p>
+      </div>
+
+      <div class="perks" aria-label="Why Belly Bee">
+        <span class="perk">🚀 30-min Delivery</span>
+        <span class="perk">🌿 Fresh Daily</span>
+        <span class="perk">💳 Easy Pay</span>
+      </div>
+
+      <!-- Phone input -->
+      <div class="phone-wrap" [class.focused]="phoneFocused">
+        <span class="phone-prefix">🇮🇳 +91</span>
         <input
           type="tel"
-          class="form-control phone-input"
-          placeholder="9876543210"
+          class="phone-input"
+          placeholder="98765 43210"
           [value]="phone()"
           (input)="onPhoneInput($any($event.target).value)"
+          (focus)="phoneFocused = true"
+          (blur)="phoneFocused = false"
           (keydown.enter)="sendOtp()"
           maxlength="10"
           inputmode="numeric"
           autocomplete="tel-national"
-          aria-label="Mobile number" />
+          aria-label="Mobile number"
+        />
       </div>
 
       @if (error()) {
-        <p class="auth-error">
-          <span class="material-icons-round">error_outline</span>
+        <p class="login-error" role="alert">
+          <span class="material-icons-round" aria-hidden="true">error_outline</span>
           {{ error() }}
         </p>
       }
 
+      <!-- Single T&C checkbox -->
+      <div
+        class="check-block"
+        (click)="toggleTerms()"
+        role="checkbox"
+        [attr.aria-checked]="termsAccepted()"
+        tabindex="0"
+        (keydown.space)="$event.preventDefault(); toggleTerms()"
+        (keydown.enter)="$event.preventDefault(); toggleTerms()">
+        <span class="custom-check" [class.on]="termsAccepted()" aria-hidden="true"></span>
+        <span class="check-text">
+          I agree to Belly Bee's
+          <a routerLink="/terms" (click)="$event.stopPropagation()">Terms &amp; Conditions</a>
+          and
+          <a routerLink="/privacy" (click)="$event.stopPropagation()">Privacy Policy</a>
+          — including our data &amp; order policies.
+        </span>
+      </div>
+
+      <!-- CTA -->
       <button
         type="button"
-        class="btn btn-primary btn-full btn-lg auth-cta"
+        class="otp-btn"
         (click)="sendOtp()"
-        [disabled]="sending() || phone().length !== 10">
+        [disabled]="!canSubmit()"
+        aria-label="Get OTP to sign in">
         @if (sending()) {
-          <span class="material-icons-round auth-spin">sync</span>
+          <span class="material-icons-round login-spin" aria-hidden="true">sync</span>
           Sending OTP…
         } @else {
-          Get OTP
-          <span class="material-icons-round">arrow_forward</span>
+          <span>Get OTP</span>
+          <span class="btn-arrow" aria-hidden="true">→</span>
         }
       </button>
-    </div>
 
-    <p class="auth-legal">
-      By continuing, you agree to our
-      <a routerLink="/main">Terms of Service</a> and
-      <a routerLink="/main">Privacy Policy</a>.
-    </p>
+      <div class="login-divider" aria-hidden="true">or continue without account</div>
 
-    <a routerLink="/main" class="auth-skip">
-      <span class="material-icons-round">arrow_back</span>
-      Continue as Guest
-    </a>
+      <a routerLink="/menu" class="guest-link">
+        ← Browse Menu as Guest
+      </a>
 
-  </div>
+      <div class="trust-row" aria-label="Trust indicators">
+        <span>🔒 Secure OTP</span>
+        <span>⭐ 4.8 Rated</span>
+        <span>🏠 Chhatarpur</span>
+      </div>
+
+    </div><!-- /login-body -->
+  </div><!-- /login-card -->
+
 </div>
