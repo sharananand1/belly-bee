@@ -1,133 +1,174 @@
 <div class="login-page">
 
-  <!-- Background layers -->
-  <div class="bg-grad"></div>
-  <div class="bg-hex"></div>
-  <div class="bg-glow bg-glow--a"></div>
-  <div class="bg-glow bg-glow--b"></div>
+  <!-- Ambient background always present -->
+  <div class="bg-ambient"></div>
 
-  <!-- Floating food emojis -->
-  <span class="float-emoji" style="top:7%;left:4%;animation-delay:0s" aria-hidden="true">🍛</span>
-  <span class="float-emoji" style="top:14%;right:6%;animation-delay:1.3s" aria-hidden="true">🍯</span>
-  <span class="float-emoji" style="bottom:22%;left:5%;animation-delay:2.2s" aria-hidden="true">🐝</span>
-  <span class="float-emoji" style="bottom:10%;right:7%;animation-delay:.7s" aria-hidden="true">🌶️</span>
-  <span class="float-emoji float-emoji--sm" style="top:50%;left:2%;animation-delay:1.8s" aria-hidden="true">✦</span>
-  <span class="float-emoji float-emoji--sm" style="top:60%;right:3%;animation-delay:3s" aria-hidden="true">✦</span>
+  <!-- ════════════════════════════════
+       LEFT — Brand Showcase Panel
+       Hidden on mobile, shows as strip
+  ════════════════════════════════ -->
+  <aside class="brand-panel">
 
-  <!-- Card -->
-  <div class="login-card" role="main" aria-label="Sign in to Belly Bee">
+    <!-- Honeycomb texture -->
+    <div class="bp-hex-bg"></div>
 
-    <!-- Header band with hex logo -->
-    <div class="login-header">
-      <div class="hex-logo">
-        <div class="hex-bg"></div>
+    <!-- Content -->
+    <div class="bp-inner">
+
+      <!-- Logo — clean, no borders, just the brand mark -->
+      <div class="bp-logo-wrap">
+        <div class="bp-logo-glow"></div>
         <img
-          class="hex-img"
           src="assets/bellyBeeLogo.webp"
           alt="Belly Bee"
-          width="56"
-          height="64"
+          class="bp-logo"
+          width="120"
+          height="120"
           (error)="onLogoError($any($event.target))"
         />
       </div>
-      <div class="brand-text">
-        <div class="brand-name">Belly <span>Bee</span></div>
-        <div class="brand-sub">Cloud Kitchen ✦ Fresh &amp; Fast</div>
-        <div class="brand-loc">
-          <span class="loc-dot"></span>
-          Chhatarpur · New Delhi 110074
+
+      <h1 class="bp-name">Belly <span>Bee</span></h1>
+      <p class="bp-tagline">Cloud Kitchen ✦ Fresh &amp; Fast</p>
+      <p class="bp-loc">📍 Chhatarpur · New Delhi 110074</p>
+
+      <!-- Stats row -->
+      <div class="bp-stats">
+        <div class="bp-stat">
+          <span class="bp-stat__num">30</span>
+          <span class="bp-stat__lbl">Min Delivery</span>
+        </div>
+        <div class="bp-stat-sep"></div>
+        <div class="bp-stat">
+          <span class="bp-stat__num">4.8</span>
+          <span class="bp-stat__lbl">Rating ⭐</span>
+        </div>
+        <div class="bp-stat-sep"></div>
+        <div class="bp-stat">
+          <span class="bp-stat__num">100%</span>
+          <span class="bp-stat__lbl">Fresh Daily</span>
         </div>
       </div>
+
+    </div><!-- /bp-inner -->
+
+    <!-- Floating food decorations -->
+    <span class="deco" style="top:9%;left:12%;animation-delay:0s"    aria-hidden="true">🍛</span>
+    <span class="deco" style="top:22%;right:10%;animation-delay:2s"  aria-hidden="true">🌶️</span>
+    <span class="deco" style="bottom:20%;left:10%;animation-delay:1s" aria-hidden="true">🍯</span>
+    <span class="deco deco--sm" style="top:50%;left:6%;animation-delay:2.8s" aria-hidden="true">🐝</span>
+    <span class="deco deco--sm" style="bottom:38%;right:7%;animation-delay:3.5s" aria-hidden="true">✦</span>
+
+    <!-- Honey gradient divider on right edge -->
+    <div class="bp-divider"></div>
+
+  </aside>
+
+  <!-- ════════════════════════════════
+       RIGHT — Login Form Panel
+  ════════════════════════════════ -->
+  <main class="form-panel">
+
+    <!-- Mobile-only brand strip (visible only on small screens) -->
+    <div class="mobile-strip">
+      <img
+        src="assets/bellyBeeLogo.webp"
+        alt="Belly Bee"
+        class="ms-logo"
+        width="38"
+        height="38"
+        (error)="onLogoError($any($event.target))"
+      />
+      <span class="ms-name">Belly <span>Bee</span></span>
+      <span class="ms-tag">Cloud Kitchen</span>
     </div>
 
-    <!-- Form body -->
-    <div class="login-body">
+    <!-- Scrollable form area — flex-grows to fill panel, scrolls when keyboard pushes content -->
+    <div class="form-scroll">
+      <div class="form-card login-card">
 
-      <div class="login-heading">
-        <h1>Welcome back! 👋</h1>
-        <p>Enter your mobile — we'll send a quick OTP.</p>
-      </div>
+        <div class="form-heading">
+          <h2>Welcome back! 👋</h2>
+          <p>Enter your mobile — we'll send a quick OTP.</p>
+        </div>
 
-      <div class="perks" aria-label="Why Belly Bee">
-        <span class="perk">🚀 30-min Delivery</span>
-        <span class="perk">🌿 Fresh Daily</span>
-        <span class="perk">💳 Easy Pay</span>
-      </div>
+        <div class="perks-row">
+          <span class="perk">🚀 30-min Delivery</span>
+          <span class="perk">🌿 Fresh Daily</span>
+          <span class="perk">💳 Easy Pay</span>
+        </div>
 
-      <!-- Phone input -->
-      <div class="phone-wrap" [class.focused]="phoneFocused">
-        <span class="phone-prefix">🇮🇳 +91</span>
-        <input
-          type="tel"
-          class="phone-input"
-          placeholder="98765 43210"
-          [value]="phone()"
-          (input)="onPhoneInput($any($event.target).value)"
-          (focus)="phoneFocused = true"
-          (blur)="phoneFocused = false"
-          (keydown.enter)="sendOtp()"
-          maxlength="10"
-          inputmode="numeric"
-          autocomplete="tel-national"
-          aria-label="Mobile number"
-        />
-      </div>
+        <!-- Phone input -->
+        <div class="phone-wrap" [class.focused]="phoneFocused">
+          <span class="phone-prefix">🇮🇳 +91</span>
+          <input
+            type="tel"
+            class="phone-input"
+            placeholder="98765 43210"
+            [value]="phone()"
+            (input)="onPhoneInput($any($event.target).value)"
+            (focus)="phoneFocused = true"
+            (blur)="phoneFocused = false"
+            (keydown.enter)="sendOtp()"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="tel-national"
+            aria-label="Mobile number"
+          />
+        </div>
 
-      @if (error()) {
-        <p class="login-error" role="alert">
-          <span class="material-icons-round" aria-hidden="true">error_outline</span>
-          {{ error() }}
-        </p>
-      }
-
-      <!-- Single T&C checkbox -->
-      <div
-        class="check-block"
-        (click)="toggleTerms()"
-        role="checkbox"
-        [attr.aria-checked]="termsAccepted()"
-        tabindex="0"
-        (keydown.space)="$event.preventDefault(); toggleTerms()"
-        (keydown.enter)="$event.preventDefault(); toggleTerms()">
-        <span class="custom-check" [class.on]="termsAccepted()" aria-hidden="true"></span>
-        <span class="check-text">
-          I agree to Belly Bee's
-          <a routerLink="/terms" (click)="$event.stopPropagation()">Terms &amp; Conditions</a>
-          and
-          <a routerLink="/privacy" (click)="$event.stopPropagation()">Privacy Policy</a>
-          — including our data &amp; order policies.
-        </span>
-      </div>
-
-      <!-- CTA -->
-      <button
-        type="button"
-        class="otp-btn"
-        (click)="sendOtp()"
-        [disabled]="!canSubmit()"
-        aria-label="Get OTP to sign in">
-        @if (sending()) {
-          <span class="material-icons-round login-spin" aria-hidden="true">sync</span>
-          Sending OTP…
-        } @else {
-          <span>Get OTP</span>
-          <span class="btn-arrow" aria-hidden="true">→</span>
+        @if (error()) {
+          <p class="login-error" role="alert">
+            <span class="material-icons-round" aria-hidden="true">error_outline</span>
+            {{ error() }}
+          </p>
         }
-      </button>
 
-      <div class="login-divider" aria-hidden="true">or continue without account</div>
+        <!-- T&C checkbox -->
+        <div
+          class="check-block"
+          (click)="toggleTerms()"
+          role="checkbox"
+          [attr.aria-checked]="termsAccepted()"
+          tabindex="0"
+          (keydown.space)="$event.preventDefault(); toggleTerms()"
+          (keydown.enter)="$event.preventDefault(); toggleTerms()">
+          <span class="custom-check" [class.on]="termsAccepted()" aria-hidden="true"></span>
+          <span class="check-text">
+            I agree to Belly Bee's
+            <a routerLink="/terms" (click)="$event.stopPropagation()">Terms &amp; Conditions</a>
+            and
+            <a routerLink="/privacy" (click)="$event.stopPropagation()">Privacy Policy</a>
+          </span>
+        </div>
 
-      <a routerLink="/menu" class="guest-link">
-        ← Browse Menu as Guest
-      </a>
+        <!-- CTA -->
+        <button
+          type="button"
+          class="otp-btn"
+          (click)="sendOtp()"
+          [disabled]="!canSubmit()"
+          aria-label="Get OTP to sign in">
+          @if (sending()) {
+            <span class="material-icons-round login-spin" aria-hidden="true">sync</span>
+            Sending OTP…
+          } @else {
+            <span>Get OTP</span>
+            <span class="btn-arrow" aria-hidden="true">→</span>
+          }
+        </button>
 
-      <div class="trust-row" aria-label="Trust indicators">
-        <span>🔒 Secure OTP</span>
-        <span>⭐ 4.8 Rated</span>
-        <span>🏠 Chhatarpur</span>
-      </div>
+        <a routerLink="/menu" class="guest-link">← Browse Menu as Guest</a>
 
-    </div><!-- /login-body -->
-  </div><!-- /login-card -->
+        <div class="trust-row">
+          <span>🔒 Secure OTP</span>
+          <span>⭐ 4.8 Rated</span>
+          <span>🏠 Chhatarpur</span>
+        </div>
+
+      </div><!-- /form-card -->
+    </div><!-- /form-scroll -->
+
+  </main>
 
 </div>
