@@ -111,6 +111,20 @@ export const routes: Routes = [
     ],
   },
 
+  // ── Legal pages ──────────────────────────────────────────────────────
+  {
+    path: 'terms',
+    loadComponent: () =>
+      import('./pages/legal/terms/terms.component').then(m => m.TermsComponent),
+    title: 'Terms & Conditions — Belly Bee',
+  },
+  {
+    path: 'privacy',
+    loadComponent: () =>
+      import('./pages/legal/privacy/privacy.component').then(m => m.PrivacyComponent),
+    title: 'Privacy Policy — Belly Bee',
+  },
+
   // ── 404 ───────────────────────────────────────────────────────────────
   {
     path: '**',
