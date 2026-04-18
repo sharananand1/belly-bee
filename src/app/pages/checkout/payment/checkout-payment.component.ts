@@ -156,11 +156,11 @@ export class CheckoutPaymentComponent implements OnInit {
           this.cart.clear();
           this.checkout.clear();
           this.analytics.orderPlaced(order.order_id, order.total, method);
-          // Verify Razorpay signature in background after order is created
           if (paymentId && razorpayOrderId && signature) {
             this.paymentSvc.verifyPayment(paymentId, razorpayOrderId, signature)
-              .subscribe({ error: () => {} }); // fire-and-forget, webhook is backup
+              .subscribe({ error: () => {} });
           }
+          this.placing.set(false);
           this.router.navigate(['/order', order.order_id]);
         },
         error: err => {
