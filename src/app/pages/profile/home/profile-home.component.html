@@ -76,11 +76,73 @@
           <span class="material-icons-round prof-link-row__chevron">chevron_right</span>
         </a>
 
-        <div class="prof-link-row prof-link-row--disabled">
+        <div class="prof-link-row" (click)="toggleAddresses()">
           <span class="prof-link-row__icon material-icons-round">location_on</span>
           <span class="prof-link-row__label">Saved Addresses</span>
-          <span class="material-icons-round prof-link-row__chevron">chevron_right</span>
+          <span class="material-icons-round prof-link-row__chevron">
+            {{ showAddresses() ? 'expand_less' : 'expand_more' }}
+          </span>
         </div>
+
+        @if (showAddresses()) {
+          <div class="addr-panel">
+
+            @if (addrLoading()) {
+              <p class="addr-empty">Loading…</p>
+            } @else if (!addresses().length) {
+              <p class="addr-empty">No saved addresses yet.</p>
+            } @else {
+              @for (addr of addresses(); track addr.id) {
+                <div class="addr-item">
+                  @if (editingAddr()?.id === addr.id) {
+                    <!-- Edit form -->
+                    <div class="addr-edit-form">
+                      <label class="addr-edit-label">Label</label>
+                      <select class="input addr-edit-select"
+                              [ngModel]="editAddrLabel()"
+                              (ngModelChange)="editAddrLabel.set($event)">
+                        @for (lbl of addressLabels; track lbl) {
+                          <option [value]="lbl">{{ lbl }}</option>
+                        }
+                      </select>
+                      <label class="addr-edit-label">Landmark (optional)</label>
+                      <input class="input"
+                             type="text"
+                             placeholder="Near landmark"
+                             [ngModel]="editAddrLandmark()"
+                             (ngModelChange)="editAddrLandmark.set($event)" />
+                      <div class="addr-edit-actions">
+                        <button class="btn btn-outline btn-sm" (click)="cancelEditAddr()">Cancel</button>
+                        <button class="btn btn-primary btn-sm"
+                                [disabled]="savingAddr()"
+                                (click)="saveEditAddr()">Save</button>
+                      </div>
+                    </div>
+                  } @else {
+                    <!-- Address row -->
+                    <div class="addr-row-info">
+                      <span class="addr-label-badge">{{ addr.label }}</span>
+                      <span class="addr-text">{{ addr.full_address }}</span>
+                      @if (addr.landmark) {
+                        <span class="addr-landmark">{{ addr.landmark }}</span>
+                      }
+                    </div>
+                    <div class="addr-row-actions">
+                      <button class="addr-action-btn" title="Edit" (click)="startEditAddr(addr)">
+                        <span class="material-icons-round">edit</span>
+                      </button>
+                      <button class="addr-action-btn addr-action-btn--del" title="Delete" (click)="deleteAddr(addr.id!)">
+                        <span class="material-icons-round">delete</span>
+                      </button>
+                    </div>
+                  }
+                </div>
+              }
+            }
+
+          </div>
+        }
+
       </div>
 
       <!-- ── Preferences ─────────────────────────────────────── -->
