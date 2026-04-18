@@ -22,8 +22,8 @@ const MOCK_STATUS: KitchenStatus = {
   closing_time: '23:00',
   closed_message: null,
   party_order_note: 'Planning a party? Call us for bulk & special orders!',
-  contact_mobile: '+919876543210',
-  whatsapp_link: 'https://wa.me/919876543210',
+  contact_mobile: '+918899888683',
+  whatsapp_link: 'https://wa.me/918899888683',
   estimated_delivery_minutes: 40,
   message: 'We are open! Order now for fresh, hot food delivered to your door.',
 };
