@@ -1,0 +1,6 @@
+{
+  "buildCommand": "ng build --configuration=production",
+  "outputDirectory": "dist/belly-bee/browser",
+  "framework": "angular",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
