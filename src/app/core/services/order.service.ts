@@ -10,19 +10,48 @@ import {
 } from '../../models/order.model';
 import { CartItem } from '../../models/cart.model';
 import { Address } from '../../models/address.model';
-import { AnyVariant, resolvePrice } from '../../models/menu-item.model';
+import { resolvePrice } from '../../models/menu-item.model';
 
 export interface PlaceOrderPayload {
   items: CartItem[];
   delivery_address: Address;
   payment_method: PaymentMethod;
   payment_id?: string;
+  razorpay_order_id?: string;
   coupon_code?: string;
   coupon_discount?: number;
   subtotal: number;
   delivery_fee: number;
   gst: number;
   total: number;
+  notes?: string | null;
+}
+
+/** Shape sent to the real backend (items pre-mapped, no nested MenuItem objects). */
+interface PlaceOrderBody {
+  items: {
+    menu_item_id: string;
+    name: string;
+    image_url: string;
+    quantity: number;
+    unit_price: number;
+    selected_spicy_level?: string;
+    selected_serve?: string;
+    selected_size?: string;
+    special_instructions?: string;
+    line_total: number;
+  }[];
+  delivery_address: Address;
+  payment_method: PaymentMethod;
+  payment_id?: string;
+  razorpay_order_id?: string;
+  coupon_code?: string | null;
+  coupon_discount: number;
+  subtotal: number;
+  delivery_fee: number;
+  gst: number;
+  total: number;
+  notes?: string | null;
 }
 
 const ORDER_STATUSES: OrderStatus[] = [
@@ -40,7 +69,26 @@ export class OrderService {
       this.mock.saveOrder(order);
       return of(order);
     }
-    return this.api.post<Order>('/orders', payload);
+
+    const body: PlaceOrderBody = {
+      ...payload,
+      items: payload.items.map(ci => ({
+        menu_item_id: ci.menu_item.id,
+        name: ci.menu_item.name,
+        image_url: ci.menu_item.image_url,
+        quantity: ci.quantity,
+        unit_price: resolvePrice(ci.menu_item, ci.selected_serve ?? ci.selected_size),
+        selected_spicy_level: ci.selected_spicy_level,
+        selected_serve: ci.selected_serve,
+        selected_size: ci.selected_size,
+        special_instructions: ci.special_instructions,
+        line_total: ci.item_total,
+      })),
+      razorpay_order_id: payload.razorpay_order_id,
+      coupon_code: payload.coupon_code ?? null,
+      coupon_discount: payload.coupon_discount ?? 0,
+    };
+    return this.api.post<Order>('/orders', body);
   }
 
   getOrders(): Observable<Order[]> {

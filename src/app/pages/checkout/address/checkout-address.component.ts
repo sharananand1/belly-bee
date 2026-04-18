@@ -7,11 +7,24 @@ import { LocationService } from '../../../core/services/location.service';
 import { CartService } from '../../../core/services/cart.service';
 import { CheckoutStateService } from '../../../core/services/checkout-state.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { AppConfigService } from '../../../core/services/app-config.service';
 import { Address, AddressLabel } from '../../../models/address.model';
 
-const DELIVERY_FEE      = 40;
-const FREE_DELIVERY_MIN = 499;
-const GST_RATE          = 0.05;
+/** Kitchen location (Chhatarpur, New Delhi) */
+const KITCHEN_LAT = 28.503;
+const KITCHEN_LNG = 77.1827;
+
+/** Haversine distance between two lat/lng points, result in km. */
+function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
 
 @Component({
   selector: 'app-checkout-address',
@@ -26,6 +39,7 @@ export class CheckoutAddressComponent implements OnInit {
   private cartSvc     = inject(CartService);
   private checkoutSvc = inject(CheckoutStateService);
   private toast       = inject(ToastService);
+  private configSvc   = inject(AppConfigService);
   private router      = inject(Router);
 
   savedAddresses  = signal<Address[]>([]);
@@ -50,8 +64,10 @@ export class CheckoutAddressComponent implements OnInit {
     Home: '🏠', Work: '🏢', Other: '📍',
   };
 
+  get config() { return this.configSvc.config; }
+  get zomatoUrl() { return this.config.zomato_url; }
+
   ngOnInit(): void {
-    // Redirect if cart is empty
     if (this.cartSvc.isEmpty) {
       this.router.navigate(['/cart']);
       return;
@@ -59,7 +75,6 @@ export class CheckoutAddressComponent implements OnInit {
 
     this.addressSvc.getSavedAddresses().subscribe(addrs => {
       this.savedAddresses.set(addrs);
-      // Pre-select default address if one exists
       const def = addrs.find(a => a.is_default) ?? addrs[0] ?? null;
       this.selectedAddress.set(def);
     });
@@ -121,12 +136,26 @@ export class CheckoutAddressComponent implements OnInit {
     const addr = this.selectedAddress();
     if (!addr) { this.toast.error('Please select a delivery address.'); return; }
 
-    const subtotal     = this.cartSvc.subtotal;
-    const couponResult = this.checkoutSvc.state.coupon_result ?? null;
-    const couponDisc   = couponResult?.discount_amount ?? 0;
-    const deliveryFee  = subtotal - couponDisc >= FREE_DELIVERY_MIN ? 0 : DELIVERY_FEE;
-    const gst          = Math.round((subtotal - couponDisc) * GST_RATE);
-    const total        = subtotal - couponDisc + deliveryFee + gst;
+    // Distance check — skip if lat/lng are zero (mock addresses without coords)
+    if (addr.lat !== 0 && addr.lng !== 0) {
+      const distKm = haversineKm(KITCHEN_LAT, KITCHEN_LNG, addr.lat, addr.lng);
+      const maxKm  = this.config.max_delivery_km;
+      if (distKm > maxKm) {
+        this.toast.error(
+          `We deliver within ${maxKm} km. Your location is ~${distKm.toFixed(1)} km away.`
+        );
+        return;
+      }
+    }
+
+    // Config-driven totals (display only — server recalculates)
+    const cfg         = this.config;
+    const subtotal    = this.cartSvc.subtotal;
+    const couponDisc  = this.checkoutSvc.state.coupon_result?.discount_amount ?? 0;
+    const afterCoupon = Math.max(0, subtotal - couponDisc);
+    const gst         = Math.round(afterCoupon * (cfg.gst_percent / 100) * 100) / 100;
+    const deliveryFee = afterCoupon >= cfg.free_delivery_threshold ? 0 : cfg.delivery_fee;
+    const total       = afterCoupon + gst + deliveryFee;
 
     this.checkoutSvc.patch({ delivery_address: addr, subtotal, delivery_fee: deliveryFee, gst, total });
     this.router.navigate(['/checkout/payment']);

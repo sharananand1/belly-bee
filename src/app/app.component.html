@@ -43,6 +43,17 @@
   </div>
 </header>
 
+<!-- ── Party Order Note Banner ───────────────────────────────────────── -->
+@if (kitchen.status.party_order_note) {
+  <div class="bb-party-banner">
+    <span class="material-icons-round">celebration</span>
+    <span>{{ kitchen.status.party_order_note }}</span>
+    <a [href]="kitchen.status.whatsapp_link" target="_blank" rel="noopener" class="bb-party-banner__cta">
+      Order on WhatsApp
+    </a>
+  </div>
+}
+
 <!-- ── Page Content ──────────────────────────────────────────────────── -->
 <main class="bb-main">
   <router-outlet />
@@ -85,3 +96,53 @@
     </div>
   }
 </div>
+
+<!-- ── Kitchen Closed Overlay ────────────────────────────────────────── -->
+@if (kitchen.isClosed) {
+  <div class="bb-kitchen-overlay" role="dialog" aria-modal="true" aria-label="Kitchen closed">
+    <div class="bb-kitchen-overlay__card">
+
+      <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" class="bb-kitchen-overlay__logo" width="64" height="64" />
+
+      <h2 class="bb-kitchen-overlay__title">We're Closed Right Now</h2>
+
+      <p class="bb-kitchen-overlay__msg">
+        {{ kitchen.status.closed_message || 'The kitchen is taking a break. Come back soon!' }}
+      </p>
+
+      <div class="bb-kitchen-overlay__hours">
+        <span class="material-icons-round">schedule</span>
+        Opens {{ kitchen.status.opening_time }} – Closes {{ kitchen.status.closing_time }}
+      </div>
+
+      <div class="bb-kitchen-overlay__actions">
+        @if (!kitchen.notifyDone) {
+          <button
+            class="btn btn-primary"
+            (click)="onNotifyMe()"
+            [disabled]="kitchen.notifyLoading"
+          >
+            <span class="material-icons-round">notifications</span>
+            {{ kitchen.notifyLoading ? 'Please wait…' : 'Notify me when you open' }}
+          </button>
+        } @else {
+          <p class="bb-kitchen-overlay__notify-done">
+            <span class="material-icons-round">check_circle</span>
+            You'll be notified when we open!
+          </p>
+        }
+
+        <a
+          [href]="kitchen.status.whatsapp_link"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-outline"
+        >
+          <span class="material-icons-round">chat</span>
+          WhatsApp us
+        </a>
+      </div>
+
+    </div>
+  </div>
+}

@@ -86,7 +86,7 @@ export class CartComponent {
         this.appliedCoupon.set(result);
         if (result.valid) {
           this.toast.success(result.message);
-          this.analytics.track('coupon_applied', { code, discount: result.discount_amount });
+          this.analytics.trackEvent('checkout_started', { coupon: code, discount: result.discount_amount });
         } else {
           this.toast.error(result.message);
         }
@@ -107,7 +107,7 @@ export class CartComponent {
 
   // ── Checkout ──────────────────────────────────────────────────
   checkout(): void {
-    this.analytics.track('checkout_start', { subtotal: this.subtotal(), total: this.total() });
+    this.analytics.checkoutStarted(this.subtotal());
     if (this.authSvc.isLoggedIn()) {
       this.router.navigate(['/checkout/address']);
     } else {

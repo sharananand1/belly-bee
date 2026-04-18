@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../api.service';
 import { AuthTokenService } from '../auth-token.service';
@@ -44,7 +44,12 @@ export class AuthService {
       }
       return throwError(() => ({ status: 400, error: { message: 'Invalid OTP. Use any 6-digit code in mock mode.' } }));
     }
-    return this.api.post<LoginResult>('/auth/otp/verify', { phone, otp });
+    return this.api.post<LoginResult>('/auth/otp/verify', { phone, otp }).pipe(
+      tap(result => {
+        this.tokens.token = result.token;
+        localStorage.setItem('bb_user', JSON.stringify(result.user));
+      })
+    );
   }
 
   /** Fetch the currently authenticated user profile. */

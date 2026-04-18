@@ -16,42 +16,30 @@
 
     <div class="pay-layout">
 
-      <!-- ── Left: payment options + order summary ───────────── -->
+      <!-- ── Left: payment options ───────────────────────────── -->
       <div class="pay-main">
 
         <h1 class="co-title">Payment Method</h1>
 
-        <!-- Razorpay -->
-        <button
-          type="button"
-          class="pay-method"
-          [class.pay-method--active]="paymentMethod() === 'razorpay'"
-          (click)="selectMethod('razorpay')">
-          <span class="pay-method__radio material-icons-round">
-            {{ paymentMethod() === 'razorpay' ? 'radio_button_checked' : 'radio_button_unchecked' }}
-          </span>
-          <div class="pay-method__body">
-            <span class="pay-method__name">Online Payment</span>
-            <span class="pay-method__sub">Credit / Debit Card · UPI · Net Banking · Wallets</span>
-          </div>
-          <span class="pay-method__icon">💳</span>
-        </button>
-
-        <!-- COD -->
-        <button
-          type="button"
-          class="pay-method"
-          [class.pay-method--active]="paymentMethod() === 'cod'"
-          (click)="selectMethod('cod')">
-          <span class="pay-method__radio material-icons-round">
-            {{ paymentMethod() === 'cod' ? 'radio_button_checked' : 'radio_button_unchecked' }}
-          </span>
-          <div class="pay-method__body">
-            <span class="pay-method__name">Cash on Delivery</span>
-            <span class="pay-method__sub">Pay with cash when your order arrives</span>
-          </div>
-          <span class="pay-method__icon">💵</span>
-        </button>
+        <!-- Dynamic methods from config -->
+        @for (method of availableMethods; track method.id) {
+          <button
+            type="button"
+            class="pay-method"
+            [class.pay-method--active]="paymentMethod() === method.id"
+            (click)="selectMethod(method.id)">
+            <span class="pay-method__radio material-icons-round">
+              {{ paymentMethod() === method.id ? 'radio_button_checked' : 'radio_button_unchecked' }}
+            </span>
+            <div class="pay-method__body">
+              <span class="pay-method__name">{{ method.label }}</span>
+              @if (method.id === 'cod' && config.cod_extra_charge > 0) {
+                <span class="pay-method__sub">+ ₹{{ config.cod_extra_charge }} COD charge applies</span>
+              }
+            </div>
+            <span class="pay-method__icon">{{ method.icon }}</span>
+          </button>
+        }
 
         <!-- Delivering to -->
         @if (address) {
@@ -99,12 +87,18 @@
             <span>{{ deliveryFee === 0 ? 'FREE' : '₹' + deliveryFee }}</span>
           </div>
           <div class="bill-row">
-            <span>GST (5%)</span>
+            <span>GST ({{ config.gst_percent }}%)</span>
             <span>₹{{ gst }}</span>
           </div>
+          @if (codCharge > 0) {
+            <div class="bill-row">
+              <span>COD Charge</span>
+              <span>₹{{ codCharge }}</span>
+            </div>
+          }
           <div class="bill-row bill-row--total">
             <span>Total</span>
-            <span>₹{{ total }}</span>
+            <span>₹{{ displayTotal }}</span>
           </div>
         </div>
 
@@ -122,7 +116,7 @@
             Place Order
           } @else {
             <span class="material-icons-round">lock</span>
-            Pay ₹{{ total }}
+            Pay ₹{{ displayTotal }}
           }
         </button>
 

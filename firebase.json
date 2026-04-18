@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/belly-bee",
+    "public": "dist/belly-bee/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

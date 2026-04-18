@@ -52,7 +52,7 @@ export class ItemDetailComponent implements OnInit {
       this.selectedServe.set(item.serve_options[0]);
       this.selectedSize.set(item.size_options[0]);
       this.loading.set(false);
-      this.analytics.itemView(item.id, item.name);
+      this.analytics.menuItemViewed(item.id, item.name);
     });
   }
 
@@ -86,7 +86,7 @@ export class ItemDetailComponent implements OnInit {
       quantity: this.quantity(),
     };
     this.cart.addItem(it, opts);
-    this.analytics.addToCart(it.id, it.name, this.currentPrice, this.quantity());
+    this.analytics.cartAdd(it.id, it.name, this.currentPrice, this.quantity());
     this.toast.success(`${it.name} added to cart!`);
     this.router.navigate(['/cart']);
   }

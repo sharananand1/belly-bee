@@ -10,6 +10,7 @@ import {
 import { provideServiceWorker } from '@angular/service-worker';
 import { AuthInterceptor } from './core/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { CamelToSnakeInterceptor } from './core/interceptors/camel-to-snake.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,8 +23,10 @@ export const appConfig: ApplicationConfig = {
     ),
 
     provideHttpClient(withInterceptorsFromDi()),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor,  multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    // CamelToSnake runs first — transforms API responses before other interceptors see the body
+    { provide: HTTP_INTERCEPTORS, useClass: CamelToSnakeInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor,         multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor,        multi: true },
 
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),

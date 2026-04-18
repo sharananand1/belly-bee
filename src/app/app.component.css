@@ -237,3 +237,136 @@
 
 .bb-toast__close:hover { color: #fff; }
 .bb-toast__close .material-icons-round { font-size: 1.1rem; }
+
+/* ── Party Order Banner ──────────────────────────────────────────── */
+.bb-party-banner {
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  padding: .45rem 1rem;
+  font-size: .82rem;
+  font-weight: 600;
+  flex-wrap: wrap;
+  text-align: center;
+}
+.bb-party-banner .material-icons-round { font-size: 1rem; flex-shrink: 0; }
+.bb-party-banner__cta {
+  color: #fff;
+  text-decoration: underline;
+  white-space: nowrap;
+  font-weight: 700;
+}
+.bb-party-banner__cta:hover { opacity: .85; }
+
+/* ── Kitchen Closed Overlay ──────────────────────────────────────── */
+.bb-kitchen-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0, 0, 0, .75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn .25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.bb-kitchen-overlay__card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg, 16px);
+  padding: 2.5rem 2rem;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, .35);
+  animation: slideUp .3s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(24px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.bb-kitchen-overlay__logo {
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(245, 166, 35, .4));
+}
+
+.bb-kitchen-overlay__title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.bb-kitchen-overlay__msg {
+  font-size: .95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.bb-kitchen-overlay__hours {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgba(245, 166, 35, .08);
+  border: 1px solid rgba(245, 166, 35, .25);
+  border-radius: 8px;
+  padding: .4rem .85rem;
+}
+.bb-kitchen-overlay__hours .material-icons-round { font-size: 1rem; }
+
+.bb-kitchen-overlay__actions {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  width: 100%;
+  margin-top: .5rem;
+}
+
+.bb-kitchen-overlay__actions .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  width: 100%;
+  padding: .65rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: .9rem;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.bb-kitchen-overlay__actions .btn:disabled { opacity: .6; cursor: not-allowed; }
+.bb-kitchen-overlay__actions .btn .material-icons-round { font-size: 1.1rem; }
+
+.bb-kitchen-overlay__notify-done {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  color: #27AE60;
+  font-size: .9rem;
+  font-weight: 600;
+  margin: 0;
+}
+.bb-kitchen-overlay__notify-done .material-icons-round { font-size: 1.1rem; }

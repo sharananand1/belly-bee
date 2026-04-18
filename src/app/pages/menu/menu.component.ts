@@ -70,7 +70,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       switchMap(q => {
         if (!q.trim()) return this.menuSvc.getMenuItems(this.activeCategory() || undefined);
-        this.analytics.search(q, 0);
+        this.analytics.trackEvent('menu_item_viewed', { query: q });
         return this.menuSvc.searchItems(q);
       }),
       takeUntil(this.destroy$)
