@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   useMock: false,
-  apiUrl: 'https://belly-bee-backend.onrender.com/v1',
+  apiUrl: 'https://api.bellybee.in/v1',
   firebase: {
     apiKey: 'AIzaSyCQdQZFwXuLaPk-uJskyUJtQ_Pn8OFExlc',
     authDomain: 'belly-bee.firebaseapp.com',
