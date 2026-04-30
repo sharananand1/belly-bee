@@ -70,6 +70,19 @@
 /* ── Section headings ────────────────────────────────────────── */
 .addr-section { margin-bottom: 1.5rem; }
 
+/* ── Addresses loading state ─────────────────────────────────── */
+.addr-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: 1.5rem;
+  color: var(--text-secondary);
+  font-size: .9rem;
+}
+@keyframes addr-spin { to { transform: rotate(360deg); } }
+.addr-loading__spin { animation: addr-spin .85s linear infinite; font-size: 1.3rem; }
+
 .addr-section__title {
   font-size: .78rem;
   font-weight: 700;
@@ -278,4 +291,14 @@
   .form-row { grid-template-columns: 1fr; }
   .addr-actions { flex-direction: column; }
   .addr-action-btn { width: 100%; justify-content: center; }
+}
+
+.form-control--highlight {
+  border-color: #e53935 !important;
+  box-shadow: 0 0 0 3px rgba(229,57,53,.15);
+  animation: pulse-border 1s ease-in-out 3;
+}
+@keyframes pulse-border {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(229,57,53,.15); }
+  50%       { box-shadow: 0 0 0 6px rgba(229,57,53,.30); }
 }

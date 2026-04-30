@@ -1,5 +1,5 @@
 import { ApplicationConfig, isDevMode, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling, withPreloading, PreloadAllModules } from '@angular/router';
 import { routes } from './app.routes';
 
 import {
@@ -18,8 +18,9 @@ export const appConfig: ApplicationConfig = {
 
     provideRouter(
       routes,
-      withComponentInputBinding(),          // route params auto-bound to @Input()
-      withInMemoryScrolling({ scrollPositionRestoration: 'top' })
+      withComponentInputBinding(),
+      withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
+      withPreloading(PreloadAllModules),
     ),
 
     provideHttpClient(withInterceptorsFromDi()),

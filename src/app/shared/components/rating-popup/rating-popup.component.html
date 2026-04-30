@@ -1,0 +1,171 @@
+<div class="rp-backdrop" (click)="dismiss()"></div>
+<div class="rp-card" role="dialog" aria-modal="true" aria-label="Rate your order">
+
+  <!-- ── Close ────────────────────────────────────────────────── -->
+  <button class="rp-close" (click)="dismiss()" aria-label="Close">
+    <span class="material-icons-round">close</span>
+  </button>
+
+  <!-- ══════════ STEP: STARS ══════════ -->
+  @if (step() === 'stars') {
+    <div class="rp-logo">
+      <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" width="48" height="48" />
+    </div>
+    <h2 class="rp-title">How was your order?</h2>
+    <p class="rp-sub">Your feedback helps us serve you better</p>
+
+    <div class="rp-stars-row">
+      @for (n of stars; track n) {
+        <button
+          class="rp-star-btn"
+          [class.rp-star-btn--lit]="n <= displayStars"
+          (mouseenter)="hoverStars.set(n)"
+          (mouseleave)="hoverStars.set(0)"
+          (click)="selectStar(n)"
+          [attr.aria-label]="starLabels[n]">
+          <span class="material-icons-round">star</span>
+        </button>
+      }
+    </div>
+
+    @if (displayStars > 0) {
+      <p class="rp-star-label">{{ starLabels[displayStars] }}</p>
+    }
+  }
+
+  <!-- ══════════ STEP: CHIPS ══════════ -->
+  @if (step() === 'chips') {
+    <div class="rp-step-header">
+      <button class="rp-back-btn" (click)="goBack()">
+        <span class="material-icons-round">arrow_back</span>
+      </button>
+      <div class="rp-mini-stars">
+        @for (n of stars; track n) {
+          <span class="material-icons-round rp-mini-star" [class.rp-mini-star--lit]="n <= selectedStars()">star</span>
+        }
+      </div>
+    </div>
+
+    <h2 class="rp-title rp-title--sm">
+      {{ selectedStars() >= 4 ? 'What did you love? 💛' : 'What went wrong?' }}
+    </h2>
+    <p class="rp-sub">Pick all that apply</p>
+
+    @if (loadingMsgs()) {
+      <div class="rp-chips-loading">
+        <span class="material-icons-round rp-spin">sync</span>
+      </div>
+    } @else {
+      <div class="rp-chips-wrap">
+        @for (msg of messages(); track msg.id) {
+          <button
+            type="button"
+            class="rp-chip"
+            [class.rp-chip--selected]="isMsgSelected(msg.id)"
+            (click)="toggleMsg(msg.id)">
+            {{ msg.message }}
+          </button>
+        }
+      </div>
+    }
+
+    <div class="rp-chip-actions">
+      <button type="button" class="btn btn-outline rp-skip-btn" (click)="goToDetails()">
+        Add more details
+      </button>
+      <button type="button" class="btn btn-primary rp-submit-btn" (click)="submit()" [disabled]="submitting()">
+        @if (submitting()) {
+          <span class="material-icons-round rp-spin">sync</span>
+        } @else {
+          Submit
+        }
+      </button>
+    </div>
+  }
+
+  <!-- ══════════ STEP: DETAILS ══════════ -->
+  @if (step() === 'details') {
+    <div class="rp-step-header">
+      <button class="rp-back-btn" (click)="goBack()">
+        <span class="material-icons-round">arrow_back</span>
+      </button>
+      <h2 class="rp-title rp-title--sm" style="margin:0">More details <span class="rp-optional">(optional)</span></h2>
+    </div>
+
+    <!-- Sub-ratings -->
+    <div class="rp-sub-ratings">
+      <div class="rp-sub-row">
+        <span class="rp-sub-label">🍛 Food Quality</span>
+        <div class="rp-sub-stars">
+          @for (n of stars; track n) {
+            <button class="rp-sub-star" [class.rp-sub-star--lit]="n <= foodStars()" (click)="setFoodStar(n)">
+              <span class="material-icons-round">star</span>
+            </button>
+          }
+        </div>
+      </div>
+      <div class="rp-sub-row">
+        <span class="rp-sub-label">📦 Packaging</span>
+        <div class="rp-sub-stars">
+          @for (n of stars; track n) {
+            <button class="rp-sub-star" [class.rp-sub-star--lit]="n <= packagingStars()" (click)="setPackStar(n)">
+              <span class="material-icons-round">star</span>
+            </button>
+          }
+        </div>
+      </div>
+      <div class="rp-sub-row">
+        <span class="rp-sub-label">🚴 Delivery</span>
+        <div class="rp-sub-stars">
+          @for (n of stars; track n) {
+            <button class="rp-sub-star" [class.rp-sub-star--lit]="n <= deliveryStars()" (click)="setDeliStar(n)">
+              <span class="material-icons-round">star</span>
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Would order again -->
+    <div class="rp-reorder-row">
+      <span class="rp-sub-label">Would you order again?</span>
+      <div class="rp-reorder-btns">
+        <button type="button" class="rp-reorder-btn" [class.rp-reorder-btn--yes]="wouldOrder() === true" (click)="wouldOrder.set(true)">
+          👍 Yes
+        </button>
+        <button type="button" class="rp-reorder-btn" [class.rp-reorder-btn--no]="wouldOrder() === false" (click)="wouldOrder.set(false)">
+          👎 No
+        </button>
+      </div>
+    </div>
+
+    <!-- Free text -->
+    <textarea
+      class="rp-textarea"
+      rows="3"
+      maxlength="500"
+      placeholder="Anything else you'd like to share…"
+      [value]="freeText()"
+      (input)="freeText.set($any($event.target).value)"></textarea>
+
+    <button type="button" class="btn btn-primary rp-submit-btn" (click)="submit()" [disabled]="submitting()">
+      @if (submitting()) {
+        <span class="material-icons-round rp-spin">sync</span> Submitting…
+      } @else {
+        Submit Review
+        <span class="material-icons-round">send</span>
+      }
+    </button>
+  }
+
+  <!-- ══════════ STEP: THANKS ══════════ -->
+  @if (step() === 'thanks') {
+    <div class="rp-thanks">
+      <div class="rp-thanks__icon">🎉</div>
+      <h2 class="rp-title">Thank you!</h2>
+      <p class="rp-sub">Your feedback means a lot to us 💛</p>
+      <p class="rp-thanks__note">We're always working to improve your experience.</p>
+    </div>
+  }
+
+</div>

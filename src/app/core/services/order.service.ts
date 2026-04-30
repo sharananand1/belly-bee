@@ -41,7 +41,7 @@ interface PlaceOrderBody {
     special_instructions?: string;
     line_total: number;
   }[];
-  delivery_address: Address;
+  delivery_address: Pick<Address, 'label' | 'full_address' | 'landmark' | 'lat' | 'lng' | 'pincode'>;
   payment_method: PaymentMethod;
   payment_id?: string;
   razorpay_order_id?: string;
@@ -70,8 +70,10 @@ export class OrderService {
       return of(order);
     }
 
+    const { full_address, label, landmark, lat, lng, pincode } = payload.delivery_address;
     const body: PlaceOrderBody = {
       ...payload,
+      delivery_address: { full_address, label, landmark, lat, lng, pincode },
       items: payload.items.map(ci => ({
         menu_item_id: ci.menu_item.id,
         name: ci.menu_item.name,

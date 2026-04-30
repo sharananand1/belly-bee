@@ -38,6 +38,10 @@
         class="detail-img"
         [src]="item()!.image_url"
         [alt]="item()!.name"
+        width="560"
+        height="420"
+        loading="eager"
+        fetchpriority="high"
         (error)="onImgError($any($event.target))" />
       @if (item()!.tags.includes('bestseller')) {
         <span class="detail-tag">Bestseller 🔥</span>
@@ -109,6 +113,18 @@
           </div>
         </div>
       }
+
+      <!-- Special instructions -->
+      <div class="detail-section detail-instructions">
+        <h2 class="detail-section-title">Special Instructions <span class="detail-optional">(optional)</span></h2>
+        <textarea
+          class="instructions-input"
+          rows="2"
+          maxlength="200"
+          placeholder="e.g. Less oil, extra spicy, no onion…"
+          [value]="specialInstructions()"
+          (input)="specialInstructions.set($any($event.target).value)"></textarea>
+      </div>
 
       <!-- Quantity + CTA -->
       <div class="detail-footer">

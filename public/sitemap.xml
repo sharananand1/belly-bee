@@ -10,7 +10,7 @@
   <!-- Home — highest priority, changes weekly -->
   <url>
     <loc>https://belly-bee.web.app/</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -22,7 +22,7 @@
   <!-- Full Menu -->
   <url>
     <loc>https://belly-bee.web.app/menu</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
@@ -30,79 +30,95 @@
   <!-- Menu categories — update lastmod when items change -->
   <url>
     <loc>https://belly-bee.web.app/menu/morning-buzz</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://belly-bee.web.app/menu/indian-south-buzz</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://belly-bee.web.app/menu/day-long-buzz</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
     <loc>https://belly-bee.web.app/menu/breads-rice</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://belly-bee.web.app/menu/sandwich-stings</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://belly-bee.web.app/menu/burger-buzz</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://belly-bee.web.app/menu/pizza-hive</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://belly-bee.web.app/menu/rolls-roars</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://belly-bee.web.app/menu/noody-noodles</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://belly-bee.web.app/menu/takka-tak-tikkas</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://belly-bee.web.app/menu/buzzed-without-booze</loc>
-    <lastmod>2026-04-15</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
+  </url>
+
+
+  <!-- Legal pages -->
+  <url>
+    <loc>https://belly-bee.web.app/terms</loc>
+    <lastmod>2026-04-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.40</priority>
+  </url>
+
+  <url>
+    <loc>https://belly-bee.web.app/privacy</loc>
+    <lastmod>2026-04-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.40</priority>
   </url>
 
 </urlset>

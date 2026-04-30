@@ -118,11 +118,19 @@ export class CartComponent {
   }
 
   // ── Helpers ───────────────────────────────────────────────────
+  private readonly spicyLabels: Record<string, string> = {
+    mild: 'Mild 🌶', medium: 'Medium 🌶🌶', hot: 'Hot 🌶🌶🌶', 'extra-hot': 'Extra Hot 🌶🌶🌶🌶',
+  };
+  private readonly serveLabels: Record<string, string> = { 'serve-1': 'Serve 1', 'serve-2': 'Serve 2' };
+  private readonly sizeLabels: Record<string, string> = {
+    quarter: 'Quarter', half: 'Half', full: 'Full', '250ml': '250 ml', '500ml': '500 ml', '750ml': '750 ml',
+  };
+
   selectedOptions(item: CartItem): string {
     const parts: string[] = [];
-    if (item.selected_serve)      parts.push(item.selected_serve === 'serve-1' ? 'Serve 1' : 'Serve 2');
-    if (item.selected_size)       parts.push(item.selected_size);
-    if (item.selected_spicy_level) parts.push(item.selected_spicy_level);
+    if (item.selected_serve)       parts.push(this.serveLabels[item.selected_serve] ?? item.selected_serve);
+    if (item.selected_size)        parts.push(this.sizeLabels[item.selected_size]   ?? item.selected_size);
+    if (item.selected_spicy_level) parts.push(this.spicyLabels[item.selected_spicy_level] ?? item.selected_spicy_level);
     return parts.join(' · ');
   }
 

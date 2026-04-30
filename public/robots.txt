@@ -12,6 +12,7 @@ Allow: /menu/
 Disallow: /checkout
 Disallow: /checkout/
 Disallow: /cart
+Disallow: /order/
 Disallow: /profile
 Disallow: /profile/
 Disallow: /auth

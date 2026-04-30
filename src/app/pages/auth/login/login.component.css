@@ -288,6 +288,20 @@
 .check-text a { color: var(--primary); font-weight: 600; text-decoration: none; }
 .check-text a:hover { text-decoration: underline; }
 
+/* Rate-limit cooldown banner */
+.rate-limit-banner {
+  display: flex; align-items: center; gap: .4rem;
+  padding: .55rem .85rem;
+  background: rgba(245,166,35,.07);
+  border: 1px solid rgba(245,166,35,.22);
+  border-radius: 10px;
+  color: rgba(245,166,35,.8);
+  font-size: .77rem;
+  margin-bottom: .75rem;
+}
+.rate-limit-banner .material-icons-round { font-size: 1rem; flex-shrink: 0; }
+.rate-limit-banner strong { color: var(--primary); font-weight: 700; }
+
 /* ── OTP Button ── */
 .otp-btn {
   width: 100%; padding: .9rem 1.5rem;
@@ -412,6 +426,15 @@
   .perk { font-size: .6rem; padding: .18rem .38rem; }
   .form-heading h2 { font-size: 1.2rem; }
   .trust-row { gap: .8rem; }
+}
+
+/* Safe-area inset for notched phones (iPhone home-indicator) */
+@supports (padding: env(safe-area-inset-bottom)) {
+  @media (max-width: 600px) {
+    .form-scroll {
+      padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+    }
+  }
 }
 
 /* ── Landscape mobile (e.g. phone rotated) ── */

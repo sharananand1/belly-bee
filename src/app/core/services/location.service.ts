@@ -3,7 +3,6 @@ import { Observable, of, from, throwError } from 'rxjs';
 import { map, switchMap, delay } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../api.service';
-import { Address } from '../../models/address.model';
 
 export interface LatLng {
   lat: number;
@@ -70,15 +69,37 @@ export class LocationService {
     ).pipe(map(pos => ({ lat: pos.coords.latitude, lng: pos.coords.longitude })));
   }
 
-  /** Reverse-geocode lat/lng into a human-readable address. */
+  /** Reverse-geocode lat/lng using OpenStreetMap Nominatim. */
   reverseGeocode(latlng: LatLng): Observable<GeocodedAddress> {
     if (environment.useMock) {
       return of({ ...MOCK_ADDRESSES[0], latlng }).pipe(delay(600));
     }
-    return this.api.get<GeocodedAddress>('/location/reverse-geocode', {
-      lat: String(latlng.lat),
-      lng: String(latlng.lng),
-    });
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${latlng.lat}&lon=${latlng.lng}&format=json&addressdetails=1&zoom=18`;
+    return from(fetch(url, { headers: { 'Accept-Language': 'en' } })).pipe(
+      switchMap(r => from(r.json())),
+      map((data: any) => {
+        const a = data.address ?? {};
+
+        // Build a clean, concise Indian address line
+        const addrParts = [
+          a.house_number,
+          a.road || a.pedestrian || a.footway,
+          a.neighbourhood || a.hamlet,
+          a.suburb || a.city_district || a.quarter,
+        ].filter(Boolean);
+
+        const line1 = addrParts.join(', ') || data.display_name?.split(',').slice(0, 3).join(', ') || '';
+        const city  = a.city || a.town || a.suburb || a.city_district || a.village || 'Delhi';
+        const state = a.state || 'Delhi';
+        const pincode = a.postcode || '';
+
+        // Compact display: "Road, Area, City — Pincode"
+        const displayParts = [line1, city, state].filter(Boolean);
+        const display = displayParts.join(', ') + (pincode ? ' — ' + pincode : '');
+
+        return { display, line1, city, state, pincode, latlng } as GeocodedAddress;
+      }),
+    );
   }
 
   /** Autocomplete address text input. */

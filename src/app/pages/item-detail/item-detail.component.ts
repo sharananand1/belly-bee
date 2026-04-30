@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 import { MenuService } from '../../core/services/menu.service';
 import { CartService } from '../../core/services/cart.service';
 import { ToastService } from '../../core/services/toast.service';
@@ -26,15 +27,18 @@ export class ItemDetailComponent implements OnInit {
   private toast     = inject(ToastService);
   private analytics = inject(AnalyticsService);
   private router    = inject(Router);
+  private titleSvc  = inject(Title);
+  private metaSvc   = inject(Meta);
 
   item       = signal<MenuItem | null>(null);
   loading    = signal(true);
   notFound   = signal(false);
   quantity   = signal(1);
 
-  selectedSpicy  = signal<SpicyLevel | undefined>(undefined);
-  selectedServe  = signal<ServeOption | undefined>(undefined);
-  selectedSize   = signal<SizeOption | undefined>(undefined);
+  selectedSpicy        = signal<SpicyLevel | undefined>(undefined);
+  selectedServe        = signal<ServeOption | undefined>(undefined);
+  selectedSize         = signal<SizeOption | undefined>(undefined);
+  specialInstructions  = signal('');
 
   readonly spicyLabels: Record<SpicyLevel, string> = {
     mild: 'Mild 🌶', medium: 'Medium 🌶🌶', hot: 'Hot 🌶🌶🌶', 'extra-hot': 'Extra Hot 🌶🌶🌶🌶',
@@ -53,6 +57,17 @@ export class ItemDetailComponent implements OnInit {
       this.selectedSize.set(item.size_options[0]);
       this.loading.set(false);
       this.analytics.menuItemViewed(item.id, item.name);
+
+      // Dynamic title + meta for SEO / social sharing
+      const price = item.price ?? 0;
+      const veg   = item.is_veg ? 'Veg' : 'Non-Veg';
+      this.titleSvc.setTitle(`${item.name} — Belly Bee`);
+      this.metaSvc.updateTag({ name: 'description',        content: `Order ${item.name} (${veg}) from Belly Bee cloud kitchen, Chhatarpur. ₹${price}. ${item.description ?? ''}`.slice(0, 160) });
+      this.metaSvc.updateTag({ property: 'og:title',       content: `${item.name} — Belly Bee` });
+      this.metaSvc.updateTag({ property: 'og:description', content: `${veg} · ₹${price} · ${item.category_name}` });
+      if (item.image_url) {
+        this.metaSvc.updateTag({ property: 'og:image', content: item.image_url });
+      }
     });
   }
 
@@ -84,6 +99,7 @@ export class ItemDetailComponent implements OnInit {
       serve: this.selectedServe(),
       size: this.selectedSize(),
       quantity: this.quantity(),
+      special_instructions: this.specialInstructions().trim() || undefined,
     };
     this.cart.addItem(it, opts);
     this.analytics.cartAdd(it.id, it.name, this.currentPrice, this.quantity());

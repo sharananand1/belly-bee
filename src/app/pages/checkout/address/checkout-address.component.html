@@ -16,8 +16,16 @@
 
     <h1 class="co-title">Delivery Address</h1>
 
+    <!-- ── Loading saved addresses ───────────────────────────────── -->
+    @if (loadingAddresses()) {
+      <div class="addr-loading">
+        <span class="material-icons-round addr-loading__spin">sync</span>
+        <span>Loading saved addresses…</span>
+      </div>
+    }
+
     <!-- ── Saved addresses ─────────────────────────────────────── -->
-    @if (savedAddresses().length > 0) {
+    @if (!loadingAddresses() && savedAddresses().length > 0) {
       <section class="addr-section">
         <h2 class="addr-section__title">Saved Addresses</h2>
         <div class="addr-list">
@@ -54,7 +62,7 @@
     }
 
     <!-- ── Add new / Current location actions ──────────────────── -->
-    @if (!showForm()) {
+    @if (!showForm() && !loadingAddresses()) {
       <div class="addr-actions">
         <button type="button" class="addr-action-btn addr-action-btn--locate" (click)="useCurrentLocation()" [disabled]="locating()">
           <span class="material-icons-round">my_location</span>
@@ -113,16 +121,23 @@
               name="landmark" />
           </div>
           <div class="form-group">
-            <label class="form-label" for="pincode">Pincode *</label>
+            <label class="form-label" for="pincode">
+              Pincode *
+              @if (pincodeNeeded()) {
+                <span style="color:#e53935;font-size:12px;margin-left:6px;">← Please enter</span>
+              }
+            </label>
             <input
               id="pincode"
               type="text"
+              [class.form-control--highlight]="pincodeNeeded()"
               class="form-control"
-              placeholder="560001"
+              placeholder="e.g. 110074"
               [(ngModel)]="form.pincode"
               name="pincode"
               maxlength="6"
-              inputmode="numeric" />
+              inputmode="numeric"
+              (input)="pincodeNeeded.set(false)" />
           </div>
         </div>
 

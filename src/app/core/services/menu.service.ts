@@ -53,7 +53,7 @@ export class MenuService {
   getFeaturedItems(tag?: ItemTag): Observable<MenuItem[]> {
     if (environment.useMock) return tag ? this.mock.getFeaturedItems(tag) : this.mock.getMenuItems();
     const params: Record<string, string> = tag ? { tag } : {};
-    return this.api.get<MenuItem[]>('/menu/featured', params)
+    return this.api.get<MenuItem[]>('/menu/items/featured', params)
       .pipe(map(items => items.map(normaliseItem)));
   }
 }

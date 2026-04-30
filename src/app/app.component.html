@@ -1,57 +1,62 @@
-<!-- ── Top Nav ──────────────────────────────────────────────────────── -->
-<header class="bb-nav">
-  <div class="bb-nav__inner">
+<!-- ── Top Nav (hidden on auth pages) ───────────────────────────────── -->
+@if (!isAuthPage()) {
+  <header class="bb-nav">
+    <div class="bb-nav__inner">
 
-    <!-- Logo -->
-    <a routerLink="/main" class="bb-nav__logo">
-      <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" width="36" height="36" />
-      <span class="bb-nav__brand">Belly<span class="bb-nav__bee"> Bee</span></span>
-    </a>
-
-    <!-- Primary links -->
-    <nav class="bb-nav__links" aria-label="Main navigation">
-      <a routerLink="/main"  routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
-      <a routerLink="/menu"  routerLinkActive="active">Menu</a>
-    </nav>
-
-    <!-- Right actions -->
-    <div class="bb-nav__actions">
-
-      <!-- Theme toggle -->
-      <button class="bb-nav__icon-btn" (click)="toggleTheme()" [title]="isDark ? 'Switch to light' : 'Switch to dark'" aria-label="Toggle theme">
-        <span class="material-icons-round">{{ isDark ? 'light_mode' : 'dark_mode' }}</span>
-      </button>
-
-      <!-- Cart -->
-      <a routerLink="/cart" class="bb-nav__icon-btn bb-nav__cart" aria-label="Cart">
-        <span class="material-icons-round">shopping_bag</span>
-        @if (cartCount > 0) {
-          <span class="bb-nav__cart-badge">{{ cartCount }}</span>
-        }
+      <!-- Logo -->
+      <a routerLink="/main" class="bb-nav__logo">
+        <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" width="36" height="36" />
+        <span class="bb-nav__brand">Belly<span class="bb-nav__bee"> Bee</span></span>
       </a>
 
-      <!-- Auth -->
-      @if (isLoggedIn) {
-        <a routerLink="/profile" class="bb-nav__icon-btn" aria-label="Profile">
-          <span class="material-icons-round">account_circle</span>
+      <!-- Primary links -->
+      <nav class="bb-nav__links" aria-label="Main navigation">
+        <a routerLink="/main"  routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+        <a routerLink="/menu"  routerLinkActive="active">Menu</a>
+      </nav>
+
+      <!-- Right actions -->
+      <div class="bb-nav__actions">
+
+        <!-- Theme toggle -->
+        <button class="bb-nav__icon-btn" (click)="toggleTheme()" [title]="isDark ? 'Switch to light' : 'Switch to dark'" aria-label="Toggle theme">
+          <span class="material-icons-round">{{ isDark ? 'light_mode' : 'dark_mode' }}</span>
+        </button>
+
+        <!-- Cart -->
+        <a routerLink="/cart" class="bb-nav__icon-btn bb-nav__cart" aria-label="Cart">
+          <span class="material-icons-round">shopping_bag</span>
+          @if (cartCount > 0) {
+            <span class="bb-nav__cart-badge">{{ cartCount }}</span>
+          }
         </a>
-      } @else {
-        <a routerLink="/auth/login" class="btn btn-primary btn-sm">Login</a>
-      }
 
+        <!-- Auth — fixed-width slot prevents CLS when login↔profile swaps -->
+        <span class="bb-nav__auth-slot">
+          @if (isLoggedIn) {
+            <a routerLink="/profile" class="bb-nav__icon-btn" aria-label="Profile">
+              <span class="material-icons-round">account_circle</span>
+            </a>
+          } @else {
+            <a routerLink="/auth/login" class="btn btn-primary btn-sm">Login</a>
+          }
+        </span>
+
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<!-- ── Party Order Note Banner ───────────────────────────────────────── -->
-@if (kitchen.status.party_order_note) {
-  <div class="bb-party-banner">
-    <span class="material-icons-round">celebration</span>
-    <span>{{ kitchen.status.party_order_note }}</span>
-    <a [href]="kitchen.status.whatsapp_link" target="_blank" rel="noopener" class="bb-party-banner__cta">
-      Order on WhatsApp
-    </a>
-  </div>
+  <!-- ── Party Order Note Banner ─────────────────────────────────────── -->
+  @if (kitchen.status.party_order_note) {
+    <div class="bb-party-banner">
+      <span class="bb-party-banner__emoji" aria-hidden="true">🎉</span>
+      <span>{{ kitchen.status.party_order_note }}</span>
+      <a [href]="partyWhatsApp" target="_blank" rel="noopener" class="bb-party-banner__cta">
+        <span class="material-icons-round">chat</span>
+        WhatsApp Us
+      </a>
+    </div>
+  }
 }
 
 <!-- ── Page Content ──────────────────────────────────────────────────── -->
@@ -59,30 +64,86 @@
   <router-outlet />
 </main>
 
-<!-- ── Footer ───────────────────────────────────────────────────────── -->
-<footer class="bb-footer">
-  <div class="bb-footer__inner">
+<!-- ── Footer (hidden on auth pages) ───────────────────────────────── -->
+@if (!isAuthPage()) {
+  <footer class="bb-footer">
 
-    <div class="bb-footer__brand">
-      <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" width="40" height="40" />
-      <div>
-        <p class="bb-footer__name">Belly Bee</p>
-        <p class="bb-footer__tagline">Cloud Kitchen, Chhatarpur · New Delhi</p>
+  <!-- Main grid: brand · explore · contact -->
+  <div class="bb-footer__grid">
+
+    <div class="bb-footer__col bb-footer__col--brand">
+      <div class="bb-footer__logo-row">
+        <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" width="34" height="34" />
+        <span class="bb-footer__brand-name">Belly Bee</span>
       </div>
+      <p class="bb-footer__desc">Homely, hygienic meals crafted fresh every day from our cloud kitchen in Chhatarpur, New Delhi.</p>
     </div>
 
-    <nav class="bb-footer__links" aria-label="Footer navigation">
-      <a routerLink="/main">Home</a>
-      <a routerLink="/menu">Menu</a>
-      <a routerLink="/cart">Cart</a>
-      <a routerLink="/profile/orders">Orders</a>
-      <a routerLink="/terms">Terms &amp; Conditions</a>
-      <a routerLink="/privacy">Privacy Policy</a>
+    <nav class="bb-footer__col bb-footer__col--links" aria-label="Site links">
+      <p class="bb-footer__col-heading">Explore</p>
+      <ul class="bb-footer__link-list">
+        <li><a routerLink="/main">Home</a></li>
+        <li><a routerLink="/menu">Menu</a></li>
+        <li><a routerLink="/cart">Cart</a></li>
+        <li><a routerLink="/profile/orders">My Orders</a></li>
+        <li><a routerLink="/terms">Terms &amp; Conditions</a></li>
+        <li><a routerLink="/privacy">Privacy Policy</a></li>
+      </ul>
     </nav>
 
-    <p class="bb-footer__copy">© {{ year }} Belly Bee. All rights reserved.</p>
+    <div class="bb-footer__col bb-footer__col--contact">
+      <p class="bb-footer__col-heading">Get in touch</p>
+      <a href="mailto:support@bellybee.in" class="bb-footer__contact-row">
+        <span class="material-icons-round" aria-hidden="true">mail_outline</span>
+        support&#64;bellybee.in
+      </a>
+      <a href="tel:+918899888683" class="bb-footer__contact-row">
+        <span class="material-icons-round" aria-hidden="true">phone</span>
+        +91 88998 88683
+      </a>
+      <a href="https://wa.me/918899888683" target="_blank" rel="noopener noreferrer" class="bb-footer__wa-btn">
+        <span class="material-icons-round" aria-hidden="true">chat</span>
+        Chat on WhatsApp
+      </a>
+    </div>
+
   </div>
-</footer>
+
+  <!-- Always-dark compliance strip -->
+  <div class="bb-footer__strip">
+    <div class="bb-footer__strip-inner">
+      <div class="bb-footer__certs">
+        <span class="bb-footer__cert">
+          <span class="bb-footer__cert-icon" aria-hidden="true">✦</span>
+          FSSAI Lic.&nbsp;<strong>23325002002375</strong>
+        </span>
+        <span class="bb-footer__pipe" aria-hidden="true">·</span>
+        <span class="bb-footer__cert">GSTIN&nbsp;<strong>07AAVFD6483H1ZT</strong></span>
+        <span class="bb-footer__pipe" aria-hidden="true">·</span>
+        <span class="bb-footer__cert">Operated by&nbsp;<strong>Dinkar Business Solutions LLP</strong></span>
+      </div>
+      <p class="bb-footer__copy">© {{ year }}&nbsp;Dinkar Business Solutions LLP</p>
+    </div>
+  </div>
+
+  </footer>
+}
+
+<!-- ── Floating Cart FAB (mobile only, shown when cart has items) ─────── -->
+@if (showCartFab) {
+  <a routerLink="/cart" class="bb-cart-fab" aria-label="View cart">
+    <span class="material-icons-round">shopping_bag</span>
+    <span class="bb-cart-fab__count">{{ cartCount }}</span>
+  </a>
+}
+
+<!-- ── Rating Popup ──────────────────────────────────────────────────── -->
+@if (ratingSvc.pendingOrderId()) {
+  <app-rating-popup
+    [orderId]="ratingSvc.pendingOrderId()!"
+    (submitted)="onRatingSubmitted()"
+    (dismissed)="onRatingDismissed()" />
+}
 
 <!-- ── Toast Outlet ──────────────────────────────────────────────────── -->
 <div class="bb-toast-container" aria-live="polite">

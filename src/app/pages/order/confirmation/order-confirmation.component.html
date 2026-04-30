@@ -108,7 +108,8 @@
             <span>GST (5%)</span><span>₹{{ order()!.gst }}</span>
           </div>
           <div class="bill-row bill-row--total">
-            <span>Total Paid</span><span>₹{{ order()!.total }}</span>
+            <span>{{ order()!.payment_method === 'cod' ? 'To Pay on Delivery' : 'Total Paid' }}</span>
+            <span>₹{{ order()!.total }}</span>
           </div>
         </div>
       </section>

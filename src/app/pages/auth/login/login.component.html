@@ -124,6 +124,13 @@
           </p>
         }
 
+        @if (cooldownSecs() > 0) {
+          <div class="rate-limit-banner" role="alert">
+            <span class="material-icons-round" aria-hidden="true">schedule</span>
+            <span>Too many requests. Try again in <strong>{{ cooldownDisplay }}</strong></span>
+          </div>
+        }
+
         <!-- T&C checkbox -->
         <div
           class="check-block"
@@ -152,6 +159,9 @@
           @if (sending()) {
             <span class="material-icons-round login-spin" aria-hidden="true">sync</span>
             Sending OTP…
+          } @else if (cooldownSecs() > 0) {
+            <span class="material-icons-round" aria-hidden="true">schedule</span>
+            Try again in {{ cooldownDisplay }}
           } @else {
             <span>Get OTP</span>
             <span class="btn-arrow" aria-hidden="true">→</span>

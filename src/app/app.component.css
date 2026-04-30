@@ -73,6 +73,14 @@
   margin-left: auto;
 }
 
+/* Fixed-width auth slot — prevents CLS when Login btn ↔ profile icon swaps */
+.bb-nav__auth-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 72px;
+}
+
 .bb-nav__icon-btn {
   display: flex;
   align-items: center;
@@ -123,65 +131,229 @@
 
 /* ── Footer ──────────────────────────────────────────────────── */
 .bb-footer {
-  background: var(--surface);
   border-top: 1px solid var(--border);
-  padding: 2rem 1rem;
+  background: var(--bg);
 }
 
-.bb-footer__inner {
+/* 3-column grid */
+.bb-footer__grid {
   max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1.5rem;
+  padding: 2.25rem 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr;
+  gap: 2.5rem;
 }
 
-.bb-footer__brand {
-  display: flex;
-  align-items: center;
-  gap: .75rem;
+/* Shared column */
+.bb-footer__col-heading {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 .85rem;
 }
 
-.bb-footer__brand img {
+/* Brand column */
+.bb-footer__logo-row {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: .7rem;
+}
+.bb-footer__logo-row img {
   border-radius: 50%;
   object-fit: cover;
 }
-
-.bb-footer__name {
-  font-family: var(--font-heading);
+.bb-footer__brand-name {
+  font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1rem;
-  margin: 0;
-  color: var(--text-primary);
+  font-size: 1.1rem;
+  color: var(--ink);
 }
-
-.bb-footer__tagline {
+.bb-footer__desc {
   font-size: .8rem;
-  color: var(--text-secondary);
-  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 270px;
 }
 
-.bb-footer__links {
+/* Links column */
+.bb-footer__link-list {
+  list-style: none;
+  margin: 0; padding: 0;
   display: flex;
-  gap: 1.25rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: .55rem;
 }
-
-.bb-footer__links a {
-  text-decoration: none;
+.bb-footer__link-list a {
+  font-size: .82rem;
   color: var(--text-secondary);
-  font-size: .9rem;
   transition: color .15s;
 }
+.bb-footer__link-list a:hover { color: var(--primary); }
 
-.bb-footer__links a:hover { color: var(--primary); }
-
-.bb-footer__copy {
-  width: 100%;
-  font-size: .78rem;
+/* Contact column */
+.bb-footer__contact-row {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .82rem;
   color: var(--text-secondary);
+  margin-bottom: .55rem;
+  transition: color .15s;
+}
+.bb-footer__contact-row .material-icons-round { font-size: .95rem; }
+.bb-footer__contact-row:hover { color: var(--primary); }
+
+.bb-footer__wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  margin-top: .6rem;
+  padding: .42rem .85rem;
+  border-radius: var(--radius-full);
+  background: rgba(37,211,102,.1);
+  color: #1DA851;
+  font-size: .78rem;
+  font-weight: 600;
+  border: 1px solid rgba(37,211,102,.22);
+  transition: background .15s;
+}
+.bb-footer__wa-btn:hover { background: rgba(37,211,102,.18); }
+.bb-footer__wa-btn .material-icons-round { font-size: .95rem; }
+
+/* ── Compliance strip — always dark regardless of theme */
+.bb-footer__strip {
+  background: #1C1C1E;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.bb-footer__strip-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: .58rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.bb-footer__certs {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  flex-wrap: wrap;
+}
+.bb-footer__cert {
+  font-size: .67rem;
+  color: rgba(255,255,255,.38);
+  letter-spacing: .01em;
+}
+.bb-footer__cert strong {
+  color: rgba(255,255,255,.6);
+  font-weight: 500;
+}
+.bb-footer__cert-icon {
+  color: #F5A623;
+  font-size: .58rem;
+  margin-right: .12rem;
+}
+.bb-footer__pipe { color: rgba(255,255,255,.15); }
+.bb-footer__copy {
+  font-size: .67rem;
+  color: rgba(255,255,255,.27);
   margin: 0;
+  white-space: nowrap;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+/* Tablet: 2-col, brand spans full width */
+@media (max-width: 900px) {
+  .bb-footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+    padding: 2rem 1.25rem 1.75rem;
+  }
+  .bb-footer__col--brand { grid-column: 1 / -1; }
+  .bb-footer__desc { max-width: 100%; }
+}
+
+/* Large phone: single column */
+@media (max-width: 600px) {
+  .bb-footer__grid {
+    grid-template-columns: 1fr;
+    padding: 1.75rem 1.25rem 1.5rem;
+    gap: 1.4rem;
+  }
+  .bb-footer__wa-btn {
+    width: 100%;
+    justify-content: center;
+    padding: .55rem 1rem;
+  }
+  .bb-footer__strip-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .3rem;
+    padding: .7rem 1.25rem;
+  }
+  .bb-footer__certs {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .28rem;
+  }
+  .bb-footer__pipe { display: none; }
+  .bb-footer__copy { white-space: normal; }
+}
+
+/* Small phone: tighter padding, smaller strip text */
+@media (max-width: 400px) {
+  .bb-footer__grid { padding: 1.5rem 1rem 1.25rem; }
+  .bb-footer__strip-inner { padding: .65rem 1rem; }
+  .bb-footer__cert, .bb-footer__copy { font-size: .63rem; }
+  .bb-footer__brand-name { font-size: 1rem; }
+}
+
+/* ── Floating Cart FAB ───────────────────────────────────────── */
+.bb-cart-fab {
+  display: none; /* hidden on desktop */
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.25rem;
+  z-index: 110;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem;
+  background: var(--primary);
+  color: #1A1A1A;
+  border-radius: 999px;
+  padding: .75rem 1.1rem .75rem .9rem;
+  font-size: .9rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(245,166,35,.45);
+  transition: transform .15s, box-shadow .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.bb-cart-fab .material-icons-round { font-size: 1.3rem; }
+.bb-cart-fab__count {
+  background: #1A1A1A;
+  color: var(--primary);
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 800;
+  min-width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+.bb-cart-fab:active { transform: scale(.95); }
+
+@media (max-width: 768px) {
+  .bb-cart-fab { display: flex; }
 }
 
 /* ── Toast Container ─────────────────────────────────────────── */
@@ -252,14 +424,23 @@
   flex-wrap: wrap;
   text-align: center;
 }
-.bb-party-banner .material-icons-round { font-size: 1rem; flex-shrink: 0; }
+.bb-party-banner__emoji { font-size: 1.05rem; flex-shrink: 0; line-height: 1; }
 .bb-party-banner__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
   color: #fff;
-  text-decoration: underline;
   white-space: nowrap;
   font-weight: 700;
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px;
+  padding: .22rem .75rem;
+  transition: background .15s;
+  text-decoration: none;
 }
-.bb-party-banner__cta:hover { opacity: .85; }
+.bb-party-banner__cta:hover { background: rgba(255,255,255,.28); }
+.bb-party-banner__cta .material-icons-round { font-size: .85rem; }
 
 /* ── Kitchen Closed Overlay ──────────────────────────────────────── */
 .bb-kitchen-overlay {

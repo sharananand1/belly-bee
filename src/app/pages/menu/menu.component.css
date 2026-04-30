@@ -205,6 +205,10 @@
 .veg-dot-sm    { background: #27AE60; }
 .nonveg-dot-sm { background: var(--accent); }
 
+/* Dot becomes white when its button has an active colored background */
+.filter-btn--veg.filter-btn--active    .veg-dot-sm    { background: #fff; }
+.filter-btn--nonveg.filter-btn--active .nonveg-dot-sm { background: #fff; }
+
 /* ── Section heading ─────────────────────────────────────────── */
 .menu-heading {
   display: flex;

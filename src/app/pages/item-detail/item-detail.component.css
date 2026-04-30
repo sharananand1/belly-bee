@@ -118,6 +118,29 @@
   margin: 0 0 .6rem;
 }
 
+/* Special instructions */
+.detail-instructions { margin-bottom: 1rem; }
+.detail-optional { font-size: .72rem; text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--text-secondary); }
+.instructions-input {
+  width: 100%;
+  padding: .55rem .75rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md, 10px);
+  background: var(--surface-alt);
+  color: var(--text-primary);
+  font-size: .88rem;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  box-sizing: border-box;
+}
+.instructions-input::placeholder { color: var(--text-secondary); opacity: 1; }
+.instructions-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(245,166,35,.15);
+}
+
 /* Chips */
 .chip-group { display: flex; flex-wrap: wrap; gap: .5rem; }
 

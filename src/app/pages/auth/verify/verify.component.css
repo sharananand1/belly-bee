@@ -1,19 +1,35 @@
-.auth-page {
-  min-height: calc(100vh - 120px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1rem;
+/* ═══════════════════════════════════════════════════
+   VERIFY PAGE — full-screen, keyboard-safe
+   No navbar/footer on auth pages so we own 100dvh
+   ═══════════════════════════════════════════════════ */
+
+:host {
+  display: block;
+  height: 100dvh;
+  overflow: hidden;
   background: var(--bg);
 }
 
+.auth-page {
+  height: 100dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  background: var(--bg);
+}
+
+/* Card */
 .auth-card {
   width: 100%;
   max-width: 420px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl, 20px);
-  padding: 2.5rem 2rem;
+  padding: 2.25rem 2rem;
   text-align: center;
   box-shadow: 0 8px 32px rgba(0,0,0,.08);
 }
@@ -24,40 +40,29 @@
   align-items: center;
   justify-content: center;
   gap: .5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
-
 .auth-logo img { border-radius: 50%; object-fit: cover; }
-
 .auth-logo__name {
   font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-size: 1.4rem; font-weight: 800;
   color: var(--text-primary);
 }
-
 .auth-logo__bee { color: var(--primary); }
 
 /* Headings */
 .auth-title {
   font-family: var(--font-heading);
-  font-size: 1.6rem;
-  font-weight: 800;
-  margin: 0 0 .4rem;
+  font-size: 1.5rem; font-weight: 800;
+  margin: 0 0 .35rem;
   color: var(--text-primary);
 }
-
 .auth-sub {
   color: var(--text-secondary);
-  font-size: .9rem;
-  margin: 0 0 1.75rem;
-  line-height: 1.6;
+  font-size: .88rem; line-height: 1.6;
+  margin: 0 0 1.5rem;
 }
-
-.auth-sub strong {
-  color: var(--text-primary);
-  font-weight: 700;
-}
+.auth-sub strong { color: var(--text-primary); font-weight: 700; }
 
 /* OTP boxes */
 .otp-row {
@@ -68,30 +73,29 @@
 }
 
 .otp-box {
-  width: 46px;
-  height: 54px;
+  width: 48px;
+  height: 58px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-md, 10px);
   background: var(--surface-alt);
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 700;
   text-align: center;
   color: var(--text-primary);
   transition: border-color .15s, box-shadow .15s;
   outline: none;
   caret-color: var(--primary);
+  /* Prevent zoom on iOS when font-size < 16px */
+  -webkit-text-size-adjust: 100%;
 }
-
 .otp-box:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(245,166,35,.2);
 }
-
 .otp-box--filled {
   border-color: var(--primary);
   background: var(--primary-light);
 }
-
 .otp-box--error {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(231,76,60,.12);
@@ -107,8 +111,19 @@
   font-size: .82rem;
   margin: 0 0 .75rem;
 }
-
 .auth-error .material-icons-round { font-size: 1rem; }
+
+/* Attempts hint (warning, not error) */
+.attempts-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  font-size: .8rem;
+  color: var(--warn, #f59e0b);
+  margin: -.25rem 0 .75rem;
+}
+.attempts-hint .material-icons-round { font-size: .95rem; }
 
 /* CTA */
 .auth-cta {
@@ -117,20 +132,19 @@
   justify-content: center;
   gap: .4rem;
   margin-top: .25rem;
+  width: 100%;
 }
-
 .auth-cta .material-icons-round { font-size: 1.1rem; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 .auth-spin { animation: spin .8s linear infinite; }
 
-/* Resend */
+/* Resend row */
 .resend-row {
-  margin: 1.25rem 0 1rem;
+  margin: 1.1rem 0 .85rem;
   display: flex;
   justify-content: center;
 }
-
 .resend-timer {
   display: inline-flex;
   align-items: center;
@@ -138,38 +152,96 @@
   font-size: .83rem;
   color: var(--text-secondary);
 }
-
 .resend-timer .material-icons-round { font-size: .95rem; }
-
 .resend-btn {
   display: inline-flex;
   align-items: center;
   gap: .3rem;
-  font-size: .85rem;
-  font-weight: 700;
+  font-size: .85rem; font-weight: 700;
   color: var(--primary);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
+  background: none; border: none;
+  cursor: pointer; padding: 0;
   transition: opacity .15s;
 }
-
 .resend-btn:hover { opacity: .75; }
-.resend-btn:disabled { opacity: .5; cursor: not-allowed; }
+.resend-btn:disabled { opacity: .45; cursor: not-allowed; }
 .resend-btn .material-icons-round { font-size: 1rem; }
 
-/* Skip / back */
+/* Back link */
 .auth-skip {
   display: inline-flex;
   align-items: center;
   gap: .3rem;
-  font-size: .85rem;
-  font-weight: 600;
+  font-size: .85rem; font-weight: 600;
   color: var(--text-secondary);
   text-decoration: none;
   transition: color .15s;
 }
-
 .auth-skip:hover { color: var(--primary); }
 .auth-skip .material-icons-round { font-size: 1rem; }
+
+/* ── Expired state ───────────────────────────────────── */
+.expired-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6rem;
+}
+.expired-icon {
+  font-size: 3rem;
+  color: var(--text-secondary);
+  opacity: .55;
+  margin-bottom: .25rem;
+}
+
+/* ══════════════════════════════════════
+   MOBILE (≤ 500px)
+   ══════════════════════════════════════ */
+@media (max-width: 500px) {
+  /* Top-align card so OTP boxes stay above keyboard */
+  .auth-page {
+    align-items: flex-start;
+    padding-top: 1.25rem;
+  }
+
+  .auth-card {
+    padding: 1.5rem 1.25rem;
+    border-radius: 16px;
+  }
+
+  /* Slightly smaller boxes on very small screens but still finger-friendly */
+  .otp-box {
+    width: 44px;
+    height: 54px;
+    font-size: 1.35rem;
+  }
+  .otp-row { gap: .38rem; }
+
+  .auth-title { font-size: 1.3rem; }
+  .auth-sub   { font-size: .83rem; margin-bottom: 1.1rem; }
+}
+
+/* Very small (320px) */
+@media (max-width: 340px) {
+  .otp-box   { width: 40px; height: 50px; font-size: 1.2rem; }
+  .otp-row   { gap: .28rem; }
+  .auth-card { padding: 1.25rem 1rem; }
+}
+
+/* Safe-area inset for notched phones */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .auth-page {
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Landscape mobile — compact everything */
+@media (max-height: 500px) and (max-width: 900px) {
+  .auth-page { padding: .75rem 1rem; align-items: flex-start; }
+  .auth-card { padding: .85rem 1.25rem; }
+  .auth-logo { margin-bottom: .5rem; }
+  .auth-logo img { width: 36px; height: 36px; }
+  .auth-title { font-size: 1.1rem; margin-bottom: .2rem; }
+  .auth-sub   { margin-bottom: .75rem; font-size: .78rem; }
+  .otp-box    { width: 40px; height: 46px; font-size: 1.2rem; }
+}

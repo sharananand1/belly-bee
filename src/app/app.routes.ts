@@ -2,15 +2,13 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-  // ── Root ────────────────────────────────────────────────────────────
-  { path: '', redirectTo: 'main', pathMatch: 'full' },
-
-  // ── Home ────────────────────────────────────────────────────────────
+  // ── Home (root + /main alias) ────────────────────────────────────────
   {
-    path: 'main',
+    path: '',
     loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent),
     title: 'Belly Bee — Cloud Kitchen, Chhatarpur, New Delhi',
   },
+  { path: 'main', redirectTo: '', pathMatch: 'full' },
 
   // ── Menu ────────────────────────────────────────────────────────────
   {

@@ -34,7 +34,7 @@ const DEFAULT_CONFIG: AppConfig = {
   min_order_value: 100,
   max_order_value: 5000,
   max_cart_items: 20,
-  max_delivery_km: 10,
+  max_delivery_km: 25,
   estimated_delivery_minutes: 40,
   zomato_url: 'https://zomato.com/belly-bee',
 };

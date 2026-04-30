@@ -384,6 +384,46 @@
   </div>
 </section>
 
+<!-- ── Customer Reviews ──────────────────────────────────────────────── -->
+@if (reviews().length > 0) {
+  <section class="reviews-section" aria-label="Customer reviews">
+    <div class="section-header">
+      <h2 class="section-title">What our customers say</h2>
+      <p class="section-sub">Real reviews from real orders</p>
+    </div>
+    <div class="reviews-grid">
+      @for (r of reviews(); track r.id) {
+        <div class="review-card">
+          <div class="review-card__top">
+            <div class="review-card__stars">
+              @for (n of [1,2,3,4,5]; track n) {
+                <span class="material-icons-round review-star" [class.review-star--lit]="n <= r.overallStars">star</span>
+              }
+            </div>
+            @if (r.wouldOrderAgain === true) {
+              <span class="review-card__reorder">👍 Would order again</span>
+            }
+          </div>
+          @if (r.freeText) {
+            <p class="review-card__text">"{{ r.freeText }}"</p>
+          }
+          @if (r.selectedMessages.length) {
+            <div class="review-card__chips">
+              @for (msg of r.selectedMessages.slice(0,3); track msg) {
+                <span class="review-chip">{{ msg }}</span>
+              }
+            </div>
+          }
+          <div class="review-card__footer">
+            <span class="review-card__author">{{ r.displayName }}</span>
+            <span class="review-card__date">{{ r.publishedAt | date:'d MMM yyyy' }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+}
+
 <!-- Customization Sheet -->
 <bb-customization-sheet
   [item]="sheetItem()"

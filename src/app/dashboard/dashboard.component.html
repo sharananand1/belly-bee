@@ -1,19 +1,20 @@
 <div class="shell">
   <!-- Header -->
   <header class="site-header">
-    <a class="brand" [routerLink]="['/dashboard']" aria-label="Belly Bee">
-      <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" class="logo" />
-<!--      <span class="title">Belly Bee</span>-->
+    <a class="brand" [routerLink]="['/']" aria-label="Belly Bee">
+      <img src="assets/bellyBeeLogo.webp" alt="Belly Bee" class="logo" width="36" height="36" />
     </a>
 
     <nav class="nav">
-      <a [routerLink]="['/main']" class="nav-link">Menu</a>
-      <a [routerLink]="['/main']" class="nav-link">Order Now</a>
-      <a [routerLink]="['/main']" class="nav-link">Offers</a>
+      <a [routerLink]="['/menu']" class="nav-link">Menu</a>
+      <a [routerLink]="['/menu']" class="nav-link">Order Now</a>
+      <a [routerLink]="['/menu']" class="nav-link">Offers</a>
     </nav>
 
     <div class="cta-group">
-      <a [routerLink]="['/main']" class="btn primary">Explore Menu</a>
+      <a [routerLink]="['/menu']" class="btn primary">
+        <span class="material-icons-round">restaurant_menu</span> Explore Menu
+      </a>
     </div>
   </header>
 
@@ -21,16 +22,20 @@
   <section class="hero">
     <div class="hero-content">
       <h1>Fresh. Homely. Hygienic.</h1>
-      <p>Made in a clean kitchen with a mother’s-hand touch.
+      <p>Made in a clean kitchen with a mother's-hand touch.
         No hidden additives. Just honest food.</p>
       <div class="badges">
-        <span>✅ Clean Kitchen</span>
-        <span>🧪 No Hidden Additives</span>
-        <span>🥘 Daily Fresh Prep</span>
+        <span><span class="material-icons-round badge-icon">verified</span> Clean Kitchen</span>
+        <span><span class="material-icons-round badge-icon">science</span> No Hidden Additives</span>
+        <span><span class="material-icons-round badge-icon">calendar_today</span> Daily Fresh Prep</span>
       </div>
       <div class="hero-cta">
-        <a [routerLink]="['/main']" class="btn primary">Order now</a>
-        <a [routerLink]="['/main']" class="btn ghost">View all dishes</a>
+        <a [routerLink]="['/menu']" class="btn primary">
+          <span class="material-icons-round">shopping_bag</span> Order now
+        </a>
+        <a [routerLink]="['/menu']" class="btn ghost">
+          <span class="material-icons-round">menu_book</span> View all dishes
+        </a>
       </div>
     </div>
     <div class="hero-art" aria-hidden="true"></div>
@@ -41,22 +46,30 @@
     <h2>Why choose Belly Bee</h2>
     <div class="grid-4">
       <article class="card">
-        <div class="icon">🧼</div>
+        <div class="icon-wrap icon-wrap--teal">
+          <span class="material-icons-round">clean_hands</span>
+        </div>
         <h3>Hygienic kitchen</h3>
         <p>Regular sanitisation and food-safe prep zones.</p>
       </article>
       <article class="card">
-        <div class="icon">👩‍🍳</div>
-        <h3>Mother’s hand taste</h3>
+        <div class="icon-wrap icon-wrap--amber">
+          <span class="material-icons-round">favorite</span>
+        </div>
+        <h3>Mother's hand taste</h3>
         <p>Balanced spices, light on oil, homestyle portions.</p>
       </article>
       <article class="card">
-        <div class="icon">🔍</div>
+        <div class="icon-wrap icon-wrap--indigo">
+          <span class="material-icons-round">visibility</span>
+        </div>
         <h3>Zero hidden items</h3>
         <p>No artificial colours or hidden ingredients. What you see is what you get.</p>
       </article>
       <article class="card">
-        <div class="icon">⚡</div>
+        <div class="icon-wrap icon-wrap--orange">
+          <span class="material-icons-round">electric_bolt</span>
+        </div>
         <h3>Quick delivery</h3>
         <p>Hot food, right when you want it.</p>
       </article>
@@ -67,35 +80,35 @@
   <section class="carousel">
     <div class="sec-head">
       <h2>Most sold this week</h2>
-      <a [routerLink]="['/main']" class="link">See all →</a>
+      <a [routerLink]="['/menu']" class="link">See all →</a>
     </div>
     <div class="row">
       <article class="item" *ngFor="let m of mostSold; trackBy: trackById">
-        <img [src]="m.img" [alt]="m.name" />
+        <img [src]="m.img" [alt]="m.name" loading="lazy" width="300" height="225" />
         <div class="meta">
           <h3>{{ m.name }}</h3>
           <span class="tag">{{ m.tag }}</span>
         </div>
-        <a [routerLink]="['/main']" class="btn small">Order</a>
+        <a [routerLink]="['/menu']" class="btn small">Order</a>
       </article>
     </div>
   </section>
 
-  <!-- Today’s discount -->
+  <!-- Today's discount -->
   <section class="carousel">
     <div class="sec-head">
-      <h2>Today’s discounts</h2>
-      <a [routerLink]="['/main']" class="link">Grab now →</a>
+      <h2>Today's discounts</h2>
+      <a [routerLink]="['/menu']" class="link">Grab now →</a>
     </div>
     <div class="row">
       <article class="item deal" *ngFor="let d of discounts; trackBy: trackById">
-        <img [src]="d.img" [alt]="d.name" />
+        <img [src]="d.img" [alt]="d.name" loading="lazy" width="300" height="225" />
         <div class="badge">-{{ d.off }}%</div>
         <div class="meta">
           <h3>{{ d.name }}</h3>
           <span class="tag">Limited time</span>
         </div>
-        <a [routerLink]="['/main']" class="btn small">Order</a>
+        <a [routerLink]="['/menu']" class="btn small">Order</a>
       </article>
     </div>
   </section>
@@ -105,10 +118,10 @@
     <h2>Top chefs</h2>
     <div class="grid-3">
       <article class="chef" *ngFor="let c of chefs; trackBy: trackById">
-        <img [src]="c.img" [alt]="c.name" />
+        <img [src]="c.img" [alt]="c.name" loading="lazy" width="400" height="300" />
         <h3>{{ c.name }}</h3>
         <p>{{ c.spec }}</p>
-        <a [routerLink]="['/main']" class="btn tiny">See signature dishes</a>
+        <a [routerLink]="['/menu']" class="btn tiny">See signature dishes</a>
       </article>
     </div>
   </section>
@@ -118,21 +131,27 @@
     <h2>Loved by customers</h2>
     <div class="grid-3">
       <blockquote class="review" *ngFor="let r of ratings; trackBy: trackById">
-        <div class="stars" [attr.aria-label]="r.stars + ' stars'">★★★★★</div>
-        <p>“{{ r.text }}”</p>
+        <div class="stars" [attr.aria-label]="r.stars + ' stars'">
+          <span class="material-icons-round star-icon">star</span>
+          <span class="material-icons-round star-icon">star</span>
+          <span class="material-icons-round star-icon">star</span>
+          <span class="material-icons-round star-icon">star</span>
+          <span class="material-icons-round star-icon">star</span>
+        </div>
+        <p>"{{ r.text }}"</p>
         <footer>— {{ r.user }}</footer>
       </blockquote>
     </div>
-    <div class="center"><a [routerLink]="['/main']" class="btn ghost">Order with confidence</a></div>
+    <div class="center"><a [routerLink]="['/menu']" class="btn ghost">Order with confidence</a></div>
   </section>
 
-  <!-- Clean kitchen & mother’s taste banner -->
+  <!-- Clean kitchen & mother's taste banner -->
   <section class="trust">
     <div class="panel">
       <div class="copy">
-        <h2>Clean kitchen. Mother’s hand taste.</h2>
+        <h2>Clean kitchen. Mother's hand taste.</h2>
         <p>We prepare fresh, homely food daily. No hidden items inserted, ever.</p>
-        <a [routerLink]="['/main']" class="btn primary">Browse full menu</a>
+        <a [routerLink]="['/menu']" class="btn primary">Browse full menu</a>
       </div>
       <div class="art" aria-hidden="true"></div>
     </div>
@@ -143,22 +162,38 @@
     <div class="cols">
       <div>
         <h4>Belly Bee</h4>
-        <p>Homely, hygienic meals made fresh daily.</p>
+        <p>Homely, hygienic meals made fresh daily from our cloud kitchen in Chhatarpur, New Delhi.</p>
       </div>
       <div>
         <h4>Quick links</h4>
         <ul>
-          <li><a [routerLink]="['/main']">Menu</a></li>
-          <li><a [routerLink]="['/main']">Offers</a></li>
-          <li><a [routerLink]="['/main']">Order now</a></li>
+          <li><a [routerLink]="['/menu']">Menu</a></li>
+          <li><a [routerLink]="['/menu']">Offers</a></li>
+          <li><a [routerLink]="['/menu']">Order now</a></li>
+          <li><a [routerLink]="['/terms']">Terms &amp; Conditions</a></li>
+          <li><a [routerLink]="['/privacy']">Privacy Policy</a></li>
         </ul>
       </div>
       <div>
         <h4>Contact</h4>
-        <p>support&#64;bellybee.in</p>
-        <a [routerLink]="['/main']" class="btn tiny">Start your order</a>
+        <a class="contact-link" href="mailto:support@bellybee.in">support&#64;bellybee.in</a>
+        <a class="contact-link" href="tel:+918899888683">+91 88998 88683</a>
+        <a class="wa-btn" href="https://wa.me/918899888683" target="_blank" rel="noopener">
+          <span class="material-icons-round">chat</span> WhatsApp Us
+        </a>
       </div>
     </div>
-    <div class="bottom">© {{ today | date:'yyyy' }} Belly Bee. All rights reserved.</div>
+    <div class="compliance-strip">
+      <div class="compliance-inner">
+        <div class="certs">
+          <span class="cert"><span class="cert-star">✦</span> FSSAI Lic. <strong>23325002002375</strong></span>
+          <span class="pipe">·</span>
+          <span class="cert">GSTIN <strong>07AAVFD6483H1ZT</strong></span>
+          <span class="pipe">·</span>
+          <span class="cert">Operated by <strong>Dinkar Business Solutions LLP</strong></span>
+        </div>
+        <span class="copy">© {{ today | date:'yyyy' }} Dinkar Business Solutions LLP</span>
+      </div>
+    </div>
   </footer>
 </div>
