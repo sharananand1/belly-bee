@@ -7,6 +7,7 @@ import { Order, OrderTrackingInfo, ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } fr
 
 const POLL_INTERVAL_MS = 15_000;
 const TERMINAL_STATUSES = new Set(['delivered', 'cancelled']);
+const AUTO_CANCEL_MS = 10 * 60 * 1000; // 10 minutes
 
 @Component({
   selector: 'app-order-confirmation',
@@ -21,15 +22,18 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
   private orderSvc  = inject(OrderService);
   private ratingSvc = inject(RatingService);
 
-  order    = signal<Order | null>(null);
-  tracking = signal<OrderTrackingInfo | null>(null);
-  loading  = signal(true);
-  notFound = signal(false);
+  order       = signal<Order | null>(null);
+  tracking    = signal<OrderTrackingInfo | null>(null);
+  loading     = signal(true);
+  notFound    = signal(false);
+  countdown   = signal('10:00');
+  countdownPct = signal(100);
 
   readonly statusLabels = ORDER_STATUS_LABELS;
   readonly statusColors = ORDER_STATUS_COLORS;
 
-  private _pollTimer: ReturnType<typeof setInterval> | null = null;
+  private _pollTimer:      ReturnType<typeof setInterval> | null = null;
+  private _countdownTimer: ReturnType<typeof setInterval> | null = null;
 
   ngOnInit(): void {
     this._loadOrder();
@@ -38,6 +42,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._stopPoll();
+    this._stopCountdown();
   }
 
   private _loadOrder(): void {
@@ -48,6 +53,9 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
       this._handleStatusChange(order.status);
       if (!TERMINAL_STATUSES.has(order.status)) {
         this._startPoll();
+      }
+      if (order.status === 'pending' && order.placed_at) {
+        this._startCountdown(order.placed_at);
       }
     });
   }
@@ -61,16 +69,38 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
     this._pollTimer = setInterval(() => {
       this.orderSvc.getOrderById(this.id).subscribe(order => {
         if (!order) return;
+        const prev = this.order()?.status;
         this.order.set(order);
         this._handleStatusChange(order.status);
         this.orderSvc.getTrackingInfo(this.id).subscribe(info => this.tracking.set(info));
         if (TERMINAL_STATUSES.has(order.status)) this._stopPoll();
+        // Stop countdown once order leaves pending state
+        if (prev === 'pending' && order.status !== 'pending') this._stopCountdown();
       });
     }, POLL_INTERVAL_MS);
   }
 
   private _stopPoll(): void {
     if (this._pollTimer) { clearInterval(this._pollTimer); this._pollTimer = null; }
+  }
+
+  private _startCountdown(placedAt: string): void {
+    if (this._countdownTimer) return;
+    const deadline = new Date(placedAt).getTime() + AUTO_CANCEL_MS;
+    const tick = () => {
+      const remaining = Math.max(0, deadline - Date.now());
+      const mins = Math.floor(remaining / 60_000);
+      const secs = Math.floor((remaining % 60_000) / 1000);
+      this.countdown.set(`${mins}:${secs.toString().padStart(2, '0')}`);
+      this.countdownPct.set(Math.round((remaining / AUTO_CANCEL_MS) * 100));
+      if (remaining === 0) this._stopCountdown();
+    };
+    tick();
+    this._countdownTimer = setInterval(tick, 1000);
+  }
+
+  private _stopCountdown(): void {
+    if (this._countdownTimer) { clearInterval(this._countdownTimer); this._countdownTimer = null; }
   }
 
   private _handleStatusChange(status: string): void {

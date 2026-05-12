@@ -16,24 +16,67 @@
 
     } @else if (order()) {
 
-      <!-- ── Success banner ─────────────────────────────────── -->
-      <div class="conf-banner">
-        <div class="conf-banner__check">
-          <span class="material-icons-round">check_circle</span>
-        </div>
-        <h1 class="conf-banner__title">Order Placed!</h1>
-        <p class="conf-banner__sub">
-          Thank you! Your order
-          <strong>{{ order()!.order_number }}</strong>
-          has been confirmed.
-        </p>
-        @if (tracking()) {
-          <p class="conf-banner__eta">
-            <span class="material-icons-round">schedule</span>
-            Estimated delivery by <strong>{{ formatEta(order()!.estimated_delivery) }}</strong>
+      <!-- ── Success / Pending banner ──────────────────────── -->
+      @if (order()!.status === 'pending') {
+        <div class="conf-banner conf-banner--pending">
+          <div class="conf-banner__check conf-banner__check--pending">
+            <span class="material-icons-round conf-pending-spin">hourglass_top</span>
+          </div>
+          <h1 class="conf-banner__title">Awaiting Confirmation</h1>
+          <p class="conf-banner__sub">
+            Order <strong>{{ order()!.order_number }}</strong> is waiting for Belly Bee to accept.
+            This usually takes under a minute.
           </p>
-        }
-      </div>
+          <!-- Countdown bar -->
+          <div class="conf-countdown">
+            <div class="conf-countdown__bar">
+              <div class="conf-countdown__fill" [style.width.%]="countdownPct()"></div>
+            </div>
+            <p class="conf-countdown__label">
+              <span class="material-icons-round">timer</span>
+              Auto-cancels in <strong>{{ countdown() }}</strong> if not accepted
+            </p>
+          </div>
+          <p class="conf-banner__eta conf-banner__eta--waiting">
+            <span class="material-icons-round">notifications_active</span>
+            This page updates automatically. No need to refresh.
+          </p>
+        </div>
+      } @else if (order()!.status === 'cancelled') {
+        <div class="conf-banner conf-banner--cancelled">
+          <div class="conf-banner__check conf-banner__check--cancelled">
+            <span class="material-icons-round">cancel</span>
+          </div>
+          <h1 class="conf-banner__title">Order Cancelled</h1>
+          <p class="conf-banner__sub">
+            Order <strong>{{ order()!.order_number }}</strong> was cancelled.
+          </p>
+          @if (order()!.payment_method !== 'cod' && order()!.payment_status === 'refunded') {
+            <p class="conf-banner__refund">
+              <span class="material-icons-round">account_balance_wallet</span>
+              Refund initiated — will reflect in 5–7 business days to your original payment method.
+            </p>
+          }
+        </div>
+      } @else {
+        <div class="conf-banner">
+          <div class="conf-banner__check">
+            <span class="material-icons-round">check_circle</span>
+          </div>
+          <h1 class="conf-banner__title">Order Confirmed!</h1>
+          <p class="conf-banner__sub">
+            Thank you! Your order
+            <strong>{{ order()!.order_number }}</strong>
+            has been confirmed.
+          </p>
+          @if (order()!.estimated_delivery) {
+            <p class="conf-banner__eta">
+              <span class="material-icons-round">schedule</span>
+              Estimated delivery by <strong>{{ formatEta(order()!.estimated_delivery) }}</strong>
+            </p>
+          }
+        </div>
+      }
 
       <!-- ── Tracking timeline ──────────────────────────────── -->
       @if (tracking()) {

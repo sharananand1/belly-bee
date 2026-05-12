@@ -40,7 +40,9 @@ export interface Order {
   coupon_code?: string;
   coupon_discount: number;
   delivery_fee: number;
+  cod_charge?: number;
   gst: number;
+  eta_minutes?: number;
   total: number;
   placed_at: string;
   estimated_delivery: string;
@@ -64,7 +66,7 @@ export interface TrackingStep {
 }
 
 export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
-  pending: 'Order Placed',
+  pending: 'Waiting for Belly Bee',
   confirmed: 'Confirmed',
   preparing: 'Being Prepared',
   out_for_delivery: 'Out for Delivery',

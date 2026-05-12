@@ -173,7 +173,11 @@
   white-space: nowrap;
 }
 
-.filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+/* Hover only applies to non-active buttons (prevents amber-on-amber invisible text) */
+.filter-btn:not(.filter-btn--active):hover { border-color: var(--primary); color: var(--primary); }
+
+/* Subtle press feedback on already-selected buttons */
+.filter-btn--active:hover { opacity: .88; }
 
 /* All active = amber bg, dark text for contrast (amber fails WCAG AA with white) */
 .filter-btn--active {

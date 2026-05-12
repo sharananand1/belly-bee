@@ -109,15 +109,27 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     this.error.set('');
     this.sending.set(true);
 
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '';
+    let navigated = false;
+
+    const doNavigate = () => {
+      if (navigated) return;
+      navigated = true;
+      this.sending.set(false);
+      this.router.navigate(['/auth/verify'], {
+        queryParams: { phone: num, ...(returnUrl ? { returnUrl } : {}) },
+      });
+    };
+
+    // Navigate after 500ms regardless — SMS gateway latency should not block the user.
+    // By the time the user reads the verify page and types the OTP, the request is done.
+    const fallbackTimer = setTimeout(doNavigate, 500);
+
     this.auth.requestOtp(num).subscribe({
-      next: () => {
-        this.sending.set(false);
-        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '';
-        this.router.navigate(['/auth/verify'], {
-          queryParams: { phone: num, ...(returnUrl ? { returnUrl } : {}) },
-        });
-      },
+      next: () => { clearTimeout(fallbackTimer); doNavigate(); },
       error: (err) => {
+        clearTimeout(fallbackTimer);
+        navigated = true;
         this.sending.set(false);
         if (err?.status === 429) {
           const until = Date.now() + 10 * 60 * 1000;
